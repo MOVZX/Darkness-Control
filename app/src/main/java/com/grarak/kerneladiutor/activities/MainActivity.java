@@ -376,7 +376,7 @@ public class MainActivity extends BaseActivity {
                             Answers.getInstance().logCustom(new CustomEvent("Pirated")
                                     .putCustomAttribute("android_id", Utils.getAndroidId(MainActivity.this)));
                         }
-                        launch(mPatched ? 3 : -1);
+                        launch(0);
                     }
                 }
             }.execute();
