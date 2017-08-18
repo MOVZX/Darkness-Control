@@ -52,6 +52,7 @@ import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.QcomBcl;
 import com.grarak.kerneladiutor.utils.kernel.cpuvoltage.Voltage;
 import com.grarak.kerneladiutor.utils.kernel.gpu.GPU;
+import com.grarak.kerneladiutor.utils.kernel.gpuvoltage.GPUVoltage;
 import com.grarak.kerneladiutor.utils.kernel.io.IO;
 import com.grarak.kerneladiutor.utils.kernel.ksm.KSM;
 import com.grarak.kerneladiutor.utils.kernel.misc.Vibration;
@@ -231,6 +232,7 @@ public class MainActivity extends BaseActivity {
             Tile.publishProfileTile(new Profiles(MainActivity.this).getAllProfiles(), MainActivity.this);
             Vibration.supported();
             Voltage.supported();
+            GPUVoltage.supported();
             Wake.supported();
 
             if (!BuildConfig.DEBUG) {

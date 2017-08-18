@@ -85,6 +85,7 @@
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="thermal">Thermal</string>
     <string name="gpu">GPU</string>
+    <string name="gpu_voltage">GPU Voltage</string>
     <string name="screen">Screen</string>
     <string name="wake">Wake</string>
     <string name="sound">Sound</string>

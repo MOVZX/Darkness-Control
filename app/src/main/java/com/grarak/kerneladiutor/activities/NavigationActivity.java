@@ -52,6 +52,7 @@ import com.grarak.kerneladiutor.fragments.kernel.CPUHotplugFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUVoltageFragment;
 import com.grarak.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.grarak.kerneladiutor.fragments.kernel.GPUFragment;
+import com.grarak.kerneladiutor.fragments.kernel.GPUVoltageFragment;
 import com.grarak.kerneladiutor.fragments.kernel.IOFragment;
 import com.grarak.kerneladiutor.fragments.kernel.KSMFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LEDFragment;
@@ -89,6 +90,7 @@ import com.grarak.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.grarak.kerneladiutor.utils.kernel.cpuvoltage.Voltage;
 import com.grarak.kerneladiutor.utils.kernel.entropy.Entropy;
 import com.grarak.kerneladiutor.utils.kernel.gpu.GPU;
+import com.grarak.kerneladiutor.utils.kernel.gpuvoltage.GPUVoltage;
 import com.grarak.kerneladiutor.utils.kernel.io.IO;
 import com.grarak.kerneladiutor.utils.kernel.ksm.KSM;
 import com.grarak.kerneladiutor.utils.kernel.led.LED;
@@ -182,6 +184,9 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, new CPUFragment(), R.drawable.ic_cpu));
         if (Voltage.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, new CPUVoltageFragment(), R.drawable.ic_bolt));
+        }
+        if (GPUVoltage.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu_voltage, new GPUVoltageFragment(), R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, new CPUHotplugFragment(), R.drawable.ic_switch));

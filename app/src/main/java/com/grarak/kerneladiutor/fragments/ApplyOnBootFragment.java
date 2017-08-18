@@ -36,6 +36,7 @@ import com.grarak.kerneladiutor.fragments.kernel.CPUHotplugFragment;
 import com.grarak.kerneladiutor.fragments.kernel.CPUVoltageFragment;
 import com.grarak.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.grarak.kerneladiutor.fragments.kernel.GPUFragment;
+import com.grarak.kerneladiutor.fragments.kernel.GPUVoltageFragment;
 import com.grarak.kerneladiutor.fragments.kernel.IOFragment;
 import com.grarak.kerneladiutor.fragments.kernel.KSMFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LEDFragment;
@@ -60,6 +61,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
     public static final String THERMAL = "thermal_onboot";
     public static final String GPU = "gpu_onboot";
+    public static final String GPU_VOLTAGE = "gpuvoltage_onboot";
     public static final String SCREEN = "screen_onboot";
     public static final String WAKE = "wake_onboot";
     public static final String SOUND = "sound_onboot";
@@ -80,6 +82,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);
+        sAssignments.put(GPUVoltageFragment.class, GPU_VOLTAGE);
         sAssignments.put(ScreenFragment.class, SCREEN);
         sAssignments.put(WakeFrament.class, WAKE);
         sAssignments.put(SoundFragment.class, SOUND);

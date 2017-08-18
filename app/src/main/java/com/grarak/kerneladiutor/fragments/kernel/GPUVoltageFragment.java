@@ -32,7 +32,7 @@ import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.fragments.BaseFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.Utils;
-import com.grarak.kerneladiutor.utils.kernel.cpuvoltage.Voltage;
+import com.grarak.kerneladiutor.utils.kernel.gpuvoltage.GPUVoltage;
 import com.grarak.kerneladiutor.views.recyclerview.GenericSelectView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 
@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * Created by willi on 07.05.16.
  */
-public class CPUVoltageFragment extends RecyclerViewFragment {
+public class GPUVoltageFragment extends RecyclerViewFragment {
 
     private List<GenericSelectView> mVoltages = new ArrayList<>();
 
@@ -63,8 +63,8 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mVoltages.clear();
 
-        List<String> freqs = Voltage.getFreqs();
-        List<String> voltages = Voltage.getVoltages();
+        List<String> freqs = GPUVoltage.getFreqs();
+        List<String> voltages = GPUVoltage.getVoltages();
         if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
             for (int i = 0; i < freqs.size(); i++) {
                 GenericSelectView view = new GenericSelectView();
@@ -76,8 +76,8 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     }
 
     private void reload() {
-        List<String> freqs = Voltage.getFreqs();
-        List<String> voltages = Voltage.getVoltages();
+        List<String> freqs = GPUVoltage.getFreqs();
+        List<String> voltages = GPUVoltage.getVoltages();
         if (freqs != null && voltages != null) {
             for (int i = 0; i < mVoltages.size(); i++) {
                 initView(mVoltages.get(i), freqs.get(i), voltages.get(i));
@@ -86,7 +86,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     }
 
     private void initView(GenericSelectView view, final String freq, String voltage) {
-        String freqText = Voltage.isVddVoltage() ? String.valueOf(Utils.strToInt(freq) / 1000) : freq;
+        String freqText = GPUVoltage.isVddVoltage() ? String.valueOf(Utils.strToInt(freq) / 1000) : freq;
         view.setTitle(freqText + getString(R.string.mhz));
         view.setSummary(voltage + getString(R.string.mv));
         view.setValue("");
@@ -95,7 +95,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
         view.setOnGenericValueListener(new GenericSelectView.OnGenericValueListener() {
             @Override
             public void onGenericValueSelected(GenericSelectView genericSelectView, String value) {
-                Voltage.setVoltage(freq, value, getActivity());
+                GPUVoltage.setVoltage(freq, value, getActivity());
                 getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -108,12 +108,12 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
 
     public static class GlobalOffsetFragment extends BaseFragment {
 
-        private CPUVoltageFragment mCPUVoltageFragment;
+        private GPUVoltageFragment mGPUVoltageFragment;
         private int mGlobaloffset;
 
-        public static GlobalOffsetFragment newInstance(CPUVoltageFragment cpuVoltageFragment) {
+        public static GlobalOffsetFragment newInstance(GPUVoltageFragment cpuVoltageFragment) {
             GlobalOffsetFragment fragment = new GlobalOffsetFragment();
-            fragment.mCPUVoltageFragment = cpuVoltageFragment;
+            fragment.mGPUVoltageFragment = cpuVoltageFragment;
             return fragment;
         }
 
@@ -122,19 +122,19 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
-            final TextView offset = (TextView) rootView.findViewById(R.id.offset);
+            final TextView offset = rootView.findViewById(R.id.offset);
             offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mGlobaloffset -= 5;
                     offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    Voltage.setGlobalOffset(-5, getActivity());
-                    if (mCPUVoltageFragment != null) {
-                        mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
+                    GPUVoltage.setGlobalOffset(-5, getActivity());
+                    if (mGPUVoltageFragment != null) {
+                        mGPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mCPUVoltageFragment.reload();
+                                mGPUVoltageFragment.reload();
                             }
                         }, 200);
                     }
@@ -145,12 +145,12 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
                 public void onClick(View v) {
                     mGlobaloffset += 5;
                     offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    Voltage.setGlobalOffset(5, getActivity());
-                    if (mCPUVoltageFragment != null) {
-                        mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
+                    GPUVoltage.setGlobalOffset(5, getActivity());
+                    if (mGPUVoltageFragment != null) {
+                        mGPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                mCPUVoltageFragment.reload();
+                                mGPUVoltageFragment.reload();
                             }
                         }, 200);
                     }

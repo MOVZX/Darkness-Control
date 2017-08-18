@@ -17,7 +17,7 @@
  * along with Kernel Adiutor.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.grarak.kerneladiutor.utils.kernel.cpuvoltage;
+package com.grarak.kerneladiutor.utils.kernel.gpuvoltage;
 
 import android.content.Context;
 
@@ -33,9 +33,9 @@ import java.util.List;
 /**
  * Created by willi on 07.05.16.
  */
-public class Voltage {
+public class GPUVoltage {
 
-    private static final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
+    private static final String GPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/GPU_mV_table";
 
     private static final HashMap<String, Boolean> sVoltages = new HashMap<>();
     private static final HashMap<String, Integer> sOffset = new HashMap<>();
@@ -46,15 +46,15 @@ public class Voltage {
     private static String[] sFreqs;
 
     static {
-        sVoltages.put(CPU_VOLTAGE, false);
+        sVoltages.put(GPU_VOLTAGE, false);
 
-        sOffset.put(CPU_VOLTAGE, 1);
+        sOffset.put(GPU_VOLTAGE, 1);
 
-        sSplitNewline.put(CPU_VOLTAGE, "mV");
+        sSplitNewline.put(GPU_VOLTAGE, "mV");
 
-        sSplitLine.put(CPU_VOLTAGE, "mhz:");
+        sSplitLine.put(GPU_VOLTAGE, "mhz:");
 
-        sAppend.put(CPU_VOLTAGE, true);
+        sAppend.put(GPU_VOLTAGE, true);
     }
 
     public static void setGlobalOffset(int adjust, Context context) {
@@ -142,7 +142,7 @@ public class Voltage {
     }
 
     private static void run(String command, String id, Context context) {
-        Control.runSetting(command, ApplyOnBootFragment.CPU_VOLTAGE, id, context);
+        Control.runSetting(command, ApplyOnBootFragment.GPU_VOLTAGE, id, context);
     }
 
 }
