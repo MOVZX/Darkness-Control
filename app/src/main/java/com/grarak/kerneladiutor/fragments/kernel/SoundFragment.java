@@ -26,6 +26,7 @@ import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
+import com.grarak.kerneladiutor.views.recyclerview.TitleView;
 
 import java.util.List;
 
@@ -43,58 +44,46 @@ public class SoundFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
-        if (Sound.hasSoundControlEnable()) {
-            soundControlEnableInit(items);
-        }
+        /* Headset High Performance Mode */
         if (Sound.hasHighPerfModeEnable()) {
             highPerfModeEnableInit(items);
         }
-        if (Sound.hasHeadphoneGain()) {
-            headphoneGainInit(items);
+
+        /* Audio Codec Power Gating */
+        if (Sound.hasCodecPowerGatingEnable()) {
+            codecPowerGatingEnableInit(items);
         }
-        if (Sound.hasHandsetMicrophoneGain()) {
-            handsetMicrophoneGainInit(items);
+
+        /* FKSC: Start */
+        if (Sound.hasFKSCVolumeGain()) {
+            fkscvolumeGainInit(items);
         }
-        if (Sound.hasCamMicrophoneGain()) {
-            camMicrophoneGainInit(items);
+        if (Sound.hasFKSCEarpieceGain()) {
+            fkscearpieceGainInit(items);
         }
+        if (Sound.hasFKSCMicrophoneGain()) {
+            fkscmicrophoneGainInit(items);
+        }
+        /* FKSC: End */
+
+        /* EXSC: Start */
+        if (Sound.hasEXSCVolumeGain()) {
+            exscvolumeGainInit(items);
+        }
+        if (Sound.hasEXSCEarpieceGain()) {
+            exscearpieceGainInit(items);
+        }
+        if (Sound.hasEXSCMicrophoneGain()) {
+            exscmicrophoneGainInit(items);
+        }
+        /* EXSC: End */
+
         if (Sound.hasSpeakerGain()) {
             speakerGainInit(items);
         }
-        if (Sound.hasHeadphonePowerAmpGain()) {
-            headphonePowerAmpGainInit(items);
-        }
-        if (Sound.hasHeadphoneTpaGain()) {
-            headphoneTpaGainInit(items);
-        }
-        if (Sound.hasLockOutputGain()) {
-            lockOutputGainInit(items);
-        }
-        if (Sound.hasLockMicGain()) {
-            lockMicGainInit(items);
-        }
-        if (Sound.hasMicrophoneGain()) {
-            microphoneGainInit(items);
-        }
-        if (Sound.hasVolumeGain()) {
-            volumeGainInit(items);
-        }
     }
 
-    private void soundControlEnableInit(List<RecyclerViewItem> items) {
-        SwitchView soundControl = new SwitchView();
-        soundControl.setSummary(getString(R.string.sound_control));
-        soundControl.setChecked(Sound.isSoundControlEnabled());
-        soundControl.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-            @Override
-            public void onChanged(SwitchView switchView, boolean isChecked) {
-                Sound.enableSoundControl(isChecked, getActivity());
-            }
-        });
-
-        items.add(soundControl);
-    }
-
+    /* Headset High Performance Mode */
     private void highPerfModeEnableInit(List<RecyclerViewItem> items) {
         SwitchView highPerfMode = new SwitchView();
         highPerfMode.setSummary(getString(R.string.headset_highperf_mode));
@@ -109,15 +98,34 @@ public class SoundFragment extends RecyclerViewFragment {
         items.add(highPerfMode);
     }
 
-    private void headphoneGainInit(List<RecyclerViewItem> items) {
-        SeekBarView headphoneGain = new SeekBarView();
-        headphoneGain.setTitle(getString(R.string.headphone_gain));
-        headphoneGain.setItems(Sound.getHeadphoneGainLimits());
-        headphoneGain.setProgress(Sound.getHeadphoneGainLimits().indexOf(Sound.getHeadphoneGain()));
-        headphoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+    /* Audio Codec Power Gating */
+    private void codecPowerGatingEnableInit(List<RecyclerViewItem> items) {
+        SwitchView codecPowerGating = new SwitchView();
+        codecPowerGating.setSummary(getString(R.string.codec_power_gating));
+        codecPowerGating.setChecked(Sound.isCodecPowerGatingEnabled());
+        codecPowerGating.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Sound.enableCodecPowerGating(isChecked, getActivity());
+            }
+        });
+
+        items.add(codecPowerGating);
+    }
+
+    /* FKSC: Start */
+    private void fkscvolumeGainInit(List<RecyclerViewItem> items) {
+        TitleView fksc_title = new TitleView();
+        fksc_title.setText(getString(R.string.fksc_title));
+
+        SeekBarView fkscvolumeGain = new SeekBarView();
+        fkscvolumeGain.setTitle(getString(R.string.headphone_gain));
+        fkscvolumeGain.setItems(Sound.getFKSCVolumeGainLimits());
+        fkscvolumeGain.setProgress(Sound.getFKSCVolumeGainLimits().indexOf(Sound.getFKSCVolumeGain()));
+        fkscvolumeGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setHeadphoneGain(value, getActivity());
+                Sound.setFKSCVolumeGain(value, getActivity());
             }
 
             @Override
@@ -125,19 +133,19 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        items.add(headphoneGain);
+        items.add(fksc_title);
+        items.add(fkscvolumeGain);
     }
 
-    private void handsetMicrophoneGainInit(List<RecyclerViewItem> items) {
-        SeekBarView handsetMicrophoneGain = new SeekBarView();
-        handsetMicrophoneGain.setTitle(getString(R.string.handset_microphone_gain));
-        handsetMicrophoneGain.setItems(Sound.getHandsetMicrophoneGainLimits());
-        handsetMicrophoneGain.setProgress(Sound.getHandsetMicrophoneGainLimits()
-                .indexOf(Sound.getHandsetMicrophoneGain()));
-        handsetMicrophoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+    private void fkscearpieceGainInit(List<RecyclerViewItem> items) {
+        SeekBarView fkscearpieceGain = new SeekBarView();
+        fkscearpieceGain.setTitle(getString(R.string.earpiece_gain));
+        fkscearpieceGain.setItems(Sound.getFKSCEarpieceGainLimits());
+        fkscearpieceGain.setProgress(Sound.getFKSCEarpieceGainLimits().indexOf(Sound.getFKSCEarpieceGain()));
+        fkscearpieceGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setHandsetMicrophoneGain(value, getActivity());
+                Sound.setFKSCEarpieceGain(value, getActivity());
             }
 
             @Override
@@ -145,18 +153,18 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        items.add(handsetMicrophoneGain);
+        items.add(fkscearpieceGain);
     }
 
-    private void camMicrophoneGainInit(List<RecyclerViewItem> items) {
-        SeekBarView camMicrophoneGain = new SeekBarView();
-        camMicrophoneGain.setTitle(getString(R.string.cam_microphone_gain));
-        camMicrophoneGain.setItems(Sound.getCamMicrophoneGainLimits());
-        camMicrophoneGain.setProgress(Sound.getCamMicrophoneGainLimits().indexOf(Sound.getCamMicrophoneGain()));
-        camMicrophoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+    private void fkscmicrophoneGainInit(List<RecyclerViewItem> items) {
+        SeekBarView fkscmicrophoneGain = new SeekBarView();
+        fkscmicrophoneGain.setTitle(getString(R.string.microphone_gain));
+        fkscmicrophoneGain.setItems(Sound.getFKSCMicrophoneGainLimits());
+        fkscmicrophoneGain.setProgress(Sound.getFKSCMicrophoneGainLimits().indexOf(Sound.getFKSCMicrophoneGain()));
+        fkscmicrophoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setCamMicrophoneGain(value, getActivity());
+                Sound.setFKSCMicrophoneGain(value, getActivity());
             }
 
             @Override
@@ -164,8 +172,72 @@ public class SoundFragment extends RecyclerViewFragment {
             }
         });
 
-        items.add(camMicrophoneGain);
+        items.add(fkscmicrophoneGain);
     }
+    /* FKSC: End */
+
+    /* EXSC: Start */
+    private void exscvolumeGainInit(List<RecyclerViewItem> items) {
+        TitleView exsc_title = new TitleView();
+        exsc_title.setText(getString(R.string.exsc_title));
+
+        SeekBarView exscvolumeGain = new SeekBarView();
+        exscvolumeGain.setTitle(getString(R.string.headphone_gain));
+        exscvolumeGain.setItems(Sound.getEXSCVolumeGainLimits());
+        exscvolumeGain.setProgress(Sound.getEXSCVolumeGainLimits().indexOf(Sound.getEXSCVolumeGain()));
+        exscvolumeGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                Sound.setEXSCVolumeGain(value, getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        items.add(exsc_title);
+        items.add(exscvolumeGain);
+    }
+
+    private void exscearpieceGainInit(List<RecyclerViewItem> items) {
+        SeekBarView exscearpieceGain = new SeekBarView();
+        exscearpieceGain.setTitle(getString(R.string.earpiece_gain));
+        exscearpieceGain.setItems(Sound.getEXSCEarpieceGainLimits());
+        exscearpieceGain.setProgress(Sound.getEXSCEarpieceGainLimits().indexOf(Sound.getEXSCEarpieceGain()));
+        exscearpieceGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                Sound.setEXSCEarpieceGain(value, getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        items.add(exscearpieceGain);
+    }
+
+    private void exscmicrophoneGainInit(List<RecyclerViewItem> items) {
+        SeekBarView exscmicrophoneGain = new SeekBarView();
+        exscmicrophoneGain.setTitle(getString(R.string.microphone_gain));
+        exscmicrophoneGain.setItems(Sound.getEXSCMicrophoneGainLimits());
+        exscmicrophoneGain.setProgress(Sound.getEXSCMicrophoneGainLimits().indexOf(Sound.getEXSCMicrophoneGain()));
+        exscmicrophoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                Sound.setEXSCMicrophoneGain(value, getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        items.add(exscmicrophoneGain);
+    }
+    /* EXSC: End */
 
     private void speakerGainInit(List<RecyclerViewItem> items) {
         SeekBarView speakerGain = new SeekBarView();
@@ -185,113 +257,4 @@ public class SoundFragment extends RecyclerViewFragment {
 
         items.add(speakerGain);
     }
-
-    private void headphonePowerAmpGainInit(List<RecyclerViewItem> items) {
-        SeekBarView headphonePowerAmpGain = new SeekBarView();
-        headphonePowerAmpGain.setTitle(getString(R.string.headphone_poweramp_gain));
-        headphonePowerAmpGain.setItems(Sound.getHeadphonePowerAmpGainLimits());
-        headphonePowerAmpGain.setProgress(Sound.getHeadphonePowerAmpGainLimits()
-                .indexOf(Sound.getHeadphonePowerAmpGain()));
-        headphonePowerAmpGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setHeadphonePowerAmpGain(value, getActivity());
-            }
-
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
-
-        items.add(headphonePowerAmpGain);
-    }
-
-    private void headphoneTpaGainInit(List<RecyclerViewItem> items) {
-        SeekBarView headphoneTpaGain = new SeekBarView();
-        headphoneTpaGain.setTitle(getString(R.string.headphone_tpa6165_gain));
-        headphoneTpaGain.setItems(Sound.getHeadphoneTpaGainLimits());
-        headphoneTpaGain.setProgress(Sound.getHeadphoneTpaGainLimits()
-                .indexOf(Sound.getHeadphoneTpaGain()));
-        headphoneTpaGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setHeadphoneTpaGain(value, getActivity());
-            }
-
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
-
-        items.add(headphoneTpaGain);
-    }
-
-    private void lockOutputGainInit(List<RecyclerViewItem> items) {
-        SwitchView lockOutputGain = new SwitchView();
-        lockOutputGain.setTitle(getString(R.string.lock_output_gain));
-        lockOutputGain.setSummary(getString(R.string.lock_output_gain_summary));
-        lockOutputGain.setChecked(Sound.isLockOutputGainEnabled());
-        lockOutputGain.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-            @Override
-            public void onChanged(SwitchView switchView, boolean isChecked) {
-                Sound.enableLockOutputGain(isChecked, getActivity());
-            }
-        });
-
-        items.add(lockOutputGain);
-    }
-
-    private void lockMicGainInit(List<RecyclerViewItem> items) {
-        SwitchView lockMicGain = new SwitchView();
-        lockMicGain.setTitle(getString(R.string.lock_mic_gain));
-        lockMicGain.setSummary(getString(R.string.lock_mic_gain_summary));
-        lockMicGain.setChecked(Sound.isLockMicGainEnabled());
-        lockMicGain.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-            @Override
-            public void onChanged(SwitchView switchView, boolean isChecked) {
-                Sound.enableLockMicGain(isChecked, getActivity());
-            }
-        });
-
-        items.add(lockMicGain);
-    }
-
-    private void microphoneGainInit(List<RecyclerViewItem> items) {
-        SeekBarView microphoneGain = new SeekBarView();
-        microphoneGain.setTitle(getString(R.string.microphone_gain));
-        microphoneGain.setItems(Sound.getMicrophoneGainLimits());
-        microphoneGain.setProgress(Sound.getMicrophoneGainLimits().indexOf(Sound.getMicrophoneGain()));
-        microphoneGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setMicrophoneGain(value, getActivity());
-            }
-
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
-
-        items.add(microphoneGain);
-    }
-
-    private void volumeGainInit(List<RecyclerViewItem> items) {
-        SeekBarView volumeGain = new SeekBarView();
-        volumeGain.setTitle(getString(R.string.volume_gain));
-        volumeGain.setItems(Sound.getVolumeGainLimits());
-        volumeGain.setProgress(Sound.getVolumeGainLimits().indexOf(Sound.getVolumeGain()));
-        volumeGain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                Sound.setVolumeGain(value, getActivity());
-            }
-
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
-
-        items.add(volumeGain);
-    }
-
 }
