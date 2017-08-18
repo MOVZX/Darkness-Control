@@ -37,8 +37,8 @@ public class DownloadTask extends ThreadTask<String, String> {
 
     private final Activity mActivity;
     private final OnDownloadListener onDownloadListener;
-    private PowerManager.WakeLock mWakeLock;
     private final String mPath;
+    private PowerManager.WakeLock mWakeLock;
     private boolean mDownloading = true;
     private boolean mCancelled;
 

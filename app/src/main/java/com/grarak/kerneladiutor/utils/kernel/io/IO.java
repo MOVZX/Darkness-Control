@@ -45,6 +45,8 @@ public abstract class IO {
 
     private static final List<String> sInternal = new ArrayList<>();
     private static final List<String> sExternal = new ArrayList<>();
+    private static String INTERNAL;
+    private static String EXTERNAL;
 
     static {
         sInternal.add(UFS);
@@ -52,14 +54,6 @@ public abstract class IO {
 
         sExternal.add("/sys/block/mmcblk1/queue");
     }
-
-    public enum Storage {
-        Internal,
-        External
-    }
-
-    private static String INTERNAL;
-    private static String EXTERNAL;
 
     public static boolean hasExternal() {
         return EXTERNAL != null;
@@ -208,6 +202,11 @@ public abstract class IO {
 
     private static void run(String command, String id, Context context) {
         Control.runSetting(command, ApplyOnBootFragment.IO, id, context);
+    }
+
+    public enum Storage {
+        Internal,
+        External
     }
 
 }

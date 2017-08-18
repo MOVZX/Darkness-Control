@@ -110,11 +110,6 @@ public class FilePickerActivity extends BaseActivity {
         private AsyncTask<Void, Void, List<RecyclerViewItem>> mLoadAsyncTask;
         private Dialog mPickDialog;
 
-        @Override
-        protected boolean showViewPager() {
-            return false;
-        }
-
         public static FilePickerFragment newInstance(String path, String extension) {
             Bundle args = new Bundle();
             args.putString(PATH_INTENT, path);
@@ -122,6 +117,11 @@ public class FilePickerActivity extends BaseActivity {
             FilePickerFragment fragment = new FilePickerFragment();
             fragment.setArguments(args);
             return fragment;
+        }
+
+        @Override
+        protected boolean showViewPager() {
+            return false;
         }
 
         @Override

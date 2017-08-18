@@ -36,16 +36,15 @@ import java.util.List;
 public class CoreCtl {
 
     public static final String CORE_CTL = "/sys/devices/system/cpu/cpu%d/core_ctl";
+    public static final String MIN_CPUS = "/min_cpus";
     private static final String HCUBE = "/sys/devices/system/cpu/cpu%d/hcube";
-    private static String PARENT;
     private static final String ENABLE = "/hc_on";
     private static final String IS_BIG_CLUSTER = "/is_big_cluster";
-    public static final String MIN_CPUS = "/min_cpus";
     private static final String BUSY_DOWN_THRESHOLD = "/busy_down_thres";
     private static final String BUSY_UP_THRESHOLD = "/busy_up_thres";
     private static final String OFFLINE_DELAY_MS = "/offline_delay_ms";
-
     private static final List<String> sFiles = new ArrayList<>();
+    private static String PARENT;
 
     static {
         sFiles.add(CORE_CTL);

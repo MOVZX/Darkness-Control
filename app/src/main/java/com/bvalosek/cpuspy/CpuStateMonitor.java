@@ -36,48 +36,6 @@ public class CpuStateMonitor {
     }
 
     /**
-     * exception class
-     */
-    public static class CpuStateMonitorException extends Exception {
-        private CpuStateMonitorException(String s) {
-            super(s);
-        }
-    }
-
-    /**
-     * simple struct for states/time
-     */
-    public static class CpuState implements Comparable<CpuState> {
-
-        private int mFreq = 0;
-        private long mDuration = 0;
-
-        /**
-         * init with freq and duration
-         */
-        private CpuState(int a, long b) {
-            mFreq = a;
-            mDuration = b;
-        }
-
-        public int getFreq() {
-            return mFreq;
-        }
-
-        public long getDuration() {
-            return mDuration;
-        }
-
-        /**
-         * for sorting, compare the freqs
-         */
-        @Override
-        public int compareTo(@NonNull CpuState another) {
-            return ((Integer) mFreq).compareTo(another.mFreq);
-        }
-    }
-
-    /**
      * @return List of CpuState with the offsets applied
      */
     public List<CpuState> getStates() {
@@ -212,6 +170,48 @@ public class CpuStateMonitor {
             }
         } catch (Exception e) {
             throw new CpuStateMonitorException("Problem processing time-in-states file");
+        }
+    }
+
+    /**
+     * exception class
+     */
+    public static class CpuStateMonitorException extends Exception {
+        private CpuStateMonitorException(String s) {
+            super(s);
+        }
+    }
+
+    /**
+     * simple struct for states/time
+     */
+    public static class CpuState implements Comparable<CpuState> {
+
+        private int mFreq = 0;
+        private long mDuration = 0;
+
+        /**
+         * init with freq and duration
+         */
+        private CpuState(int a, long b) {
+            mFreq = a;
+            mDuration = b;
+        }
+
+        public int getFreq() {
+            return mFreq;
+        }
+
+        public long getDuration() {
+            return mDuration;
+        }
+
+        /**
+         * for sorting, compare the freqs
+         */
+        @Override
+        public int compareTo(@NonNull CpuState another) {
+            return ((Integer) mFreq).compareTo(another.mFreq);
         }
     }
 

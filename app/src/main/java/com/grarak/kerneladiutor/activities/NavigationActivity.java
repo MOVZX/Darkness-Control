@@ -64,7 +64,6 @@ import com.grarak.kerneladiutor.fragments.kernel.ThermalFragment;
 import com.grarak.kerneladiutor.fragments.kernel.VMFragment;
 import com.grarak.kerneladiutor.fragments.kernel.WakeFrament;
 import com.grarak.kerneladiutor.fragments.other.AboutFragment;
-import com.grarak.kerneladiutor.fragments.other.ContributorsFragment;
 import com.grarak.kerneladiutor.fragments.other.HelpFragment;
 import com.grarak.kerneladiutor.fragments.other.SettingsFragment;
 import com.grarak.kerneladiutor.fragments.statistics.DeviceFragment;
@@ -117,23 +116,21 @@ public class NavigationActivity extends BaseActivity
     public final static LinkedHashMap<Integer, Fragment> sActualFragments = new LinkedHashMap<>();
 
     private static Callback sCallback;
-
-    private interface Callback {
-        void onBannerResize();
-    }
-
     private Handler mHandler = new Handler();
     private DrawerLayout mDrawer;
     private NavigationView mNavigationView;
     private boolean mExit;
-
     private int mSelection;
     private boolean mLicenseDialog = true;
-
     private WebpageReader mAdsFetcher;
     private boolean mFetchingAds;
-
     private boolean mAllowCommit;
+
+    public static void bannerResize() {
+        if (sCallback != null) {
+            sCallback.onBannerResize();
+        }
+    }
 
     @Override
     protected boolean setStatusBarColor() {
@@ -242,9 +239,8 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.on_boot, new OnBootFragment(), R.drawable.ic_start));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.other));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.settings));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.about, new AboutFragment(), R.drawable.ic_about));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.contributors, new ContributorsFragment(), R.drawable.ic_people));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.help, new HelpFragment(), R.drawable.ic_help));
+        sFragments.add(new NavigationActivity.NavigationFragment(R.string.about, new AboutFragment(), R.drawable.ic_about));
     }
 
     private void init(Bundle savedInstanceState) {
@@ -568,10 +564,8 @@ public class NavigationActivity extends BaseActivity
         return fragment;
     }
 
-    public static void bannerResize() {
-        if (sCallback != null) {
-            sCallback.onBannerResize();
-        }
+    private interface Callback {
+        void onBannerResize();
     }
 
     public static class NavigationFragment {

@@ -35,6 +35,11 @@ import com.grarak.kerneladiutor.utils.Utils;
  */
 public class DescriptionFragment extends BaseFragment {
 
+    private TextView mTitleView;
+    private TextView mSummaryView;
+    private CharSequence mTitle;
+    private CharSequence mSummary;
+
     public static DescriptionFragment newInstance(CharSequence title, CharSequence summary) {
         Bundle args = new Bundle();
         DescriptionFragment fragment = new DescriptionFragment();
@@ -43,12 +48,6 @@ public class DescriptionFragment extends BaseFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    private TextView mTitleView;
-    private TextView mSummaryView;
-
-    private CharSequence mTitle;
-    private CharSequence mSummary;
 
     @Nullable
     @Override

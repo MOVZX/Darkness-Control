@@ -352,6 +352,13 @@ public class BuildpropFragment extends RecyclerViewFragment {
 
     public static class SearchFragment extends BaseFragment {
 
+        private TextView mItemsText;
+        private int mItemsCount;
+        private String mKeyText;
+        private String mValueText;
+        private TextWatcher mKeyWatcher;
+        private TextWatcher mValueWatcher;
+
         public static SearchFragment newInstance(String keyText, String valueText, TextWatcher keyWatcher,
                                                  TextWatcher valueWatcher) {
             SearchFragment fragment = new SearchFragment();
@@ -361,13 +368,6 @@ public class BuildpropFragment extends RecyclerViewFragment {
             fragment.mValueWatcher = valueWatcher;
             return fragment;
         }
-
-        private TextView mItemsText;
-        private int mItemsCount;
-        private String mKeyText;
-        private String mValueText;
-        private TextWatcher mKeyWatcher;
-        private TextWatcher mValueWatcher;
 
         @Nullable
         @Override

@@ -301,18 +301,6 @@ public class OnBootFragment extends RecyclerViewFragment {
         }
     }
 
-    private class ApplyOnBootItem {
-        private final String mCommand;
-        private final String mCategory;
-        private final int mPosition;
-
-        private ApplyOnBootItem(String command, String category, int position) {
-            mCommand = command;
-            mCategory = category;
-            mPosition = position;
-        }
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -323,6 +311,18 @@ public class OnBootFragment extends RecyclerViewFragment {
         if (mLoader != null) {
             mLoader.cancel(true);
             mLoader = null;
+        }
+    }
+
+    private class ApplyOnBootItem {
+        private final String mCommand;
+        private final String mCategory;
+        private final int mPosition;
+
+        private ApplyOnBootItem(String command, String category, int position) {
+            mCommand = command;
+            mCategory = category;
+            mPosition = position;
         }
     }
 }

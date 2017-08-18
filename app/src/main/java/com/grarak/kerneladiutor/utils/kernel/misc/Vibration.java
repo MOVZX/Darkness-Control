@@ -36,6 +36,9 @@ public class Vibration {
     private static final String VIB_ENABLE = "/sys/devices/i2c-3/3-0033/vibrator/vib0/vib_enable";
 
     private static final HashMap<String, MinMax> sVibrations = new HashMap<>();
+    private static String FILE;
+    private static Integer MIN;
+    private static Integer MAX;
 
     static {
         sVibrations.put("/sys/class/timed_output/vibrator/amp", new MinMax(0, 100));
@@ -52,10 +55,6 @@ public class Vibration {
         sVibrations.put("/sys/vibrator/pwmvalue", new MinMax(0, 127));
         sVibrations.put("/sys/kernel/thunderquake_engine/level", new MinMax(0, 7));
     }
-
-    private static String FILE;
-    private static Integer MIN;
-    private static Integer MAX;
 
     public static void setVibration(int value, Context context) {
         boolean enable = Utils.existFile(VIB_ENABLE);

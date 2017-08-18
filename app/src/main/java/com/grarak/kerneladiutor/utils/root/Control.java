@@ -73,6 +73,29 @@ public class Control {
         return "chown " + group + " " + file;
     }
 
+    private static Control getInstance() {
+        if (sControl == null) {
+            sControl = new Control();
+        }
+        return sControl;
+    }
+
+    public static void setProfileMode(boolean mode) {
+        getInstance().mProfileMode = mode;
+    }
+
+    public static LinkedHashMap<String, String> getProfileCommands() {
+        return getInstance().mProfileCommands;
+    }
+
+    public static void clearProfileCommands() {
+        getInstance().mProfileCommands.clear();
+    }
+
+    public static void runSetting(String command, String category, String id, Context context) {
+        getInstance().run(command, category, id, context);
+    }
+
     private synchronized void apply(String command, String category, String id, final Context context) {
         if (context != null) {
             if (mProfileMode) {
@@ -134,29 +157,6 @@ public class Control {
         if (mThreads.size() == 1) {
             mThreads.get(0).start();
         }
-    }
-
-    private static Control getInstance() {
-        if (sControl == null) {
-            sControl = new Control();
-        }
-        return sControl;
-    }
-
-    public static void setProfileMode(boolean mode) {
-        getInstance().mProfileMode = mode;
-    }
-
-    public static LinkedHashMap<String, String> getProfileCommands() {
-        return getInstance().mProfileCommands;
-    }
-
-    public static void clearProfileCommands() {
-        getInstance().mProfileCommands.clear();
-    }
-
-    public static void runSetting(String command, String category, String id, Context context) {
-        getInstance().run(command, category, id, context);
     }
 
 }

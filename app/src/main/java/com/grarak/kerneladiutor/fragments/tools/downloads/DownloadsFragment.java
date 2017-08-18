@@ -40,18 +40,17 @@ import java.util.List;
  */
 public class DownloadsFragment extends RecyclerViewFragment {
 
+    private final List<WebpageReader> mKernelWebpageReader = new ArrayList<>();
+    private SupportedDownloads mSupport;
+    private WebpageReader mWebpageReader;
+    private Snackbar mErrorBar;
+    private SupportedDownloads.KernelContent mKernelContent;
+
     public static DownloadsFragment newInstance(SupportedDownloads support) {
         DownloadsFragment fragment = new DownloadsFragment();
         fragment.mSupport = support;
         return fragment;
     }
-
-    private SupportedDownloads mSupport;
-    private WebpageReader mWebpageReader;
-    private final List<WebpageReader> mKernelWebpageReader = new ArrayList<>();
-    private Snackbar mErrorBar;
-
-    private SupportedDownloads.KernelContent mKernelContent;
 
     @Override
     protected boolean showViewPager() {

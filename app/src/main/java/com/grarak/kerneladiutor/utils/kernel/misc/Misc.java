@@ -44,6 +44,10 @@ public class Misc {
     private static final List<String> sLoggers = new ArrayList<>();
     private static final List<String> sCrcs = new ArrayList<>();
     private static final List<String> sFsyncs = new ArrayList<>();
+    private static String LOGGER_FILE;
+    private static String CRC_FILE;
+    private static String FSYNC_FILE;
+    private static Boolean FSYNC_USE_INTEGER;
 
     static {
         sLoggers.add("/sys/kernel/logger_mode/logger_mode");
@@ -56,11 +60,6 @@ public class Misc {
         sFsyncs.add("/sys/devices/virtual/misc/fsynccontrol/fsync_enabled");
         sFsyncs.add("/sys/module/sync/parameters/fsync_enabled");
     }
-
-    private static String LOGGER_FILE;
-    private static String CRC_FILE;
-    private static String FSYNC_FILE;
-    private static Boolean FSYNC_USE_INTEGER;
 
     public static void setHostname(String value, Context context) {
         run(Control.setProp(HOSTNAME_KEY, value), HOSTNAME_KEY, context);

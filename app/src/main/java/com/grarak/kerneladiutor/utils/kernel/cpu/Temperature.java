@@ -40,19 +40,16 @@ public class Temperature {
     private static final HashMap<String, Integer> sCPUTemps = new HashMap<>();
 
     private static final String THERMAL_ZONE0 = "/sys/class/thermal/thermal_zone0/temp";
+    private static TempJson TEMP_JSON;
+    private static String CPU_NODE;
+    private static int CPU_OFFSET;
+    private static String GPU_NODE;
+    private static int GPU_OFFSET;
 
     static {
         sCPUTemps.put("/sys/devices/platform/omap/omap_temp_sensor.0/temperature", 1000);
         sCPUTemps.put("/proc/mtktscpu/mtktscpu_temperature", 1000);
     }
-
-    private static TempJson TEMP_JSON;
-
-    private static String CPU_NODE;
-    private static int CPU_OFFSET;
-
-    private static String GPU_NODE;
-    private static int GPU_OFFSET;
 
     public static String getGPU(Context context) {
         double temp = getGPUTemp();

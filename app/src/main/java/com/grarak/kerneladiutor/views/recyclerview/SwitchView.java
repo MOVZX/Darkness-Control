@@ -34,18 +34,12 @@ import java.util.List;
  */
 public class SwitchView extends RecyclerViewItem {
 
-    public interface OnSwitchListener {
-        void onChanged(SwitchView switchView, boolean isChecked);
-    }
-
     private AppCompatTextView mTitle;
     private AppCompatTextView mSummary;
     private SwitchCompat mSwitcher;
-
     private CharSequence mTitleText;
     private CharSequence mSummaryText;
     private boolean mChecked;
-
     private List<OnSwitchListener> mOnSwitchListeners = new ArrayList<>();
 
     @Override
@@ -82,18 +76,8 @@ public class SwitchView extends RecyclerViewItem {
         });
     }
 
-    public void setTitle(CharSequence title) {
-        mTitleText = title;
-        refresh();
-    }
-
     public void setSummary(CharSequence summary) {
         mSummaryText = summary;
-        refresh();
-    }
-
-    public void setChecked(boolean checked) {
-        mChecked = checked;
         refresh();
     }
 
@@ -101,8 +85,18 @@ public class SwitchView extends RecyclerViewItem {
         return mTitleText;
     }
 
+    public void setTitle(CharSequence title) {
+        mTitleText = title;
+        refresh();
+    }
+
     public boolean isChecked() {
         return mChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        mChecked = checked;
+        refresh();
     }
 
     public void addOnSwitchListener(OnSwitchListener onSwitchListener) {
@@ -130,5 +124,9 @@ public class SwitchView extends RecyclerViewItem {
         if (mSwitcher != null) {
             mSwitcher.setChecked(mChecked);
         }
+    }
+
+    public interface OnSwitchListener {
+        void onChanged(SwitchView switchView, boolean isChecked);
     }
 }

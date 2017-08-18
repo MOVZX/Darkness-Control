@@ -51,9 +51,9 @@ public class BorderCircleView extends FrameLayout {
     }
 
     private final Drawable mCheck;
-    private boolean mChecked;
     private final Paint mPaint;
     private final Paint mPaintBorder;
+    private boolean mChecked;
 
     public BorderCircleView(Context context) {
         this(context, null);

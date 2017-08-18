@@ -59,6 +59,10 @@ public class Misc {
     private static final List<String> sPocketFiles = new ArrayList<>();
 
     private static final HashMap<String, Integer> sTimeoutFiles = new HashMap<>();
+    private static String WAKE;
+    private static String CAMERA;
+    private static String POCKET;
+    private static String TIMEOUT;
 
     static {
         sScreenWakeOptionsMenu.add(R.string.disabled);
@@ -87,11 +91,6 @@ public class Misc {
         sTimeoutFiles.put(WAKE_TIMEOUT, 30);
         sTimeoutFiles.put(WAKE_TIMEOUT_2, 10);
     }
-
-    private static String WAKE;
-    private static String CAMERA;
-    private static String POCKET;
-    private static String TIMEOUT;
 
     public static void setVibVibration(int value, Context context) {
         run(Control.write(String.valueOf(value), VIB_VIBRATION), VIB_VIBRATION, context);

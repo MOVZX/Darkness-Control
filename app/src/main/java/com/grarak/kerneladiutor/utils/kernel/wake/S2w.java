@@ -45,6 +45,7 @@ public class S2w {
     private static final List<Integer> sS2wMenu = new ArrayList<>();
     private static final List<Integer> sS2w2Menu = new ArrayList<>();
     private static final List<Integer> sGenericMenu = new ArrayList<>();
+    private static String FILE;
 
     static {
         sS2wMenu.add(R.string.disabled);
@@ -65,8 +66,6 @@ public class S2w {
         sFiles.put(SW2, sS2wMenu);
         sFiles.put(SW2_2, sS2w2Menu);
     }
-
-    private static String FILE;
 
     public static void enableLenient(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", LENIENT), LENIENT, context);

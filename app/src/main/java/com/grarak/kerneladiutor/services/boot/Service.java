@@ -68,6 +68,71 @@ public class Service extends android.app.Service {
     private static final String TAG = Service.class.getSimpleName();
     private static boolean sCancel;
 
+    public static List<String> getApplyCpu(CPUFreq.ApplyCpu applyCpu, RootUtils.SU su) {
+        return getApplyCpu(applyCpu, su, null);
+    }
+
+    public static List<String> getApplyCpu(CPUFreq.ApplyCpu applyCpu, RootUtils.SU su, Context context) {
+        List<String> commands = new ArrayList<>();
+        boolean cpulock = Utils.existFile(CPUFreq.CPU_LOCK_FREQ, su);
+        if (cpulock) {
+            commands.add(Control.write("0", CPUFreq.CPU_LOCK_FREQ));
+        }
+        boolean mpdecision = Utils.hasProp(MPDecision.HOTPLUG_MPDEC, su)
+                && Utils.isPropRunning(MPDecision.HOTPLUG_MPDEC, su);
+        if (mpdecision) {
+            commands.add(Control.stopService(MPDecision.HOTPLUG_MPDEC));
+        }
+        for (int i = applyCpu.getMin(); i <= applyCpu.getMax(); i++) {
+            boolean offline = !Utils.existFile(Utils.strFormat(applyCpu.getPath(), i), su);
+
+            List<Integer> bigCpuRange = applyCpu.getBigCpuRange();
+            List<Integer> LITTLECpuRange = applyCpu.getLITTLECpuRange();
+            String coreCtlMinPath = null;
+            String msmPerformanceMinPath = null;
+            if (offline) {
+
+                if (applyCpu.isBigLITTLE()) {
+                    if (Utils.existFile(Utils.strFormat(CoreCtl.CORE_CTL, i), su)) {
+                        coreCtlMinPath = Utils.strFormat(CoreCtl.CORE_CTL + CoreCtl.MIN_CPUS, i);
+                        commands.add(Control.write(String.valueOf(bigCpuRange.size()), coreCtlMinPath));
+                    }
+
+                    if (Utils.existFile(MSMPerformance.MAX_CPUS, su)) {
+                        msmPerformanceMinPath = MSMPerformance.MAX_CPUS;
+                        commands.add(Control.write(LITTLECpuRange.size() + ":" + bigCpuRange.size(),
+                                msmPerformanceMinPath));
+                    }
+                }
+
+                commands.add(Control.write("1", Utils.strFormat(CPUFreq.CPU_ONLINE, i)));
+            }
+            commands.add(Control.chmod("644", Utils.strFormat(applyCpu.getPath(), i)));
+            commands.add(Control.write(applyCpu.getValue(), Utils.strFormat(applyCpu.getPath(), i)));
+            commands.add(Control.chmod("444", Utils.strFormat(applyCpu.getPath(), i)));
+            if (offline) {
+
+                if (coreCtlMinPath != null) {
+                    commands.add(Control.write(String.valueOf(context == null ?
+                            CPUFreq.sCoreCtlMinCpu : Prefs.getInt("core_ctl_min_cpus_big",
+                            applyCpu.getCoreCtlMin(), context)), coreCtlMinPath));
+                }
+                if (msmPerformanceMinPath != null) {
+                    commands.add(Control.write("-1:-1", msmPerformanceMinPath));
+                }
+
+                commands.add(Control.write("0", Utils.strFormat(CPUFreq.CPU_ONLINE, i)));
+            }
+        }
+        if (mpdecision) {
+            commands.add(Control.startService(MPDecision.HOTPLUG_MPDEC));
+        }
+        if (cpulock) {
+            commands.add(Control.write("1", CPUFreq.CPU_LOCK_FREQ));
+        }
+        return commands;
+    }
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -327,71 +392,6 @@ public class Service extends android.app.Service {
         }).start();
 
         return START_NOT_STICKY;
-    }
-
-    public static List<String> getApplyCpu(CPUFreq.ApplyCpu applyCpu, RootUtils.SU su) {
-        return getApplyCpu(applyCpu, su, null);
-    }
-
-    public static List<String> getApplyCpu(CPUFreq.ApplyCpu applyCpu, RootUtils.SU su, Context context) {
-        List<String> commands = new ArrayList<>();
-        boolean cpulock = Utils.existFile(CPUFreq.CPU_LOCK_FREQ, su);
-        if (cpulock) {
-            commands.add(Control.write("0", CPUFreq.CPU_LOCK_FREQ));
-        }
-        boolean mpdecision = Utils.hasProp(MPDecision.HOTPLUG_MPDEC, su)
-                && Utils.isPropRunning(MPDecision.HOTPLUG_MPDEC, su);
-        if (mpdecision) {
-            commands.add(Control.stopService(MPDecision.HOTPLUG_MPDEC));
-        }
-        for (int i = applyCpu.getMin(); i <= applyCpu.getMax(); i++) {
-            boolean offline = !Utils.existFile(Utils.strFormat(applyCpu.getPath(), i), su);
-
-            List<Integer> bigCpuRange = applyCpu.getBigCpuRange();
-            List<Integer> LITTLECpuRange = applyCpu.getLITTLECpuRange();
-            String coreCtlMinPath = null;
-            String msmPerformanceMinPath = null;
-            if (offline) {
-
-                if (applyCpu.isBigLITTLE()) {
-                    if (Utils.existFile(Utils.strFormat(CoreCtl.CORE_CTL, i), su)) {
-                        coreCtlMinPath = Utils.strFormat(CoreCtl.CORE_CTL + CoreCtl.MIN_CPUS, i);
-                        commands.add(Control.write(String.valueOf(bigCpuRange.size()), coreCtlMinPath));
-                    }
-
-                    if (Utils.existFile(MSMPerformance.MAX_CPUS, su)) {
-                        msmPerformanceMinPath = MSMPerformance.MAX_CPUS;
-                        commands.add(Control.write(LITTLECpuRange.size() + ":" + bigCpuRange.size(),
-                                msmPerformanceMinPath));
-                    }
-                }
-
-                commands.add(Control.write("1", Utils.strFormat(CPUFreq.CPU_ONLINE, i)));
-            }
-            commands.add(Control.chmod("644", Utils.strFormat(applyCpu.getPath(), i)));
-            commands.add(Control.write(applyCpu.getValue(), Utils.strFormat(applyCpu.getPath(), i)));
-            commands.add(Control.chmod("444", Utils.strFormat(applyCpu.getPath(), i)));
-            if (offline) {
-
-                if (coreCtlMinPath != null) {
-                    commands.add(Control.write(String.valueOf(context == null ?
-                            CPUFreq.sCoreCtlMinCpu : Prefs.getInt("core_ctl_min_cpus_big",
-                            applyCpu.getCoreCtlMin(), context)), coreCtlMinPath));
-                }
-                if (msmPerformanceMinPath != null) {
-                    commands.add(Control.write("-1:-1", msmPerformanceMinPath));
-                }
-
-                commands.add(Control.write("0", Utils.strFormat(CPUFreq.CPU_ONLINE, i)));
-            }
-        }
-        if (mpdecision) {
-            commands.add(Control.startService(MPDecision.HOTPLUG_MPDEC));
-        }
-        if (cpulock) {
-            commands.add(Control.write("1", CPUFreq.CPU_LOCK_FREQ));
-        }
-        return commands;
     }
 
     public static class CancelReceiver extends BroadcastReceiver {

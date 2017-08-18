@@ -42,6 +42,7 @@ public class Dt2s {
 
     private static final HashMap<String, List<Integer>> sFiles = new HashMap<>();
     private static final List<Integer> sGenericMenu = new ArrayList<>();
+    private static String FILE;
 
     static {
         sGenericMenu.add(R.string.disabled);
@@ -50,8 +51,6 @@ public class Dt2s {
         sFiles.put(DT2S, sGenericMenu);
         sFiles.put(SCREEN_SLEEP_OPTIONS, sGenericMenu);
     }
-
-    private static String FILE;
 
     public static void setHeight(int value, Context context) {
         run(Control.write(String.valueOf(value), HEIGHT), HEIGHT, context);

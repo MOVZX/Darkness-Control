@@ -50,10 +50,6 @@ public class CodeView extends RecyclerViewItem {
     private Thread mScriptThread;
     private OnTestListener mOnTestListener;
 
-    public interface OnTestListener {
-        void onTestResult(CodeView codeView, String output);
-    }
-
     @Override
     public int getLayoutRes() {
         return R.layout.rv_code_view;
@@ -131,11 +127,6 @@ public class CodeView extends RecyclerViewItem {
         refresh();
     }
 
-    public void setCode(CharSequence code) {
-        mCode = code;
-        refresh();
-    }
-
     public void setTesting(boolean enabled) {
         mTesting = enabled;
         refresh();
@@ -152,6 +143,11 @@ public class CodeView extends RecyclerViewItem {
 
     public CharSequence getCode() {
         return mCode;
+    }
+
+    public void setCode(CharSequence code) {
+        mCode = code;
+        refresh();
     }
 
     public String getOutput() {
@@ -186,6 +182,10 @@ public class CodeView extends RecyclerViewItem {
         if (mOutput == null && mOutputParent != null) {
             mOutputParent.setVisibility(View.GONE);
         }
+    }
+
+    public interface OnTestListener {
+        void onTestResult(CodeView codeView, String output);
     }
 
 }

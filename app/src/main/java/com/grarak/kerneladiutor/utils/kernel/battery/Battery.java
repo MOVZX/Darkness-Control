@@ -34,11 +34,11 @@ import java.lang.reflect.Method;
 public class Battery {
 
     private static final String FORCE_FAST_CHARGE = "/sys/kernel/fast_charge/force_fast_charge";
-    private static final String BLX = "/sys/devices/virtual/misc/batterylifeextender/charging_limit";
 
-    private static final String CHARGE_RATE = "/sys/kernel/thundercharge_control";
-    private static final String CHARGE_RATE_ENABLE = CHARGE_RATE + "/enabled";
-    private static final String CUSTOM_CURRENT = CHARGE_RATE + "/custom_current";
+    private static final String CHARGE_RATE = "/sys/module/qpnp_smbcharger/parameters/";
+    private static final String CUSTOM_CURRENT = CHARGE_RATE + "/default_fastchg_current_ma";
+
+    private static final String BATTERY_CURRENT_LIMIT = "/sys/module/battery_current_limit/parameters/low_battery_value";
 
     private static Integer sCapacity;
 
@@ -54,31 +54,6 @@ public class Battery {
         return Utils.existFile(CUSTOM_CURRENT);
     }
 
-    public static void enableChargeRate(boolean enable, Context context) {
-        run(Control.write(enable ? "1" : "0", CHARGE_RATE_ENABLE), CHARGE_RATE_ENABLE, context);
-    }
-
-    public static boolean isChargeRateEnabled() {
-        return Utils.readFile(CHARGE_RATE_ENABLE).equals("1");
-    }
-
-    public static boolean hasChargeRateEnable() {
-        return Utils.existFile(CHARGE_RATE_ENABLE);
-    }
-
-    public static void setBlx(int value, Context context) {
-        run(Control.write(String.valueOf(value == 0 ? 101 : value - 1), BLX), BLX, context);
-    }
-
-    public static int getBlx() {
-        int value = Utils.strToInt(Utils.readFile(BLX));
-        return value > 100 ? 0 : value + 1;
-    }
-
-    public static boolean hasBlx() {
-        return Utils.existFile(BLX);
-    }
-
     public static void enableForceFastCharge(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", FORCE_FAST_CHARGE), FORCE_FAST_CHARGE, context);
     }
@@ -89,6 +64,18 @@ public class Battery {
 
     public static boolean hasForceFastCharge() {
         return Utils.existFile(FORCE_FAST_CHARGE);
+    }
+
+    public static void setBatteryCurrentLimit(int value, Context context) {
+        run(Control.write(String.valueOf(value), BATTERY_CURRENT_LIMIT), BATTERY_CURRENT_LIMIT, context);
+    }
+
+    public static int getBatteryCurrentLimit() {
+        return Utils.strToInt(Utils.readFile(BATTERY_CURRENT_LIMIT));
+    }
+
+    public static boolean hasBatteryCurrentLimit() {
+        return Utils.existFile(BATTERY_CURRENT_LIMIT);
     }
 
     public static int getCapacity(Context context) {

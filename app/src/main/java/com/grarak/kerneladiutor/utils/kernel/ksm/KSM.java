@@ -50,6 +50,7 @@ public class KSM {
 
     private static final List<String> sParent = new ArrayList<>();
     private static final LinkedHashMap<String, Integer> sInfos = new LinkedHashMap<>();
+    private static String PARENT;
 
     static {
         sParent.add(KSM);
@@ -61,8 +62,6 @@ public class KSM {
         sInfos.put(PAGES_UNSHARED, R.string.pages_unshared);
         sInfos.put(PAGES_VOLATILE, R.string.pages_volatile);
     }
-
-    private static String PARENT;
 
     public static void setMaxCpuPercentage(int value, Context context) {
         run(Control.write(String.valueOf(value), MAX_CPU_PERCENTAGE), MAX_CPU_PERCENTAGE, context);

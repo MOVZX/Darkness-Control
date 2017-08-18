@@ -77,6 +77,12 @@ public class OverallFragment extends RecyclerViewFragment {
     private double mBatteryRaw;
 
     private FrequencyTask mFrequencyTask;
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mBatteryRaw = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10D;
+        }
+    };
 
     @Override
     protected void init() {
@@ -189,43 +195,6 @@ public class OverallFragment extends RecyclerViewFragment {
         if (mFrequencyTask == null) {
             mFrequencyTask = new FrequencyTask();
             mFrequencyTask.execute();
-        }
-    }
-
-    private class FrequencyTask extends AsyncTask<Void, Void, Void> {
-        private CpuStateMonitor mBigMonitor;
-        private CpuStateMonitor mLITTLEMonitor;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            mBigMonitor = mCpuSpyBig.getCpuStateMonitor();
-            if (CPUFreq.isBigLITTLE()) {
-                mLITTLEMonitor = mCpuSpyLITTLE.getCpuStateMonitor();
-            }
-            try {
-                mBigMonitor.updateStates();
-            } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
-                Log.e(TAG, "Problem getting CPU states");
-            }
-            if (CPUFreq.isBigLITTLE()) {
-                try {
-                    mLITTLEMonitor.updateStates();
-                } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
-                    Log.e(TAG, "Problem getting CPU states");
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            updateView(mBigMonitor, mFreqBig);
-            if (CPUFreq.isBigLITTLE()) {
-                updateView(mLITTLEMonitor, mFreqLITTLE);
-            }
-            adjustScrollPosition();
-            mFrequencyTask = null;
         }
     }
 
@@ -342,13 +311,6 @@ public class OverallFragment extends RecyclerViewFragment {
         }
     }
 
-    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            mBatteryRaw = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10D;
-        }
-    };
-
     @Override
     public void onResume() {
         super.onResume();
@@ -451,6 +413,43 @@ public class OverallFragment extends RecyclerViewFragment {
             }
         }
 
+    }
+
+    private class FrequencyTask extends AsyncTask<Void, Void, Void> {
+        private CpuStateMonitor mBigMonitor;
+        private CpuStateMonitor mLITTLEMonitor;
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            mBigMonitor = mCpuSpyBig.getCpuStateMonitor();
+            if (CPUFreq.isBigLITTLE()) {
+                mLITTLEMonitor = mCpuSpyLITTLE.getCpuStateMonitor();
+            }
+            try {
+                mBigMonitor.updateStates();
+            } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
+                Log.e(TAG, "Problem getting CPU states");
+            }
+            if (CPUFreq.isBigLITTLE()) {
+                try {
+                    mLITTLEMonitor.updateStates();
+                } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
+                    Log.e(TAG, "Problem getting CPU states");
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            updateView(mBigMonitor, mFreqBig);
+            if (CPUFreq.isBigLITTLE()) {
+                updateView(mLITTLEMonitor, mFreqLITTLE);
+            }
+            adjustScrollPosition();
+            mFrequencyTask = null;
+        }
     }
 
 }

@@ -55,10 +55,6 @@ public class DropDownView extends RecyclerViewItem {
 
     private OnDropDownListener mOnDropDownListener;
 
-    public interface OnDropDownListener {
-        void onSelect(DropDownView dropDownView, int position, String value);
-    }
-
     @Override
     public int getLayoutRes() {
         return R.layout.rv_drop_down_view;
@@ -213,6 +209,10 @@ public class DropDownView extends RecyclerViewItem {
             mParent.requestLayout();
             viewChanged();
         }
+    }
+
+    public interface OnDropDownListener {
+        void onSelect(DropDownView dropDownView, int position, String value);
     }
 
 }

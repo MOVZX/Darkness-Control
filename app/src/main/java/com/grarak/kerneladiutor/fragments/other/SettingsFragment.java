@@ -87,14 +87,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     private static final String KEY_DELETE_PASSWORD = "delete_password";
     private static final String KEY_FINGERPRINT = "fingerprint";
     private static final String KEY_SECTIONS = "sections";
-
+    public boolean mDelay;
     private Preference mFingerprint;
-
     private String mOldPassword;
     private String mDeletePassword;
     private int mColorSelection = -1;
-
-    public boolean mDelay;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -248,23 +245,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         return false;
     }
 
-    private static class MessengerHandler extends Handler {
-
-        private final Context mContext;
-
-        private MessengerHandler(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.arg1 == 1 && mContext != null) {
-                Utils.toast(R.string.nothing_apply, mContext);
-            }
-        }
-    }
-
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
@@ -322,31 +302,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 return true;
         }
         return false;
-    }
-
-    private class Execute extends AsyncTask<String, Void, Void> {
-        private ProgressDialog mProgressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressDialog = new ProgressDialog(getActivity());
-            mProgressDialog.setMessage(getString(R.string.executing));
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(String... params) {
-            RootUtils.runCommand(params[0]);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            mProgressDialog.dismiss();
-        }
     }
 
     private void editPasswordDialog(final String oldPass) {
@@ -533,6 +488,48 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 mColorSelection = -1;
             }
         }).show();
+    }
+
+    private static class MessengerHandler extends Handler {
+
+        private final Context mContext;
+
+        private MessengerHandler(Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.arg1 == 1 && mContext != null) {
+                Utils.toast(R.string.nothing_apply, mContext);
+            }
+        }
+    }
+
+    private class Execute extends AsyncTask<String, Void, Void> {
+        private ProgressDialog mProgressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgressDialog = new ProgressDialog(getActivity());
+            mProgressDialog.setMessage(getString(R.string.executing));
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            RootUtils.runCommand(params[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            mProgressDialog.dismiss();
+        }
     }
 
 }

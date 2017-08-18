@@ -119,11 +119,11 @@ public class RootUtils {
      */
     public static class SU {
 
+        private final boolean mRoot;
+        private final String mTag;
         private Process mProcess;
         private BufferedWriter mWriter;
         private BufferedReader mReader;
-        private final boolean mRoot;
-        private final String mTag;
         private boolean closed;
         private boolean denied;
         private boolean firstTry;

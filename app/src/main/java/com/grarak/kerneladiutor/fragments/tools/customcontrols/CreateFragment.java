@@ -48,6 +48,9 @@ import java.util.List;
 public class CreateFragment extends RecyclerViewFragment {
 
     private static final String SETTINGS_INTENT = "settings";
+    private ArrayList<Items.Setting> mSettings;
+    private HashMap<Items.Setting, EditTextView> mEditTextViews = new HashMap<>();
+    private HashMap<Items.Setting, CodeView> mCodeViews = new HashMap<>();
 
     public static CreateFragment newInstance(ArrayList<Items.Setting> settings) {
         Bundle args = new Bundle();
@@ -56,10 +59,6 @@ public class CreateFragment extends RecyclerViewFragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    private ArrayList<Items.Setting> mSettings;
-    private HashMap<Items.Setting, EditTextView> mEditTextViews = new HashMap<>();
-    private HashMap<Items.Setting, CodeView> mCodeViews = new HashMap<>();
 
     @Override
     protected boolean showViewPager() {

@@ -85,6 +85,19 @@ public class GPUFreq {
     private static final List<String> sScalingGovernors = new ArrayList<>();
     private static final List<String> sAvailableGovernors = new ArrayList<>();
     private static final List<String> sTunables = new ArrayList<>();
+    private static String BUSY;
+    private static String CUR_FREQ;
+    private static Integer CUR_FREQ_OFFSET;
+    private static List<Integer> AVAILABLE_FREQS;
+    private static String MAX_FREQ;
+    private static Integer MAX_FREQ_OFFSET;
+    private static String MIN_FREQ;
+    private static Integer MIN_FREQ_OFFSET;
+    private static String GOVERNOR;
+    private static String[] AVAILABLE_GOVERNORS;
+    private static Integer AVAILABLE_GOVERNORS_OFFSET;
+    private static String TUNABLES;
+    private static Integer[] AVAILABLE_2D_FREQS;
 
     static {
         sGpuBusys.add(KGSL3D0_GPUBUSY);
@@ -123,21 +136,6 @@ public class GPUFreq {
 
         sTunables.add(TUNABLES_OMAP);
     }
-
-    private static String BUSY;
-    private static String CUR_FREQ;
-    private static Integer CUR_FREQ_OFFSET;
-    private static List<Integer> AVAILABLE_FREQS;
-    private static String MAX_FREQ;
-    private static Integer MAX_FREQ_OFFSET;
-    private static String MIN_FREQ;
-    private static Integer MIN_FREQ_OFFSET;
-    private static String GOVERNOR;
-    private static String[] AVAILABLE_GOVERNORS;
-    private static Integer AVAILABLE_GOVERNORS_OFFSET;
-    private static String TUNABLES;
-
-    private static Integer[] AVAILABLE_2D_FREQS;
 
     public static String getTunables(String governor) {
         return Utils.strFormat(TUNABLES, governor);

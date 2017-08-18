@@ -24,7 +24,6 @@ import android.content.Context;
 import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.utils.root.Control;
-import com.grarak.kerneladiutor.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,8 @@ public class Sound {
     private static final List<String> sSpeakerGainFiles = new ArrayList<>();
     private static final List<String> sFKSCLimits = new ArrayList<>();
     private static final List<String> sEXSC1Limits = new ArrayList<>();
-	private static final List<String> sEXSC2Limits = new ArrayList<>();
+    private static final List<String> sEXSC2Limits = new ArrayList<>();
+    private static String SPEAKER_GAIN_FILE;
 
     static {
         sSpeakerGainFiles.add(FKSC_SPEAKER_GAIN);
@@ -73,15 +73,15 @@ public class Sound {
         }
     }
 
-    private static String SPEAKER_GAIN_FILE;
-
     /* Headset High Performance Mode */
     public static void enableHighPerfMode(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", HIGHPERF_MODE), HIGHPERF_MODE, context);
     }
+
     public static boolean isHighPerfModeEnabled() {
         return Utils.readFile(HIGHPERF_MODE).equals("1");
     }
+
     public static boolean hasHighPerfModeEnable() {
         return Utils.existFile(HIGHPERF_MODE);
     }
@@ -90,9 +90,11 @@ public class Sound {
     public static void enableCodecPowerGating(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", CODED_POWER_GATING), CODED_POWER_GATING, context);
     }
+
     public static boolean isCodecPowerGatingEnabled() {
         return Utils.readFile(CODED_POWER_GATING).equals("1");
     }
+
     public static boolean hasCodecPowerGatingEnable() {
         return Utils.existFile(CODED_POWER_GATING);
     }
@@ -101,12 +103,15 @@ public class Sound {
     public static void setFKSCVolumeGain(String value, Context context) {
         run(Control.write(value, FKSC_HEADPHONE_GAIN), FKSC_HEADPHONE_GAIN, context);
     }
+
     public static String getFKSCVolumeGain() {
         return Utils.readFile(FKSC_HEADPHONE_GAIN);
     }
+
     public static List<String> getFKSCVolumeGainLimits() {
         return sFKSCLimits;
     }
+
     public static boolean hasFKSCVolumeGain() {
         return Utils.existFile(FKSC_HEADPHONE_GAIN);
     }
@@ -114,12 +119,15 @@ public class Sound {
     public static void setFKSCEarpieceGain(String value, Context context) {
         run(Control.write(value, FKSC_EARPIECE_GAIN), FKSC_EARPIECE_GAIN, context);
     }
+
     public static String getFKSCEarpieceGain() {
         return Utils.readFile(FKSC_EARPIECE_GAIN);
     }
+
     public static List<String> getFKSCEarpieceGainLimits() {
         return sFKSCLimits;
     }
+
     public static boolean hasFKSCEarpieceGain() {
         return Utils.existFile(FKSC_EARPIECE_GAIN);
     }
@@ -127,12 +135,15 @@ public class Sound {
     public static void setFKSCMicrophoneGain(String value, Context context) {
         run(Control.write(value, FKSC_MICROPHONE_GAIN), FKSC_MICROPHONE_GAIN, context);
     }
+
     public static String getFKSCMicrophoneGain() {
         return Utils.readFile(FKSC_MICROPHONE_GAIN);
     }
+
     public static List<String> getFKSCMicrophoneGainLimits() {
         return sFKSCLimits;
     }
+
     public static boolean hasFKSCMicrophoneGain() {
         return Utils.existFile(FKSC_MICROPHONE_GAIN);
     }
@@ -145,6 +156,7 @@ public class Sound {
             run(Control.write(value, EXSC_HEADPHONE_GAIN), EXSC_HEADPHONE_GAIN, context);
         }
     }
+
     public static String getEXSCVolumeGain() {
         String value = Utils.readFile(EXSC_HEADPHONE_GAIN);
         int gain = Utils.strToInt(value.contains(" ") ? value.split(" ")[0] : value);
@@ -155,9 +167,11 @@ public class Sound {
         }
         return "";
     }
+
     public static List<String> getEXSCVolumeGainLimits() {
         return sEXSC2Limits;
     }
+
     public static boolean hasEXSCVolumeGain() {
         return Utils.existFile(EXSC_HEADPHONE_GAIN);
     }
@@ -165,12 +179,15 @@ public class Sound {
     public static void setEXSCEarpieceGain(String value, Context context) {
         run(Control.write(value, EXSC_EARPIECE_GAIN), EXSC_EARPIECE_GAIN, context);
     }
+
     public static String getEXSCEarpieceGain() {
         return Utils.readFile(EXSC_EARPIECE_GAIN);
     }
+
     public static List<String> getEXSCEarpieceGainLimits() {
         return sEXSC1Limits;
     }
+
     public static boolean hasEXSCEarpieceGain() {
         return Utils.existFile(EXSC_EARPIECE_GAIN);
     }
@@ -178,12 +195,15 @@ public class Sound {
     public static void setEXSCMicrophoneGain(String value, Context context) {
         run(Control.write(value, EXSC_MICROPHONE_GAIN), EXSC_MICROPHONE_GAIN, context);
     }
+
     public static String getEXSCMicrophoneGain() {
         return Utils.readFile(EXSC_MICROPHONE_GAIN);
     }
+
     public static List<String> getEXSCMicrophoneGainLimits() {
         return sEXSC1Limits;
     }
+
     public static boolean hasEXSCMicrophoneGain() {
         return Utils.existFile(EXSC_MICROPHONE_GAIN);
     }
@@ -199,6 +219,7 @@ public class Sound {
                 break;
         }
     }
+
     public static String getSpeakerGain() {
         switch (SPEAKER_GAIN_FILE) {
             case FKSC_SPEAKER_GAIN:
@@ -208,6 +229,7 @@ public class Sound {
         }
         return "";
     }
+
     public static List<String> getSpeakerGainLimits() {
         switch (SPEAKER_GAIN_FILE) {
             case FKSC_SPEAKER_GAIN:
@@ -217,6 +239,7 @@ public class Sound {
         }
         return new ArrayList<>();
     }
+
     public static boolean hasSpeakerGain() {
         if (SPEAKER_GAIN_FILE == null) {
             for (String file : sSpeakerGainFiles)
@@ -246,6 +269,7 @@ public class Sound {
 
                 hasSpeakerGain();
     }
+
     private static void run(String command, String id, Context context) {
         Control.runSetting(command, ApplyOnBootFragment.SOUND, id, context);
     }

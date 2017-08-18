@@ -41,6 +41,7 @@ public class S2s {
     private static final HashMap<String, List<Integer>> sFiles = new HashMap<>();
     private static final List<Integer> sS2s2Menu = new ArrayList<>();
     private static final List<Integer> sGenericMenu = new ArrayList<>();
+    private static String FILE;
 
     static {
         sS2s2Menu.add(R.string.s2s_right);
@@ -53,8 +54,6 @@ public class S2s {
         sFiles.put(S2S, sGenericMenu);
         sFiles.put(S2S_2, sS2s2Menu);
     }
-
-    private static String FILE;
 
     public static void set(int value, Context context) {
         run(Control.write(String.valueOf(value), FILE), FILE, context);

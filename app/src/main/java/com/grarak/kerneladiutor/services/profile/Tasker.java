@@ -38,14 +38,13 @@ import com.grarak.kerneladiutor.utils.root.RootUtils;
  */
 public class Tasker extends BroadcastReceiver {
 
-    private static final String TAG = Tasker.class.getSimpleName();
-
     public static final String EXTRA_BUNDLE = "com.twofortyfouram.locale.intent.extra.BUNDLE";
     public static final String EXTRA_STRING_BLURB = "com.twofortyfouram.locale.intent.extra.BLURB";
     public static final String ACTION_FIRE_SETTING = "com.twofortyfouram.locale.intent.action.FIRE_SETTING";
     public static final String BUNDLE_EXTRA_STRING_MESSAGE = "com.grarak.kerneladiutor.tasker.extra.STRING_MESSAGE";
     public static final String BUNDLE_EXTRA_INT_VERSION_CODE = "com.grarak.kerneladiutor.tasker.extra.INT_VERSION_CODE";
     public static final String DIVIDER = "wkefnewnfewp";
+    private static final String TAG = Tasker.class.getSimpleName();
 
     @Override
     public void onReceive(Context context, Intent intent) {

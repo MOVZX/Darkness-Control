@@ -39,6 +39,7 @@ public class Dt2w {
     private static final String LGE_TOUCH_CORE_DT2W = "/sys/module/lge_touch_core/parameters/doubletap_to_wake";
     private static final String LGE_TOUCH_GESTURE = "/sys/devices/virtual/input/lge_touch/touch_gesture";
     private static final String ANDROID_TOUCH_DT2W = "/sys/android_touch/doubletap2wake";
+    private static final String ANDROID_TOUCH_DT2W_VIBRATE = "/sys/android_touch/vib_strength";
     private static final String ANDROID_TOUCH2_DT2W = "/sys/android_touch2/doubletap2wake";
     private static final String TOUCH_PANEL_DT2W = "/proc/touchpanel/double_tap_enable";
     private static final String DT2W_WAKEUP_GESTURE = "/sys/devices/virtual/input/input1/wakeup_gesture";
@@ -46,12 +47,15 @@ public class Dt2w {
     private static final String DT2W_WAKE_GESTURE = "/sys/devices/platform/spi-tegra114.2/spi_master/spi2/spi2.0/input/input0/wake_gesture";
     private static final String DT2W_WAKE_GESTURE_2 = "/sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture";
     private static final String DT2W_FT5X06 = "/sys/bus/i2c/drivers/ft5x06_i2c/5-0038/d2w_switch";
-    private static final String LENOVO_DT2W= "/sys/lenovo_tp_gestures/tpd_suspend_status";
+    private static final String LENOVO_DT2W = "/sys/lenovo_tp_gestures/tpd_suspend_status";
 
     private static final HashMap<String, List<Integer>> sFiles = new HashMap<>();
     private static final List<Integer> sLgeTouchCoreMenu = new ArrayList<>();
     private static final List<Integer> sAndroidTouchMenu = new ArrayList<>();
     private static final List<Integer> sGenericMenu = new ArrayList<>();
+    private static final List<String> sDT2WVibLimits = new ArrayList<>();
+    private static final List<String> sDT2WVibFiles = new ArrayList<>();
+    private static String FILE;
 
     static {
         sLgeTouchCoreMenu.add(R.string.disabled);
@@ -81,7 +85,15 @@ public class Dt2w {
         sFiles.put(LENOVO_DT2W, sGenericMenu);
     }
 
-    private static String FILE;
+    static {
+        sDT2WVibFiles.add(ANDROID_TOUCH_DT2W_VIBRATE);
+    }
+
+    static {
+        for (int i = 0; i < 76; i++) {
+            sDT2WVibLimits.add(String.valueOf(i));
+        }
+    }
 
     public static void set(int value, Context context) {
         run(Control.write(String.valueOf(value), FILE), FILE, context);
@@ -109,6 +121,22 @@ public class Dt2w {
             }
         }
         return FILE != null;
+    }
+
+    public static void setDT2WVib(String value, Context context) {
+        run(Control.write(value, ANDROID_TOUCH_DT2W_VIBRATE), ANDROID_TOUCH_DT2W_VIBRATE, context);
+    }
+
+    public static String getDT2WVib() {
+        return Utils.readFile(ANDROID_TOUCH_DT2W_VIBRATE);
+    }
+
+    public static List<String> getDT2WVibLimits() {
+        return sDT2WVibLimits;
+    }
+
+    public static boolean DT2WVib() {
+        return Utils.existFile(ANDROID_TOUCH_DT2W_VIBRATE);
     }
 
     private static void run(String command, String id, Context context) {

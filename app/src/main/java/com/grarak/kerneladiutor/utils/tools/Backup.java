@@ -33,15 +33,6 @@ import java.io.File;
 public class Backup {
 
     private static final String TAG = Backup.class.getSimpleName();
-
-    private static String boot;
-    private static String recovery;
-    private static String fota;
-
-    public enum PARTITION {
-        BOOT, RECOVERY, FOTA
-    }
-
     private static final String[] Boot = {
             "/dev/block/bootdevice/by-name/boot",
             "/dev/block/platform/omap/omap_hsmmc.0/by-name/boot",
@@ -58,7 +49,6 @@ public class Backup {
             "/dev/bootimg",
             "/dev/boot"
     };
-
     private static final String[] Recovery = {
             "/dev/block/bootdevice/by-name/recovery",
             "/dev/block/platform/omap/omap_hsmmc.0/by-name/recovery",
@@ -85,10 +75,12 @@ public class Backup {
             "/dev/block/acta",
             "/dev/recovery"
     };
-
     private static final String[] Fota = {
             "/dev/block/platform/msm_sdcc.1/by-name/FOTAKernel"
     };
+    private static String boot;
+    private static String recovery;
+    private static String fota;
 
     public static void restore(File file, PARTITION partition_type) {
         String sdcard = Environment.getExternalStorageDirectory().toString();
@@ -180,6 +172,10 @@ public class Backup {
 
     public static boolean hasBackup() {
         return getBootPartition() != null || getRecoveryPartition() != null || getFotaPartition() != null;
+    }
+
+    public enum PARTITION {
+        BOOT, RECOVERY, FOTA
     }
 
 }

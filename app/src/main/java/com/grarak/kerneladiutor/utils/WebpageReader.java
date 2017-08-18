@@ -36,16 +36,10 @@ import java.net.URL;
 public class WebpageReader extends ThreadTask<String, String> {
 
     private static final String TAG = WebpageReader.class.getSimpleName();
-
-    public interface WebpageCallback {
-        void onCallback(String raw, CharSequence html);
-    }
-
     private final WebpageCallback mWebpageCallback;
     private HttpURLConnection mConnection;
     private boolean mConnected;
     private boolean mCancelled;
-
     public WebpageReader(Activity activity, WebpageCallback webpageCallback) {
         super(activity);
         this.mWebpageCallback = webpageCallback;
@@ -114,6 +108,10 @@ public class WebpageReader extends ThreadTask<String, String> {
 
     public void cancel() {
         mCancelled = true;
+    }
+
+    public interface WebpageCallback {
+        void onCallback(String raw, CharSequence html);
     }
 
 }

@@ -23,6 +23,7 @@ import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.fragments.BaseFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
+import com.grarak.kerneladiutor.utils.kernel.gpu.AdrenoBoost;
 import com.grarak.kerneladiutor.utils.kernel.gpu.AdrenoIdler;
 import com.grarak.kerneladiutor.utils.kernel.gpu.GPUFreq;
 import com.grarak.kerneladiutor.utils.kernel.gpu.SimpleGPU;
@@ -66,6 +67,9 @@ public class GPUFragment extends RecyclerViewFragment {
         governorInit(items);
         if (SimpleGPU.supported()) {
             simpleGpuInit(items);
+        }
+        if (AdrenoBoost.supported()) {
+            adrenoboostInit(items);
         }
         if (AdrenoIdler.supported()) {
             adrenoIdlerInit(items);
@@ -344,6 +348,39 @@ public class GPUFragment extends RecyclerViewFragment {
         if (adrenoIdler.size() > 0) {
             items.add(title);
             items.addAll(adrenoIdler);
+        }
+    }
+
+    private void adrenoboostInit(List<RecyclerViewItem> items) {
+        List<RecyclerViewItem> adrenoboost = new ArrayList<>();
+
+        if (AdrenoBoost.supported()) {
+            List<String> list = new ArrayList<>();
+            list.add("Off");
+            list.add("Low");
+            list.add("Medium");
+            list.add("High");
+            SeekBarView boost = new SeekBarView();
+            boost.setTitle(getString(R.string.adrenoboost));
+            boost.setSummary(getString(R.string.adrenoboost_summary));
+            boost.setItems(list);
+            boost.setProgress(AdrenoBoost.getAdrenoBoost());
+            boost.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AdrenoBoost.setAdrenoBoost(position, getActivity());
+                }
+            });
+
+            adrenoboost.add(boost);
+        }
+
+        if (adrenoboost.size() > 0) {
+            items.addAll(adrenoboost);
         }
     }
 

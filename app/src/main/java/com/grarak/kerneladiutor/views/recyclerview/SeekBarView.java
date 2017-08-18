@@ -34,20 +34,12 @@ import java.util.List;
  */
 public class SeekBarView extends RecyclerViewItem {
 
-    public interface OnSeekBarListener {
-        void onStop(SeekBarView seekBarView, int position, String value);
-
-        void onMove(SeekBarView seekBarView, int position, String value);
-    }
-
     private AppCompatTextView mTitle;
     private AppCompatTextView mSummary;
     private AppCompatTextView mValue;
     private DiscreteSeekBar mSeekBar;
-
     private CharSequence mTitleText;
     private CharSequence mSummaryText;
-
     private int mMin;
     private int mMax = 100;
     private int mProgress;
@@ -55,7 +47,6 @@ public class SeekBarView extends RecyclerViewItem {
     private List<String> mItems;
     private int mOffset = 1;
     private boolean mEnabled = true;
-
     private OnSeekBarListener mOnSeekBarListener;
 
     @Override
@@ -132,11 +123,6 @@ public class SeekBarView extends RecyclerViewItem {
         refresh();
     }
 
-    public void setProgress(int progress) {
-        mProgress = progress;
-        refresh();
-    }
-
     public void setMin(int min) {
         mMin = min;
         mItems = null;
@@ -173,6 +159,11 @@ public class SeekBarView extends RecyclerViewItem {
 
     public int getProgress() {
         return mProgress;
+    }
+
+    public void setProgress(int progress) {
+        mProgress = progress;
+        refresh();
     }
 
     public void setOnSeekBarListener(OnSeekBarListener onSeekBarListener) {
@@ -214,5 +205,11 @@ public class SeekBarView extends RecyclerViewItem {
                 }
             }
         }
+    }
+
+    public interface OnSeekBarListener {
+        void onStop(SeekBarView seekBarView, int position, String value);
+
+        void onMove(SeekBarView seekBarView, int position, String value);
     }
 }

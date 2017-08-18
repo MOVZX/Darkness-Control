@@ -67,6 +67,10 @@ public class Calibration {
     private static final List<String> sColors = new ArrayList<>();
     private static final List<String> sColorEnables = new ArrayList<>();
     private static final List<String> sNewKCAL = new ArrayList<>();
+    private static String SRGB;
+    private static String COLOR;
+    private static String COLOR_ENABLE;
+    private static boolean HBM_NEW;
 
     static {
         sSRGB.add("/sys/class/graphics/fb0/SRGB");
@@ -91,13 +95,6 @@ public class Calibration {
         sNewKCAL.add(KCAL_CTRL_VAL);
         sNewKCAL.add(KCAL_CTRL_CONT);
     }
-
-    private static String SRGB;
-
-    private static String COLOR;
-    private static String COLOR_ENABLE;
-
-    private static boolean HBM_NEW;
 
     public static void enableSRGB(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", SRGB), SRGB, context);

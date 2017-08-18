@@ -47,10 +47,7 @@ import com.grarak.kerneladiutor.views.recyclerview.XYGraphView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by willi on 01.05.16.

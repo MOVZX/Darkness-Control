@@ -38,13 +38,12 @@ public class T2w {
     private static final String TOUCHWAKE_T2W = "/sys/class/misc/touchwake/enabled";
 
     private static final List<String> sFiles = new ArrayList<>();
+    private static String FILE;
 
     static {
         sFiles.add(TSP_T2W);
         sFiles.add(TOUCHWAKE_T2W);
     }
-
-    private static String FILE;
 
     public static void set(int value, Context context) {
         if (FILE.equals(TSP_T2W)) {

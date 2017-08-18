@@ -35,6 +35,164 @@ import java.util.regex.Pattern;
  */
 public class Device {
 
+    private static HashMap<String, BoardFormatter> sBoardFormatters = new HashMap<>();
+    private static HashMap<String, String> sBoardAliases = new HashMap<>();
+
+    static {
+        sBoardFormatters.put(".*msm.+.\\d+.*", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return "msm" + board.split("msm")[1].trim().split(" ")[0];
+            }
+        });
+
+        sBoardFormatters.put("mt\\d*.", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return "mt" + board.split("mt")[1].trim().split(" ")[0];
+            }
+        });
+
+        sBoardFormatters.put(".*apq.+.\\d+.*", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return "apq" + board.split("apq")[1].trim().split(" ")[0];
+            }
+        });
+
+        sBoardFormatters.put(".*omap+\\d.*", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                Matcher matcher = Pattern.compile("omap+\\d").matcher(board);
+                if (matcher.find()) {
+                    return matcher.group();
+                }
+                return null;
+            }
+        });
+
+        sBoardFormatters.put("sun+\\d.", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return board;
+            }
+        });
+
+        sBoardFormatters.put("spyder", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return "omap4";
+            }
+        });
+        sBoardFormatters.put("tuna", new BoardFormatter() {
+            @Override
+            public String format(String board) {
+                return "omap4";
+            }
+        });
+
+        sBoardAliases.put("msm8994v2.1", "msm8994");
+        sBoardAliases.put("msm8974pro.*", "msm8974pro");
+    }
+
+    public static String getKernelVersion(boolean extended) {
+        return getKernelVersion(extended, true);
+    }
+
+    public static String getKernelVersion(boolean extended, boolean root) {
+        return extended ? Utils.readFile("/proc/version", root) : RootUtils.runCommand("uname -r");
+    }
+
+    public static String getArchitecture() {
+        return RootUtils.runCommand("uname -m");
+    }
+
+    public static String getHardware() {
+        return Build.HARDWARE;
+    }
+
+    public static String getBootloader() {
+        return Build.BOOTLOADER;
+    }
+
+    public static String getBaseBand() {
+        return Build.getRadioVersion();
+    }
+
+    public static String getCodename() {
+        String codeName = "";
+        Field[] fields = Build.VERSION_CODES.class.getFields();
+        for (Field field : fields) {
+            String fieldName = field.getName();
+            int fieldValue = -1;
+
+            try {
+                fieldValue = field.getInt(new Object());
+            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException ignored) {
+            }
+
+            if (fieldValue == Build.VERSION.SDK_INT) {
+                codeName = fieldName;
+                break;
+            }
+        }
+        return codeName;
+    }
+
+    public static int getSDK() {
+        return Build.VERSION.SDK_INT;
+    }
+
+    public static String getBoard() {
+        return getBoard(true);
+    }
+
+    public static String getBoard(boolean root) {
+        String hardware = CPUInfo.getVendor(root).toLowerCase();
+        String ret = null;
+        for (String boardregex : sBoardFormatters.keySet()) {
+            if (hardware.matches(boardregex)) {
+                ret = sBoardFormatters.get(boardregex).format(hardware);
+            }
+        }
+        if (ret != null) {
+            for (String alias : sBoardAliases.keySet()) {
+                if (ret.matches(alias)) {
+                    ret = sBoardAliases.get(alias);
+                }
+            }
+        }
+        return ret != null ? ret : Build.BOARD.toLowerCase();
+    }
+
+    public static String getBuildDisplayId() {
+        return Build.DISPLAY;
+    }
+
+    public static String getFingerprint() {
+        return Build.FINGERPRINT;
+    }
+
+    public static String getVersion() {
+        return Build.VERSION.RELEASE;
+    }
+
+    public static String getVendor() {
+        return Build.MANUFACTURER;
+    }
+
+    public static String getDeviceName() {
+        return Build.DEVICE;
+    }
+
+    public static String getModel() {
+        return Build.MODEL;
+    }
+
+    private interface BoardFormatter {
+        String format(String board);
+    }
+
     public static class Input {
 
         private static final String BUS_INPUT = "/proc/bus/input/devices";
@@ -269,14 +427,13 @@ public class Device {
 
     public static class TrustZone {
         private static HashMap<String, String> PARTITIONS = new HashMap<>();
+        private static String PARTITION;
+        private static String VERSION;
 
         static {
             PARTITIONS.put("/dev/block/platform/msm_sdcc.1/by-name/tz", "QC_IMAGE_VERSION_STRING=");
             PARTITIONS.put("/dev/block/bootdevice/by-name/tz", "QC_IMAGE_VERSION_STRING=");
         }
-
-        private static String PARTITION;
-        private static String VERSION;
 
         public static String getVersion() {
             if (PARTITION == null) {
@@ -305,164 +462,6 @@ public class Device {
             }
             return false;
         }
-    }
-
-    public static String getKernelVersion(boolean extended) {
-        return getKernelVersion(extended, true);
-    }
-
-    public static String getKernelVersion(boolean extended, boolean root) {
-        return extended ? Utils.readFile("/proc/version", root) : RootUtils.runCommand("uname -r");
-    }
-
-    public static String getArchitecture() {
-        return RootUtils.runCommand("uname -m");
-    }
-
-    public static String getHardware() {
-        return Build.HARDWARE;
-    }
-
-    public static String getBootloader() {
-        return Build.BOOTLOADER;
-    }
-
-    public static String getBaseBand() {
-        return Build.getRadioVersion();
-    }
-
-    public static String getCodename() {
-        String codeName = "";
-        Field[] fields = Build.VERSION_CODES.class.getFields();
-        for (Field field : fields) {
-            String fieldName = field.getName();
-            int fieldValue = -1;
-
-            try {
-                fieldValue = field.getInt(new Object());
-            } catch (IllegalArgumentException | IllegalAccessException | NullPointerException ignored) {
-            }
-
-            if (fieldValue == Build.VERSION.SDK_INT) {
-                codeName = fieldName;
-                break;
-            }
-        }
-        return codeName;
-    }
-
-    public static int getSDK() {
-        return Build.VERSION.SDK_INT;
-    }
-
-    public static String getBoard() {
-        return getBoard(true);
-    }
-
-    private interface BoardFormatter {
-        String format(String board);
-    }
-
-    private static HashMap<String, BoardFormatter> sBoardFormatters = new HashMap<>();
-    private static HashMap<String, String> sBoardAliases = new HashMap<>();
-
-    static {
-        sBoardFormatters.put(".*msm.+.\\d+.*", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return "msm" + board.split("msm")[1].trim().split(" ")[0];
-            }
-        });
-
-        sBoardFormatters.put("mt\\d*.", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return "mt" + board.split("mt")[1].trim().split(" ")[0];
-            }
-        });
-
-        sBoardFormatters.put(".*apq.+.\\d+.*", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return "apq" + board.split("apq")[1].trim().split(" ")[0];
-            }
-        });
-
-        sBoardFormatters.put(".*omap+\\d.*", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                Matcher matcher = Pattern.compile("omap+\\d").matcher(board);
-                if (matcher.find()) {
-                    return matcher.group();
-                }
-                return null;
-            }
-        });
-
-        sBoardFormatters.put("sun+\\d.", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return board;
-            }
-        });
-
-        sBoardFormatters.put("spyder", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return "omap4";
-            }
-        });
-        sBoardFormatters.put("tuna", new BoardFormatter() {
-            @Override
-            public String format(String board) {
-                return "omap4";
-            }
-        });
-
-        sBoardAliases.put("msm8994v2.1", "msm8994");
-        sBoardAliases.put("msm8974pro.*", "msm8974pro");
-    }
-
-    public static String getBoard(boolean root) {
-        String hardware = CPUInfo.getVendor(root).toLowerCase();
-        String ret = null;
-        for (String boardregex : sBoardFormatters.keySet()) {
-            if (hardware.matches(boardregex)) {
-                ret = sBoardFormatters.get(boardregex).format(hardware);
-            }
-        }
-        if (ret != null) {
-            for (String alias : sBoardAliases.keySet()) {
-                if (ret.matches(alias)) {
-                    ret = sBoardAliases.get(alias);
-                }
-            }
-        }
-        return ret != null ? ret : Build.BOARD.toLowerCase();
-    }
-
-    public static String getBuildDisplayId() {
-        return Build.DISPLAY;
-    }
-
-    public static String getFingerprint() {
-        return Build.FINGERPRINT;
-    }
-
-    public static String getVersion() {
-        return Build.VERSION.RELEASE;
-    }
-
-    public static String getVendor() {
-        return Build.MANUFACTURER;
-    }
-
-    public static String getDeviceName() {
-        return Build.DEVICE;
-    }
-
-    public static String getModel() {
-        return Build.MODEL;
     }
 
 }

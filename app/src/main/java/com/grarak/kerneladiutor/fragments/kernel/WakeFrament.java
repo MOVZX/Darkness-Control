@@ -83,6 +83,9 @@ public class WakeFrament extends RecyclerViewFragment {
         if (Misc.hasPowerKeySuspend()) {
             powerKeySuspendInit(items);
         }
+        if (Dt2w.supported()) {
+            dT2WVibInit(items);
+        }
         areaInit(items);
         vibrationInit(items);
     }
@@ -101,6 +104,26 @@ public class WakeFrament extends RecyclerViewFragment {
         });
 
         items.add(dt2w);
+    }
+
+    private void dT2WVibInit(List<RecyclerViewItem> items) {
+        SeekBarView dT2WVib = new SeekBarView();
+        dT2WVib.setTitle(getString(R.string.dt2wVib));
+        dT2WVib.setSummary(getString(R.string.dt2wVib_summary));
+        dT2WVib.setItems(Dt2w.getDT2WVibLimits());
+        dT2WVib.setProgress(Dt2w.getDT2WVibLimits().indexOf(Dt2w.getDT2WVib()));
+        dT2WVib.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                Dt2w.setDT2WVib(value, getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        items.add(dT2WVib);
     }
 
     private void s2wInit(List<RecyclerViewItem> items) {

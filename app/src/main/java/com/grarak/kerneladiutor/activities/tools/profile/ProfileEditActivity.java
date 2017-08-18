@@ -90,6 +90,11 @@ public class ProfileEditActivity extends BaseActivity {
 
     public static class ProfileEditFragment extends RecyclerViewFragment {
 
+        private Profiles mProfiles;
+        private Profiles.ProfileItem mItem;
+        private AsyncTask<Void, Void, List<RecyclerViewItem>> mLoader;
+        private Dialog mDeleteDialog;
+
         public static ProfileEditFragment newInstance(int position) {
             Bundle args = new Bundle();
             args.putInt(POSITION_INTENT, position);
@@ -97,12 +102,6 @@ public class ProfileEditActivity extends BaseActivity {
             fragment.setArguments(args);
             return fragment;
         }
-
-        private Profiles mProfiles;
-        private Profiles.ProfileItem mItem;
-        private AsyncTask<Void, Void, List<RecyclerViewItem>> mLoader;
-
-        private Dialog mDeleteDialog;
 
         @Override
         protected boolean showViewPager() {

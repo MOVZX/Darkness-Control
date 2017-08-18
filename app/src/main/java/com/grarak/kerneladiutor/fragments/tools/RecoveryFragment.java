@@ -262,15 +262,21 @@ public class RecoveryFragment extends RecyclerViewFragment {
         mRebootDialog.show();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCommands.clear();
+    }
+
     public static class OptionsFragment extends BaseFragment {
+        private RecoveryFragment mRecoveryFragment;
+        private int mRecoveryOption;
+
         public static OptionsFragment newInstance(RecoveryFragment recoveryFragment) {
             OptionsFragment fragment = new OptionsFragment();
             fragment.mRecoveryFragment = recoveryFragment;
             return fragment;
         }
-
-        private RecoveryFragment mRecoveryFragment;
-        private int mRecoveryOption;
 
         @Nullable
         @Override
@@ -331,11 +337,5 @@ public class RecoveryFragment extends RecyclerViewFragment {
 
             return rootView;
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCommands.clear();
     }
 }

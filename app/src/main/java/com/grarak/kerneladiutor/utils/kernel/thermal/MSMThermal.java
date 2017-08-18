@@ -77,6 +77,9 @@ public class MSMThermal {
     private static final HashMap<String, Integer> sTempLimitOffset = new HashMap<>();
     private static final HashMap<String, Integer> sTempLimitMin = new HashMap<>();
     private static final HashMap<String, Integer> sTempLimitMax = new HashMap<>();
+    private static String PARENT;
+    private static String CORE_CONTROL;
+    private static String TEMP_LIMIT;
 
     static {
         sTempLimitOffset.put(MSM_THERMAL_THROTTLE_TEMP, 1);
@@ -94,10 +97,6 @@ public class MSMThermal {
         sTempLimitMax.put(MSM_THERMAL_TEMP_THRESHOLD, 100);
         sTempLimitMax.put(TEMPCONTROL_TEMP_LIMIT, 80);
     }
-
-    private static String PARENT;
-    private static String CORE_CONTROL;
-    private static String TEMP_LIMIT;
 
     public static void setShutdownTemp(int value, Context context) {
         run(Control.write(String.valueOf(value), CONF_SHUTDOWN_TEMP), CONF_SHUTDOWN_TEMP, context);

@@ -98,13 +98,13 @@ public class EditTextView extends RecyclerViewItem {
         refresh();
     }
 
+    public CharSequence getText() {
+        return mEditTextView == null ? null : mEditTextView.getText();
+    }
+
     public void setText(CharSequence text) {
         mText = text;
         refresh();
-    }
-
-    public CharSequence getText() {
-        return mEditTextView == null ? null : mEditTextView.getText();
     }
 
     @Override

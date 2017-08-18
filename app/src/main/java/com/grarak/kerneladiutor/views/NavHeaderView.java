@@ -52,15 +52,8 @@ import io.codetail.animation.ViewAnimationUtils;
  */
 public class NavHeaderView extends LinearLayout {
 
-    private interface Callback {
-        void setImage(Uri uri) throws IOException;
-
-        void animate();
-    }
-
     private static Callback sCallback;
     private ImageView mImage;
-
     public NavHeaderView(Context context) {
         this(context, null);
     }
@@ -128,39 +121,16 @@ public class NavHeaderView extends LinearLayout {
         });
     }
 
-    public static class MainHeaderActivity extends Activity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            Intent intent;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            } else {
-                intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-            }
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), 0);
+    private static Bitmap uriToBitmap(Uri uri, Context context) throws IOException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            context.getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        InputStream inputStream = context.getContentResolver().openInputStream(uri);
+        if (inputStream != null) {
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+            return bitmap;
         }
-
-        @Override
-        protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK && requestCode == 0)
-                try {
-                    Uri selectedImageUri = data.getData();
-                    sCallback.setImage(selectedImageUri);
-                    Prefs.saveString("previewpicture", selectedImageUri.toString(), this);
-                    sCallback.animate();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.toast(R.string.went_wrong, MainHeaderActivity.this);
-                }
-            finish();
-        }
-
+        throw new IOException();
     }
 
     public void animateBg() {
@@ -196,16 +166,45 @@ public class NavHeaderView extends LinearLayout {
         }
     }
 
-    private static Bitmap uriToBitmap(Uri uri, Context context) throws IOException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            context.getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        InputStream inputStream = context.getContentResolver().openInputStream(uri);
-        if (inputStream != null) {
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            inputStream.close();
-            return bitmap;
+    private interface Callback {
+        void setImage(Uri uri) throws IOException;
+
+        void animate();
+    }
+
+    public static class MainHeaderActivity extends Activity {
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            Intent intent;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            } else {
+                intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+            }
+            intent.setType("image/*");
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), 0);
         }
-        throw new IOException();
+
+        @Override
+        protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == RESULT_OK && requestCode == 0)
+                try {
+                    Uri selectedImageUri = data.getData();
+                    sCallback.setImage(selectedImageUri);
+                    Prefs.saveString("previewpicture", selectedImageUri.toString(), this);
+                    sCallback.animate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Utils.toast(R.string.went_wrong, MainHeaderActivity.this);
+                }
+            finish();
+        }
+
     }
 
 }

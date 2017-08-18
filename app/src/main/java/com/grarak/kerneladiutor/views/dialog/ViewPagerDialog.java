@@ -41,15 +41,15 @@ import java.util.List;
 
 public class ViewPagerDialog extends DialogFragment {
 
+    private int mHeight;
+    private List<Fragment> mFragments;
+
     public static ViewPagerDialog newInstance(int height, List<Fragment> fragments) {
         ViewPagerDialog fragment = new ViewPagerDialog();
         fragment.mHeight = height;
         fragment.mFragments = fragments;
         return fragment;
     }
-
-    private int mHeight;
-    private List<Fragment> mFragments;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -85,6 +85,16 @@ public class Monitor extends Service {
             }
         }
     };
+    private IMonitor.Stub mBinder = new IMonitor.Stub() {
+        @Override
+        public void onSettingsChange() throws RemoteException {
+            if (mTimes != null) {
+                mTimes.clear();
+                mLevel = 0;
+                mTime = 0;
+            }
+        }
+    };
 
     private void postCreate(final Long[] times) {
         if (mLevel < 15 || !Prefs.getBoolean("data_sharing", true, this)) return;
@@ -133,17 +143,6 @@ public class Monitor extends Service {
             }
         }).start();
     }
-
-    private IMonitor.Stub mBinder = new IMonitor.Stub() {
-        @Override
-        public void onSettingsChange() throws RemoteException {
-            if (mTimes != null) {
-                mTimes.clear();
-                mLevel = 0;
-                mTime = 0;
-            }
-        }
-    };
 
     @Nullable
     @Override

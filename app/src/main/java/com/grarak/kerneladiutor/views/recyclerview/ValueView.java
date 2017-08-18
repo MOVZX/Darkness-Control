@@ -57,11 +57,6 @@ public abstract class ValueView extends RecyclerViewItem {
         super.onCreateView(view);
     }
 
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        refresh();
-    }
-
     public void setSummary(CharSequence summary) {
         mSummary = summary;
         refresh();
@@ -72,17 +67,22 @@ public abstract class ValueView extends RecyclerViewItem {
         refresh();
     }
 
-    public void setValue(@StringRes int value) {
-        mValuesRes = value;
-        refresh();
-    }
-
     public CharSequence getTitle() {
         return mTitle;
     }
 
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        refresh();
+    }
+
     public String getValue() {
         return mValue;
+    }
+
+    public void setValue(@StringRes int value) {
+        mValuesRes = value;
+        refresh();
     }
 
     @Override

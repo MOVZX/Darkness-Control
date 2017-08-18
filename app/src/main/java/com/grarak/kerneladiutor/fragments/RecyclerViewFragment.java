@@ -111,6 +111,13 @@ public abstract class RecyclerViewFragment extends BaseFragment {
     private TextView mForegroundText;
     private float mForegroundHeight;
     private CharSequence mForegroundStrText;
+    private Runnable mRefresh = new Runnable() {
+        @Override
+        public void run() {
+            refresh();
+            mHandler.postDelayed(this, 1000);
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -499,140 +506,6 @@ public abstract class RecyclerViewFragment extends BaseFragment {
         }
     }
 
-    public static class ViewPagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> mFragments;
-
-        public ViewPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragments) {
-            super(fragmentManager);
-            mFragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments == null ? 0 : mFragments.size();
-        }
-    }
-
-    private class Scroller extends RecyclerView.OnScrollListener {
-
-        private int mScrollDistance;
-        private int mAppBarLayoutDistance;
-        private boolean mFade = true;
-        private ValueAnimator mAlphaAnimator;
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            View firstItem = mRecyclerView.getChildAt(0);
-            if (firstItem == null) {
-                if (mRecyclerViewAdapter != null) {
-                    firstItem = mRecyclerViewAdapter.getFirstItem();
-                }
-                if (firstItem == null) {
-                    return;
-                }
-            }
-
-            mScrollDistance = -firstItem.getTop() + mRecyclerView.getPaddingTop();
-
-            int appBarHeight = 0;
-            if (mAppBarLayout != null) {
-                appBarHeight = mAppBarLayout.getHeight();
-            }
-
-            if (mScrollDistance > mViewPagerParent.getHeight() - appBarHeight) {
-                mAppBarLayoutDistance += dy;
-                fadeAppBarLayout(false);
-                if (mTopFab != null && showTopFab()) {
-                    mTopFab.hide();
-                }
-            } else {
-                fadeAppBarLayout(true);
-                if (mTopFab != null && showTopFab()) {
-                    mTopFab.show();
-                }
-            }
-
-            if (mAppBarLayout != null) {
-                if (mAppBarLayoutDistance > mAppBarLayout.getHeight()) {
-                    mAppBarLayoutDistance = mAppBarLayout.getHeight();
-                } else if (mAppBarLayoutDistance < 0) {
-                    mAppBarLayoutDistance = 0;
-                }
-                mAppBarLayout.setTranslationY(-mAppBarLayoutDistance);
-            }
-
-            mViewPagerParent.setTranslationY(-mScrollDistance);
-            if (mTopFab != null) {
-                mTopFab.setTranslationY(-mScrollDistance);
-            }
-
-            if (showBottomFab() && autoHideBottomFab()) {
-                if (dy <= 0) {
-                    if (mBottomFab.getVisibility() != View.VISIBLE) {
-                        mBottomFab.show();
-                    }
-                } else if (mBottomFab.getVisibility() == View.VISIBLE) {
-                    mBottomFab.hide();
-                }
-            }
-        }
-
-        private void fadeAppBarLayout(boolean fade) {
-            if (mFade != fade) {
-                mFade = fade;
-
-                if (mAlphaAnimator != null) {
-                    mAlphaAnimator.cancel();
-                }
-
-                mAlphaAnimator = ValueAnimator.ofFloat(fade ? 1f : 0f, fade ? 0f : 1f);
-                mAlphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                    @Override
-                    public void onAnimationUpdate(ValueAnimator animation) {
-                        setAppBarLayoutAlpha(Math.round(255 * (float) animation.getAnimatedValue()));
-                    }
-                });
-                mAlphaAnimator.addListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        mAlphaAnimator = null;
-                    }
-                });
-                mAlphaAnimator.start();
-            }
-        }
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-
-            if (mAppBarLayout == null || newState != 0 || mAppBarLayoutDistance == 0
-                    || (mAppBarLayoutDistance == mAppBarLayout.getHeight() && mScrollDistance != 0)) {
-                return;
-            }
-
-            boolean show = mAppBarLayoutDistance < mAppBarLayout.getHeight() * 0.5f
-                    || mScrollDistance <= mViewPagerParent.getHeight();
-            ValueAnimator animator = ValueAnimator.ofInt(mAppBarLayoutDistance, show ? 0 : mAppBarLayout.getHeight());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    mAppBarLayoutDistance = (int) animation.getAnimatedValue();
-                    mAppBarLayout.setTranslationY(-mAppBarLayoutDistance);
-                }
-            });
-            animator.start();
-        }
-    }
-
     protected void showProgress() {
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -881,12 +754,138 @@ public abstract class RecyclerViewFragment extends BaseFragment {
     protected void refresh() {
     }
 
-    private Runnable mRefresh = new Runnable() {
-        @Override
-        public void run() {
-            refresh();
-            mHandler.postDelayed(this, 1000);
+    public static class ViewPagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> mFragments;
+
+        public ViewPagerAdapter(FragmentManager fragmentManager, List<Fragment> fragments) {
+            super(fragmentManager);
+            mFragments = fragments;
         }
-    };
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments == null ? 0 : mFragments.size();
+        }
+    }
+
+    private class Scroller extends RecyclerView.OnScrollListener {
+
+        private int mScrollDistance;
+        private int mAppBarLayoutDistance;
+        private boolean mFade = true;
+        private ValueAnimator mAlphaAnimator;
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            View firstItem = mRecyclerView.getChildAt(0);
+            if (firstItem == null) {
+                if (mRecyclerViewAdapter != null) {
+                    firstItem = mRecyclerViewAdapter.getFirstItem();
+                }
+                if (firstItem == null) {
+                    return;
+                }
+            }
+
+            mScrollDistance = -firstItem.getTop() + mRecyclerView.getPaddingTop();
+
+            int appBarHeight = 0;
+            if (mAppBarLayout != null) {
+                appBarHeight = mAppBarLayout.getHeight();
+            }
+
+            if (mScrollDistance > mViewPagerParent.getHeight() - appBarHeight) {
+                mAppBarLayoutDistance += dy;
+                fadeAppBarLayout(false);
+                if (mTopFab != null && showTopFab()) {
+                    mTopFab.hide();
+                }
+            } else {
+                fadeAppBarLayout(true);
+                if (mTopFab != null && showTopFab()) {
+                    mTopFab.show();
+                }
+            }
+
+            if (mAppBarLayout != null) {
+                if (mAppBarLayoutDistance > mAppBarLayout.getHeight()) {
+                    mAppBarLayoutDistance = mAppBarLayout.getHeight();
+                } else if (mAppBarLayoutDistance < 0) {
+                    mAppBarLayoutDistance = 0;
+                }
+                mAppBarLayout.setTranslationY(-mAppBarLayoutDistance);
+            }
+
+            mViewPagerParent.setTranslationY(-mScrollDistance);
+            if (mTopFab != null) {
+                mTopFab.setTranslationY(-mScrollDistance);
+            }
+
+            if (showBottomFab() && autoHideBottomFab()) {
+                if (dy <= 0) {
+                    if (mBottomFab.getVisibility() != View.VISIBLE) {
+                        mBottomFab.show();
+                    }
+                } else if (mBottomFab.getVisibility() == View.VISIBLE) {
+                    mBottomFab.hide();
+                }
+            }
+        }
+
+        private void fadeAppBarLayout(boolean fade) {
+            if (mFade != fade) {
+                mFade = fade;
+
+                if (mAlphaAnimator != null) {
+                    mAlphaAnimator.cancel();
+                }
+
+                mAlphaAnimator = ValueAnimator.ofFloat(fade ? 1f : 0f, fade ? 0f : 1f);
+                mAlphaAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        setAppBarLayoutAlpha(Math.round(255 * (float) animation.getAnimatedValue()));
+                    }
+                });
+                mAlphaAnimator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        mAlphaAnimator = null;
+                    }
+                });
+                mAlphaAnimator.start();
+            }
+        }
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+
+            if (mAppBarLayout == null || newState != 0 || mAppBarLayoutDistance == 0
+                    || (mAppBarLayoutDistance == mAppBarLayout.getHeight() && mScrollDistance != 0)) {
+                return;
+            }
+
+            boolean show = mAppBarLayoutDistance < mAppBarLayout.getHeight() * 0.5f
+                    || mScrollDistance <= mViewPagerParent.getHeight();
+            ValueAnimator animator = ValueAnimator.ofInt(mAppBarLayoutDistance, show ? 0 : mAppBarLayout.getHeight());
+            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mAppBarLayoutDistance = (int) animation.getAnimatedValue();
+                    mAppBarLayout.setTranslationY(-mAppBarLayoutDistance);
+                }
+            });
+            animator.start();
+        }
+    }
 
 }

@@ -35,10 +35,6 @@ import java.util.List;
  */
 public class SelectView extends ValueView {
 
-    public interface OnItemSelected {
-        void onItemSelected(SelectView selectView, int position, String item);
-    }
-
     private View mView;
     private OnItemSelected mOnItemSelected;
     private Dialog mDialog;
@@ -115,5 +111,9 @@ public class SelectView extends ValueView {
                 }
             });
         }
+    }
+
+    public interface OnItemSelected {
+        void onItemSelected(SelectView selectView, int position, String item);
     }
 }

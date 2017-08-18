@@ -219,40 +219,15 @@ public class ProfileActivity extends BaseActivity {
         }
     }
 
-    private class PagerAdapter extends FragmentStatePagerAdapter {
-
-        private final LinkedHashMap<String, Fragment> mFragments;
-
-        private PagerAdapter(FragmentManager fm, LinkedHashMap<String, Fragment> fragments) {
-            super(fm);
-            mFragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(mFragments.keySet().toArray(new String[mFragments.size()])[position]);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragments.keySet().toArray(new String[mFragments.size()])[position];
-        }
-    }
-
     public static class CurrentSettingsFragment extends DialogFragment {
+
+        private LinkedHashMap<String, Fragment> mList;
 
         public static CurrentSettingsFragment newInstance(LinkedHashMap<String, Fragment> sections) {
             CurrentSettingsFragment fragment = new CurrentSettingsFragment();
             fragment.mList = sections;
             return fragment;
         }
-
-        private LinkedHashMap<String, Fragment> mList;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -325,6 +300,31 @@ public class ProfileActivity extends BaseActivity {
             });
 
             return rootView;
+        }
+    }
+
+    private class PagerAdapter extends FragmentStatePagerAdapter {
+
+        private final LinkedHashMap<String, Fragment> mFragments;
+
+        private PagerAdapter(FragmentManager fm, LinkedHashMap<String, Fragment> fragments) {
+            super(fm);
+            mFragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(mFragments.keySet().toArray(new String[mFragments.size()])[position]);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragments.keySet().toArray(new String[mFragments.size()])[position];
         }
     }
 

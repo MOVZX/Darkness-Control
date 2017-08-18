@@ -55,6 +55,8 @@ public class Misc {
 
     private static final List<String> sBackLightDimmer = new ArrayList<>();
     private static final HashMap<String, Integer> sMinBrightnessFiles = new HashMap<>();
+    private static String BACKLIGHT_DIMMER;
+    private static String MIN_BRIGHTNESS;
 
     static {
         sBackLightDimmer.add(LM3630_BACKLIGHT_DIMMER);
@@ -64,9 +66,6 @@ public class Misc {
         sMinBrightnessFiles.put(MSM_BACKLIGHT_DIMMER, 100);
         sMinBrightnessFiles.put(PSB_BL_MIN_BRIGHTNESS, 13);
     }
-
-    private static String BACKLIGHT_DIMMER;
-    private static String MIN_BRIGHTNESS;
 
     public static void enableGloveMode(boolean enable, Context context) {
         run(Control.write(enable ? "glove" : "normal", GLOVE_MODE), GLOVE_MODE, context);

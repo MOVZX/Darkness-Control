@@ -77,18 +77,10 @@ import java.util.List;
  */
 public class ProfileFragment extends RecyclerViewFragment {
 
-    public static ProfileFragment newInstance(boolean tasker) {
-        ProfileFragment fragment = new ProfileFragment();
-        fragment.mTaskerMode = tasker;
-        return fragment;
-    }
-
     private boolean mTaskerMode;
     private Profiles mProfiles;
-
     private AsyncTask<Void, Void, List<RecyclerViewItem>> mLoader;
     private boolean mLoaded;
-
     private LinkedHashMap<String, String> mCommands;
     private Dialog mDeleteDialog;
     private Dialog mApplyDialog;
@@ -97,8 +89,13 @@ public class ProfileFragment extends RecyclerViewFragment {
     private Dialog mDonateDialog;
     private ImportProfile mImportProfile;
     private Dialog mSelectDialog;
-
     private DetailsFragment mDetailsFragment;
+
+    public static ProfileFragment newInstance(boolean tasker) {
+        ProfileFragment fragment = new ProfileFragment();
+        fragment.mTaskerMode = tasker;
+        return fragment;
+    }
 
     @Override
     protected boolean showViewPager() {
@@ -642,13 +639,13 @@ public class ProfileFragment extends RecyclerViewFragment {
 
     public static class ProfileTileFragment extends BaseFragment {
 
+        private ProfileFragment mProfileFragment;
+
         public static ProfileTileFragment newInstance(ProfileFragment profileFragment) {
             ProfileTileFragment fragment = new ProfileTileFragment();
             fragment.mProfileFragment = profileFragment;
             return fragment;
         }
-
-        private ProfileFragment mProfileFragment;
 
         @Nullable
         @Override

@@ -5,8 +5,8 @@
     <string name="checking_root">Checking root access</string>
     <string name="searching_busybox">Searching for busybox</string>
     <string name="collecting_info">Collecting info</string>
-    <string name="no_root">No root</string>
-    <string name="no_busybox">No busybox</string>
+    <string name="no_root">We need Root Access</string>
+    <string name="no_busybox">We need Busybox</string>
     <string name="open">Open %s</string>
 
     <!-- Security -->
@@ -24,7 +24,7 @@
     <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me. You need internet access!</string>
     <string name="pirated">Seems like the donation app wasn\'t purchased through Play Store! If you pirated it, then shame on you!</string>
     <string name="donate">Donate</string>
-    <string name="donate_summary">This feature is only available when the donation app is installed! Don\'t worry though. Because this app is open source you can easily build it yourself and remove this check. But I hope you support developers anyway. Thanks for using Kernel Adiutor! Once you bought the donation app you have to restart Kernel Adiutor in order to enable all features.</string>
+    <string name="donate_summary">This feature is only available when the donation app is installed! Don\'t worry though. Because this app is open source you can easily build it yourself and remove this check. But I hope you support developers anyway. Thanks for using Darkness Control! Once you bought the donation app you have to restart Darkness Control in order to enable all features.</string>
     <string name="donate_nope">I won\'t fall for this scam!</string>
     <string name="donate_yes">I love this app. Must donate!</string>
     <string name="ad_here">Your advertisement could be here</string>
@@ -62,6 +62,7 @@
     <string name="min">min</string>
     <string name="mah">mAh</string>
     <string name="ma">mA</string>
+    <string name="pc">%</string>
     <string name="kb">kB</string>
     <string name="px">px</string>
 
@@ -82,10 +83,10 @@
     <string name="inputs">Inputs</string>
     <string name="cpu">CPU</string>
     <string name="cpu_voltage">CPU Voltage</string>
+    <string name="gpu_voltage">GPU Voltage</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="thermal">Thermal</string>
     <string name="gpu">GPU</string>
-    <string name="gpu_voltage">GPU Voltage</string>
     <string name="screen">Screen</string>
     <string name="wake">Wake</string>
     <string name="sound">Sound</string>
@@ -102,13 +103,12 @@
     <string name="downloads">Downloads</string>
     <string name="backup">Backup</string>
     <string name="build_prop_editor">Build prop Editor</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Profile Manager</string>
     <string name="recovery">Recovery</string>
-    <string name="initd">Init.d</string>
+    <string name="initd">Init.d Support</string>
     <string name="on_boot">On Boot</string>
     <string name="settings">Settings</string>
-    <string name="about">About</string>
-    <string name="contributors">Contributors</string>
+    <string name="about">About Me</string>
     <string name="help">Help</string>
 
     <!-- Overall -->
@@ -416,6 +416,8 @@
     <string name="idle_wait_summary">Number of events to wait before ramping down the frequency. The idlewait\'th events before current one must be all idle before Adreno idler ramps down the frequency. This implementation is to prevent micro-lags on scrolling or playing games. Adreno idler will more actively try to ramp down the frequency if this is set to a lower value.</string>
     <string name="workload">Workload</string>
     <string name="workload_summary">Adreno idler will more actively try to ramp down the frequency if this is set to a higher value.</string>
+    <string name="adrenoboost">Adreno GPU Boost</string>
+    <string name="adrenoboost_summary">Add frequency boost feature to Adreno GPU</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>
@@ -477,6 +479,8 @@
     <!-- Wake -->
     <string name="dt2w">DoubleTap2Wake</string>
     <string name="dt2w_summary">Wake up your device by double tapping the screen.</string>
+    <string name="dt2wVib">Vibration</string>
+    <string name="dt2wVib_summary">Set Wake Gestures vibration strength.</string>
     <string name="center">Center</string>
     <string name="full">Full</string>
     <string name="bottom_half">Bottom half</string>
@@ -533,8 +537,8 @@
     <string name="codec_power_gating">Audio Codec Power Gating</string>
     <string name="headphone_gain">Headphone Gain</string>
     <string name="speaker_gain">Speaker Gain</string>
-    <string name="earpiece_gain">Earpiece Gain</string>
     <string name="microphone_gain">Microphone Gain</string>
+    <string name="earpiece_gain">Earpiece Gain</string>
     <string name="fksc_title">Franco Sound Control</string>
     <string name="exsc_title">ElementalX Sound Control</string>
 
@@ -543,12 +547,13 @@
     <string name="voltage">Voltage</string>
     <string name="capacity">Capacity</string>
     <string name="usb_fast_charge">USB Fast Charge</string>
-    <string name="usb_fast_charge_summary">Device will charge faster when connected with USB. Replug your charger when changing this option.</string>
-    <string name="blx">Battery Life eXtender</string>
-    <string name="blx_summary">Set a limit for the capacity to which the battery will be charged by passing a value between 0 and 100.</string>
+    <string name="usb_fast_charge_summary">Device will charge faster when connected to USB 3.0. Replug your charger when changing this option.</string>
     <string name="charge_rate">Charge Rate</string>
     <string name="charging_current">Charging Current</string>
-    <string name="charging_current_summary">Set charging current. Caution: Exceeding 1250mA may damage your charging driver.</string>
+    <string name="charging_current_summary">Set charging current. Caution: Exceeding 2000mA may damage your charging driver.</string>
+    <string name="battery_current_limit">Battery Current Limit (BCL)</string>
+    <string name="low_battery_value">Low Battery Value</string>
+    <string name="low_battery_value_summary">Set low battery value limit to trigger the BCL driver.</string>
 
     <!-- LED -->
     <string name="fade">Fade</string>
@@ -685,7 +690,7 @@
     <string name="bcmdhd_wakelock_divider">BCMDHD Wakelock Divider</string>
 
     <!-- Data Sharing -->
-    <string name="data_sharing_summary">Share your settings with others! Kernel Adiutor will automatically collect information and compile a score list available to all people.</string>
+    <string name="data_sharing_summary">Share your settings with others! Darkness Control will automatically collect information and compile a score list available to all people.</string>
     <string name="data_sharing_summary_link">You can access the list on &lt;a href="https://www.grarak.com/kerneladiutor">grarak.com&lt;/a>.</string>
     <string name="sharing_enable">Sharing enable</string>
 
@@ -835,7 +840,7 @@
     <string name="confirmation_notification">Confirmation Notification</string>
     <string name="apply_on_boot_confirmation_notification_summary">After apply on boot with visible notification, show a notification afterwards with the confirmation that apply on boot was successful.</string>
     <string name="script">Script</string>
-    <string name="apply_on_boot_script_summary">Use a shell script to apply settings. Please only enable this if you have troubles with apply on boot. If the problem still persists after enabling this option, please make sure no other app is conflicting with Kernel Adiutor.</string>
+    <string name="apply_on_boot_script_summary">Use a shell script to apply settings. Please only enable this if you have troubles with apply on boot. If the problem still persists after enabling this option, please make sure no other app is conflicting with Darkness Control.</string>
     <string name="debugging">Debugging</string>
     <string name="logcat">Logcat</string>
     <string name="logcat_summary">Copy logcat to /sdcard/logcat.txt</string>
@@ -845,7 +850,7 @@
     <string name="driver_message_summary">Copy driver message (dmesg) to /sdcard/dmesg.txt</string>
     <string name="security">Security</string>
     <string name="set_password">Set Password</string>
-    <string name="set_password_summary">You can protect Kernel Adiutor by setting up a password. Every time you open this application, you have to enter it. If you forget it, simply wipe the data of this application in settings of your device. Don\'t worry I won\'t share your password.</string>
+    <string name="set_password_summary">You can protect Darkness Control by setting up a password. Every time you open this application, you have to enter it. If you forget it, simply wipe the data of this application in settings of your device. Don\'t worry I won\'t share your password.</string>
     <string name="delete_password">Delete Password</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>

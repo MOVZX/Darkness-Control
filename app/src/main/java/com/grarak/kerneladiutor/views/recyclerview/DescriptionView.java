@@ -83,16 +83,6 @@ public class DescriptionView extends RecyclerViewItem {
         refresh();
     }
 
-    public void setTitle(CharSequence title) {
-        mTitle = title;
-        refresh();
-    }
-
-    public void setSummary(CharSequence summary) {
-        mSummary = summary;
-        refresh();
-    }
-
     public void setMovementMethod(MovementMethod movementMethod) {
         mLinkMovementMethod = movementMethod;
         refresh();
@@ -102,8 +92,18 @@ public class DescriptionView extends RecyclerViewItem {
         return mTitle;
     }
 
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        refresh();
+    }
+
     public CharSequence getSummary() {
         return mSummary;
+    }
+
+    public void setSummary(CharSequence summary) {
+        mSummary = summary;
+        refresh();
     }
 
     @Override

@@ -42,12 +42,7 @@ import java.util.List;
  */
 public class CardView extends RecyclerViewItem {
 
-    public interface OnMenuListener {
-        void onMenuReady(CardView cardView, PopupMenu popupMenu);
-    }
-
     private Activity mActivity;
-
     private android.support.v7.widget.CardView mRootView;
     private View mTitleParent;
     private TextView mTitle;
@@ -55,21 +50,16 @@ public class CardView extends RecyclerViewItem {
     private View mLayoutParent;
     private LinearLayout mLayout;
     private View mMenuButton;
-
     private CharSequence mTitleText;
     private PopupMenu mPopupMenu;
     private OnMenuListener mOnMenuListener;
-
     private List<RecyclerViewItem> mItems = new ArrayList<>();
     private HashMap<RecyclerViewItem, View> mViews = new HashMap<>();
-
     private List<RecyclerViewItem> mLoading = new ArrayList<>();
     private List<Runnable> mRunnables = new ArrayList<>();
-
     private int mLayoutHeight;
     private ValueAnimator mLayoutAnimator;
     private boolean mShowLayout = true;
-
     public CardView(Activity activity) {
         if (activity == null) {
             throw new IllegalStateException("Activity can't be null");
@@ -305,6 +295,10 @@ public class CardView extends RecyclerViewItem {
     @Override
     protected boolean cardCompatible() {
         return false;
+    }
+
+    public interface OnMenuListener {
+        void onMenuReady(CardView cardView, PopupMenu popupMenu);
     }
 
 }

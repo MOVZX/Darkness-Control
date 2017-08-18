@@ -25,29 +25,13 @@ import com.mattprecious.swirl.SwirlView;
  */
 public class FingerprintUiHelper extends FingerprintManagerCompat.AuthenticationCallback {
 
-    private boolean mListening;
     private final FingerprintManagerCompat mFingerprintManagerCompat;
     private final SwirlView mSwirlView;
     private final Callback mCallback;
+    private boolean mListening;
     private CancellationSignal mCancellationSignal;
 
     private boolean mSelfCancelled;
-
-    /**
-     * Builder class for {@link FingerprintUiHelper} in which injected fields from Dagger
-     * holds its fields and takes other arguments in the {@link #build} method.
-     */
-    public static class FingerprintUiHelperBuilder {
-        private final FingerprintManagerCompat mFingerprintManagerCompat;
-
-        public FingerprintUiHelperBuilder(FingerprintManagerCompat fingerprintManagerCompat) {
-            mFingerprintManagerCompat = fingerprintManagerCompat;
-        }
-
-        public FingerprintUiHelper build(SwirlView swirlView, Callback callback) {
-            return new FingerprintUiHelper(mFingerprintManagerCompat, swirlView, callback);
-        }
-    }
 
     /**
      * Constructor for {@link FingerprintUiHelper}. This method is expected to be called from
@@ -117,5 +101,21 @@ public class FingerprintUiHelper extends FingerprintManagerCompat.Authentication
         void onAuthenticated();
 
         void onError();
+    }
+
+    /**
+     * Builder class for {@link FingerprintUiHelper} in which injected fields from Dagger
+     * holds its fields and takes other arguments in the {@link #build} method.
+     */
+    public static class FingerprintUiHelperBuilder {
+        private final FingerprintManagerCompat mFingerprintManagerCompat;
+
+        public FingerprintUiHelperBuilder(FingerprintManagerCompat fingerprintManagerCompat) {
+            mFingerprintManagerCompat = fingerprintManagerCompat;
+        }
+
+        public FingerprintUiHelper build(SwirlView swirlView, Callback callback) {
+            return new FingerprintUiHelper(mFingerprintManagerCompat, swirlView, callback);
+        }
     }
 }

@@ -36,13 +36,6 @@ public class CPUBoost {
     private static final String CPU_BOOST = "/sys/module/cpu_boost/parameters";
 
     private static final List<String> sEnable = new ArrayList<>();
-
-    static {
-        sEnable.add(CPU_BOOST + "/cpu_boost");
-        sEnable.add(CPU_BOOST + "/cpuboost_enable");
-        sEnable.add(CPU_BOOST + "/input_boost_enabled");
-    }
-
     private static final String CPU_BOOST_DEBUG_MASK = CPU_BOOST + "/debug_mask";
     private static final String CPU_BOOST_MS = CPU_BOOST + "/boost_ms";
     private static final String CPU_BOOST_SYNC_THRESHOLD = CPU_BOOST + "/sync_threshold";
@@ -50,8 +43,13 @@ public class CPUBoost {
     private static final String CPU_BOOST_INPUT_BOOST_FREQ = CPU_BOOST + "/input_boost_freq";
     private static final String CPU_BOOST_WAKEUP = CPU_BOOST + "/wakeup_boost";
     private static final String CPU_BOOST_HOTPLUG = CPU_BOOST + "/hotplug_boost";
-
     private static String ENABLE;
+
+    static {
+        sEnable.add(CPU_BOOST + "/cpu_boost");
+        sEnable.add(CPU_BOOST + "/cpuboost_enable");
+        sEnable.add(CPU_BOOST + "/input_boost_enabled");
+    }
 
     public static void enableCpuBoostWakeup(boolean enable, Context context) {
         run(Control.write(enable ? "Y" : "N", CPU_BOOST_WAKEUP), CPU_BOOST_WAKEUP, context);

@@ -50,34 +50,6 @@ public class Tile extends BroadcastReceiver {
     private static final String COMMANDS = "commands";
     private static final String ACTION_TOGGLE_STATE = "com.grarak.kerneladiutor.action.ACTION_TOGGLE_STATE";
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        if (ACTION_TOGGLE_STATE.equals(intent.getAction())) {
-            String name = intent.getStringExtra(NAME);
-            if (name != null) Log.i(TAG, name);
-            String[] commands = intent.getStringArrayExtra(COMMANDS);
-            if (commands != null) {
-                List<String> adjustedCommands = new ArrayList<>();
-                RootUtils.SU su = new RootUtils.SU(true, TAG);
-                for (String command : commands) {
-                    synchronized (this) {
-                        CPUFreq.ApplyCpu applyCpu;
-                        if (command.startsWith("#") && command.contains("%d")
-                                && (applyCpu = new CPUFreq.ApplyCpu(command.substring(1))).toString() != null) {
-                            adjustedCommands.addAll(Service.getApplyCpu(applyCpu, su));
-                        } else {
-                            adjustedCommands.add(command);
-                        }
-                    }
-                }
-
-                for (String command : adjustedCommands) {
-                    su.runCommand(command);
-                }
-            }
-        }
-    }
-
     public static void publishProfileTile(List<Profiles.ProfileItem> profiles, Context context) {
         if (!Utils.hasCMSDK()) return;
         if (profiles == null || profiles.size() < 1 || !Prefs.getBoolean("profiletile", true, context)) {
@@ -121,6 +93,34 @@ public class Tile extends BroadcastReceiver {
             CMStatusBarManager.getInstance(context).publishTile(0, mCustomTile);
         } catch (Exception e) {
             Prefs.saveBoolean("profiletile", false, context);
+        }
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (ACTION_TOGGLE_STATE.equals(intent.getAction())) {
+            String name = intent.getStringExtra(NAME);
+            if (name != null) Log.i(TAG, name);
+            String[] commands = intent.getStringArrayExtra(COMMANDS);
+            if (commands != null) {
+                List<String> adjustedCommands = new ArrayList<>();
+                RootUtils.SU su = new RootUtils.SU(true, TAG);
+                for (String command : commands) {
+                    synchronized (this) {
+                        CPUFreq.ApplyCpu applyCpu;
+                        if (command.startsWith("#") && command.contains("%d")
+                                && (applyCpu = new CPUFreq.ApplyCpu(command.substring(1))).toString() != null) {
+                            adjustedCommands.addAll(Service.getApplyCpu(applyCpu, su));
+                        } else {
+                            adjustedCommands.add(command);
+                        }
+                    }
+                }
+
+                for (String command : adjustedCommands) {
+                    su.runCommand(command);
+                }
+            }
         }
     }
 

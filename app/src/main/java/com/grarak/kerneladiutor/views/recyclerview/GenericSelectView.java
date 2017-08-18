@@ -31,10 +31,6 @@ import com.grarak.kerneladiutor.utils.ViewUtils;
  */
 public class GenericSelectView extends ValueView {
 
-    public interface OnGenericValueListener {
-        void onGenericValueSelected(GenericSelectView genericSelectView, String value);
-    }
-
     private String mValueRaw;
     private OnGenericValueListener mOnGenericValueListener;
     private int mInputType = -1;
@@ -98,6 +94,10 @@ public class GenericSelectView extends ValueView {
                         mShowDialog = false;
                     }
                 }).show();
+    }
+
+    public interface OnGenericValueListener {
+        void onGenericValueSelected(GenericSelectView genericSelectView, String value);
     }
 
 }

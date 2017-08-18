@@ -36,7 +36,6 @@ import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.StatsView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,11 +43,17 @@ import java.util.List;
  */
 public class BatteryFragment extends RecyclerViewFragment {
 
-    private StatsView mLevel;
-    private StatsView mVoltage;
-
     private static int sBatteryLevel;
     private static int sBatteryVoltage;
+    private StatsView mLevel;
+    private StatsView mVoltage;
+    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            sBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            sBatteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
+        }
+    };
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
@@ -57,10 +62,8 @@ public class BatteryFragment extends RecyclerViewFragment {
         if (Battery.hasForceFastCharge()) {
             forceFastChargeInit(items);
         }
-        if (Battery.hasBlx()) {
-            blxInit(items);
-        }
         chargeRateInit(items);
+        batteryCurrentLimitInit(items);
     }
 
     @Override
@@ -105,56 +108,48 @@ public class BatteryFragment extends RecyclerViewFragment {
         items.add(forceFastCharge);
     }
 
-    private void blxInit(List<RecyclerViewItem> items) {
-        List<String> list = new ArrayList<>();
-        list.add(getString(R.string.disabled));
-        for (int i = 0; i <= 100; i++) {
-            list.add(String.valueOf(i));
+    private void batteryCurrentLimitInit(List<RecyclerViewItem> items) {
+        CardView batteryCurrentLimitCard = new CardView(getActivity());
+        batteryCurrentLimitCard.setTitle(getString(R.string.battery_current_limit));
+
+        if (Battery.hasBatteryCurrentLimit()) {
+            SeekBarView batteryCurrentLimit = new SeekBarView();
+            batteryCurrentLimit.setTitle(getString(R.string.low_battery_value));
+            batteryCurrentLimit.setSummary(getString(R.string.low_battery_value_summary));
+            batteryCurrentLimit.setUnit(getString(R.string.pc));
+            batteryCurrentLimit.setMax(100);
+            batteryCurrentLimit.setMin(1);
+            batteryCurrentLimit.setOffset(1);
+            batteryCurrentLimit.setProgress(Battery.getBatteryCurrentLimit() / 1 - 1);
+            batteryCurrentLimit.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    Battery.setBatteryCurrentLimit((position + 1) * 1, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            batteryCurrentLimitCard.addItem(batteryCurrentLimit);
         }
 
-        SeekBarView blx = new SeekBarView();
-        blx.setTitle(getString(R.string.blx));
-        blx.setSummary(getString(R.string.blx_summary));
-        blx.setItems(list);
-        blx.setProgress(Battery.getBlx());
-        blx.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                Battery.setBlx(position, getActivity());
-            }
-
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
-
-        items.add(blx);
+        if (batteryCurrentLimitCard.size() > 0) {
+            items.add(batteryCurrentLimitCard);
+        }
     }
 
     private void chargeRateInit(List<RecyclerViewItem> items) {
         CardView chargeRateCard = new CardView(getActivity());
         chargeRateCard.setTitle(getString(R.string.charge_rate));
 
-        if (Battery.hasChargeRateEnable()) {
-            SwitchView chargeRate = new SwitchView();
-            chargeRate.setSummary(getString(R.string.charge_rate));
-            chargeRate.setChecked(Battery.isChargeRateEnabled());
-            chargeRate.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    Battery.enableChargeRate(isChecked, getActivity());
-                }
-            });
-
-            chargeRateCard.addItem(chargeRate);
-        }
-
         if (Battery.hasChargingCurrent()) {
             SeekBarView chargingCurrent = new SeekBarView();
             chargingCurrent.setTitle(getString(R.string.charging_current));
             chargingCurrent.setSummary(getString(R.string.charging_current_summary));
             chargingCurrent.setUnit(getString(R.string.ma));
-            chargingCurrent.setMax(1500);
+            chargingCurrent.setMax(3000);
             chargingCurrent.setMin(100);
             chargingCurrent.setOffset(10);
             chargingCurrent.setProgress(Battery.getChargingCurrent() / 10 - 10);
@@ -176,14 +171,6 @@ public class BatteryFragment extends RecyclerViewFragment {
             items.add(chargeRateCard);
         }
     }
-
-    private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            sBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            sBatteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
-        }
-    };
 
     @Override
     protected void refresh() {

@@ -45,6 +45,7 @@ public class LED {
     private static final LinkedHashMap<Integer, Boolean> sGreenRate = new LinkedHashMap<>();
 
     private static final HashMap<String, LinkedHashMap<Integer, Boolean>> sSpeeds = new HashMap<>();
+    private static String SPEED;
 
     static {
         sRedSpeed.put(R.string.stock, true);
@@ -60,8 +61,6 @@ public class LED {
         sSpeeds.put(RED_SPEED, sRedSpeed);
         sSpeeds.put(GREEN_RATE, sGreenRate);
     }
-
-    private static String SPEED;
 
     public static void setSpeed(int value, Context context) {
         run(Control.write(String.valueOf(value), SPEED), SPEED, context);
