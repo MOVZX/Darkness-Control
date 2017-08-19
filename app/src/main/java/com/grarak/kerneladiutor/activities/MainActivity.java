@@ -121,18 +121,6 @@ public class MainActivity extends BaseActivity {
              *  2: License is invalid
              *  3: Donate apk is patched/cracked
              */
-            int result = data == null ? -1 : data.getIntExtra("result", -1);
-            if (result == 0) {
-                try {
-                    ApplicationInfo applicationInfo = getPackageManager().getApplicationInfo(
-                            "com.grarak.kerneladiutordonate", 0);
-                    Utils.writeFile(applicationInfo.dataDir + "/license",
-                            Utils.encodeString(Utils.getAndroidId(this)), false, true);
-                } catch (PackageManager.NameNotFoundException ignored) {
-                }
-            }
-            launch(result);
-
         } else if (requestCode == 1) {
 
             /*
@@ -338,18 +326,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 protected void onPostExecute(Boolean donationValid) {
                     super.onPostExecute(donationValid);
-                    if (donationValid && mLicensedCached) {
-                        launch(0);
-                    } else if (donationValid && mInternetAvailable) {
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.setComponent(new ComponentName("com.grarak.kerneladiutordonate",
-                                "com.grarak.kerneladiutordonate.MainActivity"));
-                        startActivityForResult(intent, 0);
-                    } else if (donationValid) {
-                        launch(1);
-                    } else {
-                        launch(0);
-                    }
+                    launch(0);
                 }
             }.execute();
         }
