@@ -261,74 +261,8 @@ public class MainActivity extends BaseActivity {
                 return;
             }
 
-            // Execute another AsyncTask for license checking
-            new AsyncTask<Void, Void, Boolean>() {
-
-                private ApplicationInfo mApplicationInfo;
-                private PackageInfo mPackageInfo;
-                private boolean mPatched;
-                private boolean mInternetAvailable;
-                private boolean mLicensedCached;
-
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    try {
-                        mApplicationInfo = getPackageManager().getApplicationInfo(
-                                "com.grarak.kerneladiutordonate", 0);
-                        mPackageInfo = getPackageManager().getPackageInfo(
-                                "com.grarak.kerneladiutordonate", 0);
-                        if (BuildConfig.DEBUG) {
-                            Utils.DONATED = false;
-                        }
-                    } catch (PackageManager.NameNotFoundException ignored) {
-                    }
-                }
-
-                @Override
-                protected Boolean doInBackground(Void... params) {
-                    if (mApplicationInfo != null && mPackageInfo != null
-                            && mPackageInfo.versionCode == 130) {
-                        try {
-                            mPatched = !Utils.checkMD5("5c7a92a5b2dcec409035e1114e815b00",
-                                    new File(mApplicationInfo.publicSourceDir))
-                                    || Utils.isPatched(mApplicationInfo);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                        if (Utils.existFile(mApplicationInfo.dataDir + "/license")) {
-                            String content = Utils.readFile(mApplicationInfo.dataDir + "/license");
-                            if (!content.isEmpty() && (content = Utils.decodeString(content)) != null) {
-                                if (content.equals(Utils.getAndroidId(MainActivity.this))) {
-                                    mLicensedCached = true;
-                                }
-                            }
-                        }
-
-                        try {
-                            if (!mLicensedCached) {
-                                HttpURLConnection urlConnection = (HttpURLConnection) new URL("https://www.google.com").openConnection();
-                                urlConnection.setRequestProperty("User-Agent", "Test");
-                                urlConnection.setRequestProperty("Connection", "close");
-                                urlConnection.setConnectTimeout(3000);
-                                urlConnection.connect();
-                                mInternetAvailable = urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK;
-                            }
-                        } catch (IOException ignored) {
-                        }
-
-                        return !mPatched;
-                    }
-                    return false;
-                }
-
-                @Override
-                protected void onPostExecute(Boolean donationValid) {
-                    super.onPostExecute(donationValid);
-                    launch(0);
-                }
-            }.execute();
+            // Launch the app
+            launch(0);
         }
 
     }
