@@ -27,6 +27,7 @@
             android:summary="@string/hide_banner" />
         <SwitchPreferenceCompat
             android:key="forcecards"
+            android:defaultValue="true"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
         <com.grarak.kerneladiutor.views.preference.ColorPreference
@@ -34,6 +35,7 @@
             android:summary="@string/accent_color" />
         <SwitchPreferenceCompat
             android:key="section_icons"
+            android:defaultValue="true"
             android:summary="@string/section_icons_summary"
             android:title="@string/section_icons" />
     </PreferenceCategory>
@@ -52,15 +54,16 @@
             android:title="@string/test" />
         <SwitchPreferenceCompat
             android:key="applyonboothide"
+            android:defaultValue="true"
             android:summary="@string/apply_on_boot_hide_summary"
             android:title="@string/hide" />
         <SwitchPreferenceCompat
-            android:defaultValue="true"
             android:key="applyonbootconfirmationnotification"
             android:summary="@string/apply_on_boot_confirmation_notification_summary"
             android:title="@string/confirmation_notification" />
         <SwitchPreferenceCompat
             android:key="applyonboottoast"
+            android:defaultValue="true"
             android:summary="@string/apply_on_boot_toast_summary"
             android:title="@string/toast" />
         <SwitchPreferenceCompat
