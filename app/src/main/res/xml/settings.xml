@@ -26,16 +26,16 @@
             android:key="hide_banner"
             android:summary="@string/hide_banner" />
         <SwitchPreferenceCompat
-            android:key="forcecards"
             android:defaultValue="true"
+            android:key="forcecards"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
         <com.grarak.kerneladiutor.views.preference.ColorPreference
             android:key="accent_color"
             android:summary="@string/accent_color" />
         <SwitchPreferenceCompat
-            android:key="section_icons"
             android:defaultValue="true"
+            android:key="section_icons"
             android:summary="@string/section_icons_summary"
             android:title="@string/section_icons" />
     </PreferenceCategory>
@@ -53,8 +53,8 @@
             android:summary="@string/apply_on_boot_test_summary"
             android:title="@string/test" />
         <SwitchPreferenceCompat
-            android:key="applyonboothide"
             android:defaultValue="true"
+            android:key="applyonboothide"
             android:summary="@string/apply_on_boot_hide_summary"
             android:title="@string/hide" />
         <SwitchPreferenceCompat
@@ -62,8 +62,8 @@
             android:summary="@string/apply_on_boot_confirmation_notification_summary"
             android:title="@string/confirmation_notification" />
         <SwitchPreferenceCompat
-            android:key="applyonboottoast"
             android:defaultValue="true"
+            android:key="applyonboottoast"
             android:summary="@string/apply_on_boot_toast_summary"
             android:title="@string/toast" />
         <SwitchPreferenceCompat
@@ -99,10 +99,6 @@
         <Preference
             android:key="delete_password"
             android:summary="@string/delete_password" />
-        <SwitchPreferenceCompat
-            android:key="fingerprint"
-            android:summary="@string/fingerprint_summary"
-            android:title="@string/fingerprint" />
     </PreferenceCategory>
 
     <PreferenceCategory

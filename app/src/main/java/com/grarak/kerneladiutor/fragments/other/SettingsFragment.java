@@ -32,7 +32,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -84,10 +83,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     private static final String KEY_SECURITY_CATEGORY = "security_category";
     private static final String KEY_SET_PASSWORD = "set_password";
     private static final String KEY_DELETE_PASSWORD = "delete_password";
-    private static final String KEY_FINGERPRINT = "fingerprint";
     private static final String KEY_SECTIONS = "sections";
     public boolean mDelay;
-    private Preference mFingerprint;
     private String mOldPassword;
     private String mDeletePassword;
     private int mColorSelection = -1;
@@ -172,15 +169,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         findPreference(KEY_DMESG).setOnPreferenceClickListener(this);
         findPreference(KEY_SET_PASSWORD).setOnPreferenceClickListener(this);
         findPreference(KEY_DELETE_PASSWORD).setOnPreferenceClickListener(this);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
-                || !FingerprintManagerCompat.from(getActivity()).isHardwareDetected()) {
-            ((PreferenceCategory) findPreference(KEY_SECURITY_CATEGORY)).removePreference(
-                    findPreference(KEY_FINGERPRINT));
-        } else {
-            mFingerprint = findPreference(KEY_FINGERPRINT);
-            mFingerprint.setEnabled(!Prefs.getString("password", "", getActivity()).isEmpty());
-        }
 
         PreferenceCategory sectionsCategory = (PreferenceCategory) findPreference(KEY_SECTIONS);
         for (NavigationActivity.NavigationFragment navigationFragment : NavigationActivity.sFragments) {
@@ -360,9 +348,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
                         Prefs.saveString("password", Utils.encodeString(newPassword.getText()
                                 .toString()), getActivity());
-                        if (mFingerprint != null) {
-                            mFingerprint.setEnabled(true);
-                        }
                     }
                 }).setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -401,9 +386,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                         }
 
                         Prefs.saveString("password", "", getActivity());
-                        if (mFingerprint != null) {
-                            mFingerprint.setEnabled(false);
-                        }
                     }
                 }).setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override

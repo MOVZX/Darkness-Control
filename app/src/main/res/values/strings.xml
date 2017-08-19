@@ -818,7 +818,6 @@
     <string name="password_not_match">New password doesn\'t match confirmation</string>
     <string name="password_too_long">Password is too long (max. 32 characters)</string>
     <string name="set_password_first">Set a password first</string>
-    <string name="fingerprint_summary">Use fingerprint to pass security check. This will work as long you have fingerprints registered.</string>
     <string name="sections">Sections</string>
 
     <!-- About -->

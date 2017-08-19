@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.support.annotation.Nullable;
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
@@ -35,7 +34,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.grarak.kerneladiutor.R;
-import com.grarak.kerneladiutor.utils.FingerprintUiHelper;
 import com.grarak.kerneladiutor.utils.Prefs;
 import com.grarak.kerneladiutor.utils.Utils;
 import com.mattprecious.swirl.SwirlView;
@@ -67,10 +65,7 @@ public class SecurityActivity extends BaseActivity {
     private static final String SECRET_MESSAGE = "secret_message";
 
     private View mPasswordWrong;
-    private FingerprintManagerCompat mFingerprintManagerCompat;
     private Cipher mCipher;
-    private FingerprintUiHelper mFingerprintUiHelper;
-    private FingerprintManagerCompat.CryptoObject mCryptoObject;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,89 +95,5 @@ public class SecurityActivity extends BaseActivity {
                 }
             }
         });
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && Prefs.getBoolean("fingerprint", false, this)) {
-            mFingerprintManagerCompat = FingerprintManagerCompat.from(this);
-            if (mFingerprintManagerCompat.isHardwareDetected()
-                    && mFingerprintManagerCompat.hasEnrolledFingerprints()
-                    && getSystemService(KeyguardManager.class).isDeviceSecure()) {
-                loadFingerprint();
-            }
-        }
-    }
-
-    private void loadFingerprint() {
-        try {
-            KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-            mCipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-                    + KeyProperties.BLOCK_MODE_CBC + "/"
-                    + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-
-            keyStore.load(null);
-            keyGenerator.init(new KeyGenParameterSpec.Builder(KEY_NAME,
-                    KeyProperties.PURPOSE_ENCRYPT |
-                            KeyProperties.PURPOSE_DECRYPT)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    .setUserAuthenticationRequired(true)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                    .build());
-            keyGenerator.generateKey();
-
-            SecretKey key = (SecretKey) keyStore.getKey(KEY_NAME, null);
-            mCipher.init(Cipher.ENCRYPT_MODE, key);
-        } catch (KeyStoreException | NoSuchProviderException | NoSuchAlgorithmException
-                | NoSuchPaddingException | UnrecoverableKeyException | InvalidKeyException
-                | CertificateException | InvalidAlgorithmParameterException | IOException e) {
-            return;
-        }
-
-        mCryptoObject = new FingerprintManagerCompat.CryptoObject(mCipher);
-        FrameLayout fingerprintParent = (FrameLayout) findViewById(R.id.fingerprint_parent);
-        final SwirlView swirlView = new SwirlView(new ContextThemeWrapper(this, R.style.Swirl));
-        swirlView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        fingerprintParent.addView(swirlView);
-        fingerprintParent.setVisibility(View.VISIBLE);
-
-        mFingerprintUiHelper = new FingerprintUiHelper.FingerprintUiHelperBuilder(
-                mFingerprintManagerCompat).build(swirlView,
-                new FingerprintUiHelper.Callback() {
-                    @Override
-                    public void onAuthenticated() {
-                        try {
-                            mCipher.doFinal(SECRET_MESSAGE.getBytes());
-                            mPasswordWrong.setVisibility(View.GONE);
-                            setResult(1);
-                            finish();
-                        } catch (IllegalBlockSizeException | BadPaddingException e) {
-                            e.printStackTrace();
-                            swirlView.setState(SwirlView.State.ERROR);
-                        }
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });
-        mFingerprintUiHelper.startListening(mCryptoObject);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mFingerprintUiHelper != null) {
-            mFingerprintUiHelper.startListening(mCryptoObject);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mFingerprintUiHelper != null) {
-            mFingerprintUiHelper.stopListening();
-        }
     }
 }

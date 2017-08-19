@@ -19,11 +19,7 @@
  */
 package com.grarak.kerneladiutor.activities;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -32,7 +28,6 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.grarak.kerneladiutor.BuildConfig;
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.database.tools.profiles.Profiles;
 import com.grarak.kerneladiutor.services.profile.Tile;
@@ -57,11 +52,6 @@ import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 /**
  * Created by willi on 14.04.16.
