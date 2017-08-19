@@ -69,7 +69,7 @@ public class GPUFragment extends RecyclerViewFragment {
             simpleGpuInit(items);
         }
         if (AdrenoBoost.supported()) {
-            adrenoboostInit(items);
+            adrenoBoostInit(items);
         }
         if (AdrenoIdler.supported()) {
             adrenoIdlerInit(items);
@@ -351,7 +351,7 @@ public class GPUFragment extends RecyclerViewFragment {
         }
     }
 
-    private void adrenoboostInit(List<RecyclerViewItem> items) {
+    private void adrenoBoostInit(List<RecyclerViewItem> items) {
         List<RecyclerViewItem> adrenoboost = new ArrayList<>();
 
         if (AdrenoBoost.supported()) {
