@@ -35,6 +35,7 @@ import java.util.List;
  */
 public class Misc {
 
+    private static final String SELINUX = "/sys/fs/selinux/enforce";
     private static final String DYNAMIC_FSYNC = "/sys/kernel/dyn_fsync/Dyn_fsync_active";
     private static final String GENTLE_FAIR_SLEEPERS = "/sys/kernel/sched/gentle_fair_sleepers";
     private static final String ARCH_POWER = "/sys/kernel/sched/arch_power";
@@ -60,6 +61,25 @@ public class Misc {
 
         sFsyncs.add("/sys/devices/virtual/misc/fsynccontrol/fsync_enabled");
         sFsyncs.add("/sys/module/sync/parameters/fsync_enabled");
+    }
+
+    public static void enableSeLinux(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", SELINUX), SELINUX, context);
+    }
+
+    public static boolean isSeLinuxEnabled() {
+        return Utils.readFile(SELINUX).equals("1");
+    }
+
+    public static boolean hasSeLinux() {
+        return Utils.existFile(SELINUX);
+    }
+
+    public static String getSeLinuxStatus() {
+        String result = Utils.readFile(SELINUX);
+        if (result.equals("0")) return "Permissive";
+        else if (result.equals("1")) return "Enforcing";
+        return "Unknown Status";
     }
 
     public static void setHostname(String value, Context context) {

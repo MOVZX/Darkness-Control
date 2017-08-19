@@ -55,6 +55,9 @@ public class MiscFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        if (Misc.hasSeLinux()) {
+            selinuxInit(items);
+        }
         if (Vibration.supported()) {
             vibrationInit(items);
         }
@@ -79,6 +82,21 @@ public class MiscFragment extends RecyclerViewFragment {
         }
         networkInit(items);
         wakelockInit(items);
+    }
+
+    private void selinuxInit(List<RecyclerViewItem> items) {
+        SwitchView selinux = new SwitchView();
+        selinux.setTitle(getString(R.string.selinux));
+        selinux.setSummary(getString(R.string.selinux_summary) + " " + Misc.getSeLinuxStatus());
+        selinux.setChecked(Misc.isSeLinuxEnabled());
+        selinux.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Misc.enableSeLinux(isChecked, getActivity());
+            }
+        });
+
+        items.add(selinux);
     }
 
     private void vibrationInit(List<RecyclerViewItem> items) {
