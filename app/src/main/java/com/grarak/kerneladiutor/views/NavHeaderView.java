@@ -54,6 +54,7 @@ public class NavHeaderView extends LinearLayout {
 
     private static Callback sCallback;
     private ImageView mImage;
+
     public NavHeaderView(Context context) {
         this(context, null);
     }
@@ -77,7 +78,7 @@ public class NavHeaderView extends LinearLayout {
         };
 
         LayoutInflater.from(context).inflate(R.layout.nav_header_view, this);
-        mImage = (ImageView) findViewById(R.id.nav_header_pic);
+        mImage = findViewById(R.id.nav_header_pic);
 
         boolean noPic;
         try {

@@ -39,6 +39,7 @@ public class Misc {
     private static final String GENTLE_FAIR_SLEEPERS = "/sys/kernel/sched/gentle_fair_sleepers";
     private static final String ARCH_POWER = "/sys/kernel/sched/arch_power";
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
+    private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
     private static final String HOSTNAME_KEY = "net.hostname";
 
     private static final List<String> sLoggers = new ArrayList<>();
@@ -111,6 +112,18 @@ public class Misc {
 
     public static boolean isDynamicFsyncEnabled() {
         return Utils.readFile(DYNAMIC_FSYNC).equals("1");
+    }
+
+    public static boolean hasStateNotifier() {
+        return Utils.existFile(STATE_NOTIFIER);
+    }
+
+    public static void enableStateNotifier(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
+    }
+
+    public static boolean isStateNotifierEnabled() {
+        return Utils.readFile(STATE_NOTIFIER).equals("Y");
     }
 
     public static boolean hasDynamicFsync() {

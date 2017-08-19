@@ -38,15 +38,18 @@ public class KSM {
     private static final String KSM = "/sys/kernel/mm/ksm";
     private static final String UKSM = "/sys/kernel/mm/uksm";
     private static final String FULL_SCANS = "/full_scans";
+    private static final String PAGES_SCANNED = "/pages_scanned";
     private static final String PAGES_SHARED = "/pages_shared";
     private static final String PAGES_SHARING = "/pages_sharing";
     private static final String PAGES_UNSHARED = "/pages_unshared";
     private static final String PAGES_VOLATILE = "/pages_volatile";
     private static final String RUN = "/run";
+    private static final String RUN_CHARGING = "/run_charging";
     private static final String DEFERRED_TIMER = "/deferred_timer";
     private static final String PAGES_TO_SCAN = "/pages_to_scan";
     private static final String SLEEP_MILLISECONDS = "/sleep_millisecs";
     private static final String MAX_CPU_PERCENTAGE = "/max_cpu_percentage";
+    private static final String CPU_GOVERNOR = "/cpu_governor";
 
     private static final List<String> sParent = new ArrayList<>();
     private static final LinkedHashMap<String, Integer> sInfos = new LinkedHashMap<>();
@@ -57,6 +60,7 @@ public class KSM {
         sParent.add(UKSM);
 
         sInfos.put(FULL_SCANS, R.string.full_scans);
+        sInfos.put(PAGES_SCANNED, R.string.pages_scanned);
         sInfos.put(PAGES_SHARED, R.string.pages_shared);
         sInfos.put(PAGES_SHARING, R.string.pages_sharing);
         sInfos.put(PAGES_UNSHARED, R.string.pages_unshared);
@@ -64,15 +68,15 @@ public class KSM {
     }
 
     public static void setMaxCpuPercentage(int value, Context context) {
-        run(Control.write(String.valueOf(value), MAX_CPU_PERCENTAGE), MAX_CPU_PERCENTAGE, context);
+        run(Control.write(String.valueOf(value), PARENT + MAX_CPU_PERCENTAGE), MAX_CPU_PERCENTAGE, context);
     }
 
     public static int getMaxCpuPercentage() {
-        return Utils.strToInt(Utils.readFile(MAX_CPU_PERCENTAGE));
+        return Utils.strToInt(Utils.readFile(PARENT + MAX_CPU_PERCENTAGE));
     }
 
     public static boolean hasMaxCpuPercentage() {
-        return Utils.existFile(MAX_CPU_PERCENTAGE);
+        return Utils.existFile(PARENT + MAX_CPU_PERCENTAGE);
     }
 
     public static void setSleepMilliseconds(int ms, Context context) {
@@ -123,6 +127,18 @@ public class KSM {
         return Utils.existFile(PARENT + RUN);
     }
 
+    public static void enableCharging(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", PARENT + RUN_CHARGING), PARENT + RUN_CHARGING, context);
+    }
+
+    public static boolean isChargingEnabled() {
+        return Utils.readFile(PARENT + RUN_CHARGING).equals("1");
+    }
+
+    public static boolean hasChargingEnable() {
+        return Utils.existFile(PARENT + RUN_CHARGING);
+    }
+
     public static String getInfo(int position) {
         return Utils.readFile(PARENT + sInfos.keySet().toArray(new String[sInfos.size()])[position]);
     }
@@ -149,6 +165,41 @@ public class KSM {
             }
         }
         return PARENT != null;
+    }
+
+    public static void setCPUGovernor(String value, Context context) {
+        run(Control.write(value, PARENT + CPU_GOVERNOR), CPU_GOVERNOR, context);
+    }
+
+    public static String getCPUGovernor() {
+        return getCPUGovernor(PARENT + CPU_GOVERNOR);
+    }
+
+    public static List<String> getCPUGovernors() {
+        return getCPUGovernors(PARENT + CPU_GOVERNOR);
+    }
+
+    public static boolean hasCPUGovernor() {
+        return Utils.existFile(PARENT + CPU_GOVERNOR);
+    }
+
+    private static String getCPUGovernor(String path) {
+        String[] governors = Utils.readFile(path).split(" ");
+        for (String governor : governors) {
+            if (governor.startsWith("[") && governor.endsWith("]")) {
+                return governor.replace("[", "").replace("]", "");
+            }
+        }
+        return "";
+    }
+
+    private static List<String> getCPUGovernors(String path) {
+        String[] governors = Utils.readFile(path).split(" ");
+        List<String> list = new ArrayList<>();
+        for (String governor : governors) {
+            list.add(governor.replace("[", "").replace("]", ""));
+        }
+        return list;
     }
 
     private static void run(String command, String id, Context context) {

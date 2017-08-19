@@ -32,7 +32,6 @@ import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 import com.grarak.kerneladiutor.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -74,9 +73,15 @@ public class LMKFragment extends RecyclerViewFragment {
         if (LMK.hasAdaptive()) {
             adaptiveInit(items);
         }
+        if (LMK.hasDebug()) {
+            debugInit(items);
+        }
+
+        if (LMK.hasReclaim()) {
+            reclaimInit(items);
+        }
         minfreeInit(items);
         profileInit(items);
-        swapWait(items);
     }
 
     private void adaptiveInit(List<RecyclerViewItem> items) {
@@ -92,6 +97,36 @@ public class LMKFragment extends RecyclerViewFragment {
         });
 
         items.add(adaptive);
+    }
+
+    private void debugInit(List<RecyclerViewItem> items) {
+        SwitchView debug = new SwitchView();
+        debug.setTitle(getString(R.string.lmk_debug));
+        debug.setSummary(getString(R.string.lmk_debug_summary));
+        debug.setChecked(LMK.isDebugEnabled());
+        debug.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                LMK.enableDebug(isChecked, getActivity());
+            }
+        });
+
+        items.add(debug);
+    }
+
+    private void reclaimInit(List<RecyclerViewItem> items) {
+        SwitchView reclaim = new SwitchView();
+        reclaim.setTitle(getString(R.string.process_reclaim));
+        reclaim.setSummary(getString(R.string.process_reclaim_summary));
+        reclaim.setChecked(LMK.isReclaimEnabled());
+        reclaim.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                LMK.enableReclaim(isChecked, getActivity());
+            }
+        });
+
+        items.add(reclaim);
     }
 
     private void minfreeInit(List<RecyclerViewItem> items) {
@@ -149,50 +184,6 @@ public class LMKFragment extends RecyclerViewFragment {
             });
 
             items.add(profile);
-        }
-    }
-
-    private void swapWait(List<RecyclerViewItem> items) {
-        if (LMK.hasSwapWait()) {
-            SwitchView swapWait = new SwitchView();
-            swapWait.setTitle(getString(R.string.kill_lmk));
-            swapWait.setSummary(getString(R.string.kill_lmk_summary));
-            swapWait.setChecked(LMK.isSwapWaitEnabled());
-            swapWait.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    LMK.enableSwapWait(isChecked, getActivity());
-                }
-            });
-
-            items.add(swapWait);
-        }
-
-        if (LMK.hasSwapWaitPercent()) {
-            Integer[] percentages = {0, 50, 66, 75, 80, 90};
-            final Integer[] values = {1, 2, 3, 4, 5, 10};
-            List<String> list = new ArrayList<>();
-            for (int i : percentages) {
-                list.add(i + "%");
-            }
-
-            SeekBarView swapWaitPercent = new SeekBarView();
-            swapWaitPercent.setTitle(getString(R.string.kill_lmk_threshold));
-            swapWaitPercent.setSummary(getString(R.string.kill_lmk_threshold_summary));
-            swapWaitPercent.setItems(list);
-            swapWaitPercent.setProgress(Arrays.asList(values).indexOf(LMK.getSwapWaitPercent()));
-            swapWaitPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    LMK.setSwapWaitPercent(values[position], getActivity());
-                }
-
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-            });
-
-            items.add(swapWaitPercent);
         }
     }
 

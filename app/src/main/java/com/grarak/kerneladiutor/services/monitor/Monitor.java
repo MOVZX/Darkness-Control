@@ -14,7 +14,6 @@ import com.grarak.kerneladiutor.BuildConfig;
 import com.grarak.kerneladiutor.database.Settings;
 import com.grarak.kerneladiutor.utils.Device;
 import com.grarak.kerneladiutor.utils.Prefs;
-import com.grarak.kerneladiutor.utils.Server;
 import com.grarak.kerneladiutor.utils.Utils;
 
 import org.json.JSONArray;
@@ -34,7 +33,6 @@ public class Monitor extends Service {
     private int mLevel;
     private long mTime;
     private List<Long> mTimes = new ArrayList<>();
-    private Server mServer = new Server("https://www.grarak.com");
     private boolean mScreenOn;
     private boolean mCalculating;
 
@@ -136,7 +134,6 @@ public class Monitor extends Service {
                     } catch (Exception ignored) {
                     }
 
-                    mServer.postDeviceCreate(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -40,6 +40,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final HashMap<RecyclerViewItem, View> mViews = new HashMap<>();
     private OnViewChangedListener mOnViewChangedListener;
     private View mFirstItem;
+
     public RecyclerViewAdapter(List<RecyclerViewItem> items, OnViewChangedListener onViewChangedListener) {
         mItems = items;
         mOnViewChangedListener = onViewChangedListener;

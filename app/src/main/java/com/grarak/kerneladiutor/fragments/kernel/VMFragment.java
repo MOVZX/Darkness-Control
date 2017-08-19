@@ -31,6 +31,7 @@ import com.grarak.kerneladiutor.views.recyclerview.CardView;
 import com.grarak.kerneladiutor.views.recyclerview.GenericSelectView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
+import com.grarak.kerneladiutor.views.recyclerview.SelectView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 import com.grarak.kerneladiutor.views.recyclerview.TitleView;
 
@@ -88,25 +89,43 @@ public class VMFragment extends RecyclerViewFragment {
         zramTitle.setText(getString(R.string.zram));
         items.add(zramTitle);
 
-        SeekBarView zram = new SeekBarView();
-        zram.setTitle(getString(R.string.disksize));
-        zram.setSummary(getString(R.string.disksize_summary));
-        zram.setUnit(getString(R.string.mb));
-        zram.setMax(2048);
-        zram.setOffset(10);
-        zram.setProgress(ZRAM.getDisksize() / 10);
-        zram.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                ZRAM.setDisksize(position * 10, getActivity());
-            }
+        if (ZRAM.hasCompAlgo()) {
+            SelectView algo = new SelectView();
+            algo.setTitle(getString(R.string.comp_algo));
+            algo.setSummary(getString(R.string.comp_algo_summary));
+            algo.setItems(ZRAM.getCompAlgos());
+            algo.setItem(ZRAM.getCompAlgo());
+            algo.setOnItemSelected(new SelectView.OnItemSelected() {
+                @Override
+                public void onItemSelected(SelectView selectView, int position, String item) {
+                    ZRAM.setgetCompAlgo(item, getActivity());
+                }
+            });
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+            items.add(algo);
+        }
 
-        items.add(zram);
+        if (ZRAM.supported()) {
+            SeekBarView zram = new SeekBarView();
+            zram.setTitle(getString(R.string.disksize));
+            zram.setSummary(getString(R.string.disksize_summary));
+            zram.setUnit(getString(R.string.mb));
+            zram.setMax(2048);
+            zram.setOffset(10);
+            zram.setProgress(ZRAM.getDisksize() / 10);
+            zram.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ZRAM.setDisksize(position * 10, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            items.add(zram);
+        }
     }
 
     private void zswapInit(List<RecyclerViewItem> items) {

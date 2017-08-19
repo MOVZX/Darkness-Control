@@ -11,7 +11,7 @@ import com.grarak.kerneladiutor.utils.root.Control;
  */
 
 public class AdrenoBoost {
-    private static final String AdrenoBoost = "/sys/class/devfreq/1c00000.qcom,kgsl-3d0/adrenoboost";
+    private static final String AdrenoBoost = "/sys/class/kgsl/kgsl-3d0/devfreq/adrenoboost";
 
     public static void setAdrenoBoost(int value, Context context) {
         run(Control.write(String.valueOf(value), AdrenoBoost), AdrenoBoost, context);

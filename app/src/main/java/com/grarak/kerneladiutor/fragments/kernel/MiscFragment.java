@@ -71,6 +71,9 @@ public class MiscFragment extends RecyclerViewFragment {
         if (Misc.hasArchPower()) {
             archPowerInit(items);
         }
+        if (Misc.hasStateNotifier()) {
+            stateNotifierInit(items);
+        }
         if (PowerSuspend.supported()) {
             powersuspendInit(items);
         }
@@ -200,6 +203,21 @@ public class MiscFragment extends RecyclerViewFragment {
         });
 
         items.add(archPower);
+    }
+
+    private void stateNotifierInit(List<RecyclerViewItem> items) {
+        SwitchView stateNotifier = new SwitchView();
+        stateNotifier.setTitle(getString(R.string.state_notifier));
+        stateNotifier.setSummary(getString(R.string.state_notifier_summary));
+        stateNotifier.setChecked(Misc.isStateNotifierEnabled());
+        stateNotifier.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Misc.enableStateNotifier(isChecked, getActivity());
+            }
+        });
+
+        items.add(stateNotifier);
     }
 
     private void powersuspendInit(List<RecyclerViewItem> items) {

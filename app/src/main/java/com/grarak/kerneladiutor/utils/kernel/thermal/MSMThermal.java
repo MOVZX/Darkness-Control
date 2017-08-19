@@ -87,10 +87,10 @@ public class MSMThermal {
         sTempLimitOffset.put(MSM_THERMAL_TEMP_THRESHOLD, 1);
         sTempLimitOffset.put(TEMPCONTROL_TEMP_LIMIT, 1000);
 
-        sTempLimitMin.put(MSM_THERMAL_THROTTLE_TEMP, 50);
-        sTempLimitMin.put(MSM_THERMAL_TEMP_MAX, 50);
-        sTempLimitMin.put(MSM_THERMAL_TEMP_THRESHOLD, 50);
-        sTempLimitMin.put(TEMPCONTROL_TEMP_LIMIT, 60);
+        sTempLimitMin.put(MSM_THERMAL_THROTTLE_TEMP, 40);
+        sTempLimitMin.put(MSM_THERMAL_TEMP_MAX, 40);
+        sTempLimitMin.put(MSM_THERMAL_TEMP_THRESHOLD, 40);
+        sTempLimitMin.put(TEMPCONTROL_TEMP_LIMIT, 50);
 
         sTempLimitMax.put(MSM_THERMAL_THROTTLE_TEMP, 100);
         sTempLimitMax.put(MSM_THERMAL_TEMP_MAX, 100);

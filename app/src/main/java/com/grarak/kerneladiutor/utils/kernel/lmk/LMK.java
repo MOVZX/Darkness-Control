@@ -36,32 +36,9 @@ public class LMK {
 
     private static final String MINFREE = "/sys/module/lowmemorykiller/parameters/minfree";
     private static final String ADAPTIVE = "/sys/module/lowmemorykiller/parameters/enable_adaptive_lmk";
-    private static final String SWAP_WAIT = "/sys/module/lowmemorykiller/parameters/swap_wait";
-    private static final String SWAP_WAIT_PERCENT = "/sys/module/lowmemorykiller/parameters/swap_wait_percent";
+    private static final String DEBUG = "/sys/module/lowmemorykiller/parameters/debug_level";
 
-    public static void setSwapWaitPercent(int value, Context context) {
-        run(Control.write(String.valueOf(value), SWAP_WAIT_PERCENT), SWAP_WAIT_PERCENT, context);
-    }
-
-    public static int getSwapWaitPercent() {
-        return Utils.strToInt(Utils.readFile(SWAP_WAIT_PERCENT));
-    }
-
-    public static boolean hasSwapWaitPercent() {
-        return Utils.existFile(SWAP_WAIT_PERCENT);
-    }
-
-    public static void enableSwapWait(boolean enable, Context context) {
-        run(Control.write(enable ? "Y" : "N", SWAP_WAIT), SWAP_WAIT, context);
-    }
-
-    public static boolean isSwapWaitEnabled() {
-        return Utils.readFile(SWAP_WAIT).equals("Y");
-    }
-
-    public static boolean hasSwapWait() {
-        return Utils.existFile(SWAP_WAIT);
-    }
+    private static final String RECLAIM = "/sys/module/process_reclaim/parameters/enable_process_reclaim";
 
     public static void setMinFree(String value, Context context) {
         run(Control.chmod("666", MINFREE), MINFREE + "chmod", context);
@@ -85,6 +62,30 @@ public class LMK {
 
     public static boolean hasAdaptive() {
         return Utils.existFile(ADAPTIVE);
+    }
+
+    public static void enableDebug(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", DEBUG), DEBUG, context);
+    }
+
+    public static boolean isDebugEnabled() {
+        return Utils.readFile(DEBUG).equals("1");
+    }
+
+    public static boolean hasDebug() {
+        return Utils.existFile(DEBUG);
+    }
+
+    public static void enableReclaim(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", RECLAIM), RECLAIM, context);
+    }
+
+    public static boolean isReclaimEnabled() {
+        return Utils.readFile(RECLAIM).equals("1");
+    }
+
+    public static boolean hasReclaim() {
+        return Utils.existFile(RECLAIM);
     }
 
     public static boolean supported() {

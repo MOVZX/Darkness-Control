@@ -70,15 +70,10 @@ import com.grarak.kerneladiutor.fragments.statistics.DeviceFragment;
 import com.grarak.kerneladiutor.fragments.statistics.InputsFragment;
 import com.grarak.kerneladiutor.fragments.statistics.MemoryFragment;
 import com.grarak.kerneladiutor.fragments.statistics.OverallFragment;
-import com.grarak.kerneladiutor.fragments.tools.BackupFragment;
-import com.grarak.kerneladiutor.fragments.tools.BuildpropFragment;
-import com.grarak.kerneladiutor.fragments.tools.DataSharingFragment;
 import com.grarak.kerneladiutor.fragments.tools.InitdFragment;
 import com.grarak.kerneladiutor.fragments.tools.OnBootFragment;
 import com.grarak.kerneladiutor.fragments.tools.ProfileFragment;
-import com.grarak.kerneladiutor.fragments.tools.RecoveryFragment;
 import com.grarak.kerneladiutor.fragments.tools.customcontrols.CustomControlsFragment;
-import com.grarak.kerneladiutor.fragments.tools.downloads.DownloadsFragment;
 import com.grarak.kerneladiutor.services.monitor.Monitor;
 import com.grarak.kerneladiutor.utils.Device;
 import com.grarak.kerneladiutor.utils.Prefs;
@@ -99,9 +94,6 @@ import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
-import com.grarak.kerneladiutor.utils.tools.Backup;
-import com.grarak.kerneladiutor.utils.tools.SupportedDownloads;
-import com.grarak.kerneladiutor.views.AdNativeExpress;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -222,19 +214,8 @@ public class NavigationActivity extends BaseActivity
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.misc, new MiscFragment(), R.drawable.ic_clear));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.tools));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.data_sharing, new DataSharingFragment(), R.drawable.ic_database));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.custom_controls, new CustomControlsFragment(), R.drawable.ic_console));
-
-        SupportedDownloads supportedDownloads = new SupportedDownloads(this);
-        if (supportedDownloads.getLink() != null) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.downloads, DownloadsFragment.newInstance(supportedDownloads), R.drawable.ic_download));
-        }
-        if (Backup.hasBackup()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.backup, new BackupFragment(), R.drawable.ic_restore));
-        }
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.build_prop_editor, new BuildpropFragment(), R.drawable.ic_edit));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.profile, new ProfileFragment(), R.drawable.ic_layers));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.recovery, new RecoveryFragment(), R.drawable.ic_security));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.initd, new InitdFragment(), R.drawable.ic_shell));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.on_boot, new OnBootFragment(), R.drawable.ic_start));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.other));
@@ -334,27 +315,6 @@ public class NavigationActivity extends BaseActivity
 
         if (Prefs.getBoolean("data_sharing", true, this)) {
             startService(new Intent(this, Monitor.class));
-        }
-
-        if (!mFetchingAds && !Utils.DONATED) {
-            mFetchingAds = true;
-            mAdsFetcher = new WebpageReader(this, new WebpageReader.WebpageCallback() {
-                @Override
-                public void onCallback(String raw, CharSequence html) {
-                    if (raw == null || raw.isEmpty()) return;
-                    AdNativeExpress.GHAds ghAds = new AdNativeExpress.GHAds(raw);
-                    if (ghAds.readable()) {
-                        ghAds.cache(NavigationActivity.this);
-                        for (int id : sActualFragments.keySet()) {
-                            Fragment fragment = sActualFragments.get(id);
-                            if (fragment instanceof RecyclerViewFragment) {
-                                ((RecyclerViewFragment) fragment).ghAdReady();
-                            }
-                        }
-                    }
-                }
-            });
-            mAdsFetcher.execute(AdNativeExpress.ADS_FETCH);
         }
     }
 

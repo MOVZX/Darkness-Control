@@ -26,6 +26,7 @@ import com.grarak.kerneladiutor.utils.kernel.ksm.KSM;
 import com.grarak.kerneladiutor.views.recyclerview.DescriptionView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
+import com.grarak.kerneladiutor.views.recyclerview.SelectView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
@@ -51,17 +52,34 @@ public class KSMFragment extends RecyclerViewFragment {
 
         if (KSM.hasEnable()) {
             SwitchView enable = new SwitchView();
-            enable.setTitle(getString(R.string.ksm));
-            enable.setSummary(getString(R.string.ksm_summary));
+            enable.setTitle(getString(R.string.ksm_uksm));
+            enable.setSummary(getString(R.string.ksm_uksm_summary));
             enable.setChecked(KSM.isEnabled());
             enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override
                 public void onChanged(SwitchView switchView, boolean isChecked) {
                     KSM.enableKsm(isChecked, getActivity());
+                    KSM.enableCharging(false, getActivity());
                 }
             });
 
             items.add(enable);
+        }
+
+        if (KSM.hasChargingEnable()) {
+            SwitchView charging = new SwitchView();
+            charging.setTitle(getString(R.string.ksm_uksm_charging));
+            charging.setSummary(getString(R.string.ksm_uksm_charging_summary));
+            charging.setChecked(KSM.isChargingEnabled());
+            charging.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    KSM.enableCharging(isChecked, getActivity());
+                    KSM.enableKsm(false, getActivity());
+                }
+            });
+
+            items.add(charging);
         }
 
         if (KSM.hasDeferredTimer()) {
@@ -117,6 +135,22 @@ public class KSMFragment extends RecyclerViewFragment {
             });
 
             items.add(sleepMilliseconds);
+        }
+
+        if (KSM.hasCPUGovernor()) {
+            SelectView governor = new SelectView();
+            governor.setTitle(getString(R.string.ksm_uksm_governor));
+            governor.setSummary(getString(R.string.ksm_uksm_governor_summary));
+            governor.setItems(KSM.getCPUGovernors());
+            governor.setItem(KSM.getCPUGovernor());
+            governor.setOnItemSelected(new SelectView.OnItemSelected() {
+                @Override
+                public void onItemSelected(SelectView selectView, int position, String item) {
+                    KSM.setCPUGovernor(item, getActivity());
+                }
+            });
+
+            items.add(governor);
         }
 
         if (KSM.hasMaxCpuPercentage()) {

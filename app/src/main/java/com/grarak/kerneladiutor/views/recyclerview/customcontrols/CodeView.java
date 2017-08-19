@@ -57,17 +57,17 @@ public class CodeView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(final View view) {
-        mTitleView = (TextView) view.findViewById(R.id.title);
-        mSummaryView = (TextView) view.findViewById(R.id.summary);
-        mRequiredText = (TextView) view.findViewById(R.id.required_text);
-        mCodeView = (TextView) view.findViewById(R.id.code);
+        mTitleView = view.findViewById(R.id.title);
+        mSummaryView = view.findViewById(R.id.summary);
+        mRequiredText = view.findViewById(R.id.required_text);
+        mCodeView = view.findViewById(R.id.code);
         mTestTextView = view.findViewById(R.id.test_text);
         mTestButtonView = view.findViewById(R.id.test_button);
         mOutputParent = view.findViewById(R.id.output_parent);
-        TextView outputTitle = (TextView) view.findViewById(R.id.output_title);
+        TextView outputTitle = view.findViewById(R.id.output_title);
 
         final View progress = view.findViewById(R.id.progress);
-        final TextView outputTextView = (TextView) view.findViewById(R.id.output);
+        final TextView outputTextView = view.findViewById(R.id.output);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override

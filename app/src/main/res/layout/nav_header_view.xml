@@ -14,7 +14,8 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/darkness" />
     </io.codetail.widget.RevealFrameLayout>
 
     <android.support.design.widget.FloatingActionButton

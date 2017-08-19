@@ -50,9 +50,9 @@ public class DescriptionView extends RecyclerViewItem {
     @Override
     public void onCreateView(View view) {
         mRootView = view;
-        mImageView = (AppCompatImageView) view.findViewById(R.id.image);
-        mTitleView = (AppCompatTextView) view.findViewById(R.id.title);
-        mSummaryView = (AppCompatTextView) view.findViewById(R.id.summary);
+        mImageView = view.findViewById(R.id.image);
+        mTitleView = view.findViewById(R.id.title);
+        mSummaryView = view.findViewById(R.id.summary);
 
         if (mTitleView != null) {
             mTitleView.setOnFocusChangeListener(new View.OnFocusChangeListener() {

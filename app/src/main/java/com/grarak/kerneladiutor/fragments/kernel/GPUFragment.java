@@ -364,7 +364,7 @@ public class GPUFragment extends RecyclerViewFragment {
             boost.setTitle(getString(R.string.adrenoboost));
             boost.setSummary(getString(R.string.adrenoboost_summary));
             boost.setItems(list);
-            boost.setProgress(AdrenoBoost.getAdrenoBoost());
+            boost.setProgress(AdrenoBoost.getAdrenoBoost() / 1);
             boost.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onMove(SeekBarView seekBarView, int position, String value) {
@@ -372,7 +372,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    AdrenoBoost.setAdrenoBoost(position, getActivity());
+                    AdrenoBoost.setAdrenoBoost(position * 1, getActivity());
                 }
             });
 

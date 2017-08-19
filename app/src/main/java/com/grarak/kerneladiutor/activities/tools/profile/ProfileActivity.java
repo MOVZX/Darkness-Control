@@ -242,7 +242,7 @@ public class ProfileActivity extends BaseActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile_dialog, container, false);
 
-            LinearLayout checkBoxParent = (LinearLayout) rootView.findViewById(R.id.checkbox_parent);
+            LinearLayout checkBoxParent = rootView.findViewById(R.id.checkbox_parent);
             final HashMap<AppCompatCheckBox, Class> checkBoxes = new HashMap<>();
             for (final String name : mList.keySet()) {
                 AppCompatCheckBox compatCheckBox = new AppCompatCheckBox(getActivity());
@@ -263,7 +263,7 @@ public class ProfileActivity extends BaseActivity {
                 }
             });
 
-            AppCompatImageButton cancel = (AppCompatImageButton) rootView.findViewById(R.id.cancel);
+            AppCompatImageButton cancel = rootView.findViewById(R.id.cancel);
             DrawableCompat.setTint(cancel.getDrawable(), ViewUtils.getThemeAccentColor(getActivity()));
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -272,7 +272,7 @@ public class ProfileActivity extends BaseActivity {
                 }
             });
 
-            AppCompatImageButton done = (AppCompatImageButton) rootView.findViewById(R.id.done);
+            AppCompatImageButton done = rootView.findViewById(R.id.done);
             DrawableCompat.setTint(done.getDrawable(), ViewUtils.getThemeAccentColor(getActivity()));
             done.setOnClickListener(new View.OnClickListener() {
                 @Override

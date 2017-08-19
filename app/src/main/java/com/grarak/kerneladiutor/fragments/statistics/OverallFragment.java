@@ -391,10 +391,10 @@ public class OverallFragment extends RecyclerViewFragment {
             try {
                 for (int i = 0; i < mUsages.size(); i++) {
                     View usageView = mUsages.get(i);
-                    TextView usageOfflineText = (TextView) usageView.findViewById(R.id.usage_offline_text);
-                    TextView usageLoadText = (TextView) usageView.findViewById(R.id.usage_load_text);
-                    TextView usageFreqText = (TextView) usageView.findViewById(R.id.usage_freq_text);
-                    XYGraph usageGraph = (XYGraph) usageView.findViewById(R.id.usage_graph);
+                    TextView usageOfflineText = usageView.findViewById(R.id.usage_offline_text);
+                    TextView usageLoadText = usageView.findViewById(R.id.usage_load_text);
+                    TextView usageFreqText = usageView.findViewById(R.id.usage_freq_text);
+                    XYGraph usageGraph = usageView.findViewById(R.id.usage_graph);
                     if (mFreqs[i] == 0) {
                         usageOfflineText.setVisibility(View.VISIBLE);
                         usageLoadText.setVisibility(View.GONE);

@@ -27,11 +27,7 @@
     <string name="donate_summary">This feature is only available when the donation app is installed! Don\'t worry though. Because this app is open source you can easily build it yourself and remove this check. But I hope you support developers anyway. Thanks for using Darkness Control! Once you bought the donation app you have to restart Darkness Control in order to enable all features.</string>
     <string name="donate_nope">I won\'t fall for this scam!</string>
     <string name="donate_yes">I love this app. Must donate!</string>
-    <string name="ad_here">Your advertisement could be here</string>
-    <string name="remove_ad">Remove ad</string>
     <string name="warning">Warning</string>
-    <string name="gh_ad">This is a non commercial ad! Do not take this seriously! Just a funny way to fill the space when an actual ad doesn\'t load (looking at you adblock users).</string>
-    <string name="open_ad_anyway">Open ad anyway</string>
 
     <string name="apply_on_boot">Apply on boot</string>
     <string name="apply_on_boot_text">Applying settings in %d seconds.</string>
@@ -98,13 +94,8 @@
     <string name="virtual_memory">Virtual Memory</string>
     <string name="entropy">Entropy</string>
     <string name="misc">Misc</string>
-    <string name="data_sharing">Data Sharing</string>
     <string name="custom_controls">Custom Controls</string>
-    <string name="downloads">Downloads</string>
-    <string name="backup">Backup</string>
-    <string name="build_prop_editor">Build prop Editor</string>
     <string name="profile">Profile Manager</string>
-    <string name="recovery">Recovery</string>
     <string name="initd">Init.d Support</string>
     <string name="on_boot">On Boot</string>
     <string name="settings">Settings</string>
@@ -199,8 +190,6 @@
 
     <!-- CPU Voltage -->
     <string name="global_offset">Global Offset</string>
-    <string name="override_vmin">Override Minimum Voltage</string>
-    <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>
@@ -245,7 +234,6 @@
     <string name="lazyplug">LazyPlug</string>
     <string name="lazyplug_summary">An in-kernel replacement for Qualcomm\'s MPDecision. Developed by arter97.</string>
     <string name="lazy">Lazy</string>
-    <string name="possible_cpu_cores">Possible CPU Cores</string>
     <string name="possible_cpu_cores_summary">Possible CPU Cores that lazyplug can use.</string>
     <string name="blu_plug">Blu_Plug</string>
     <string name="blu_plug_summary">An in-kernel replacement for Qualcomm\'s MPDecision. Developed by Code_Blue team.</string>
@@ -417,7 +405,7 @@
     <string name="workload">Workload</string>
     <string name="workload_summary">Adreno idler will more actively try to ramp down the frequency if this is set to a higher value.</string>
     <string name="adrenoboost">Adreno GPU Boost</string>
-    <string name="adrenoboost_summary">Add frequency boost feature to Adreno GPU</string>
+    <string name="adrenoboost_summary">Add frequency boosting feature to Adreno GPU</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>
@@ -553,7 +541,7 @@
     <string name="charging_current_summary">Set charging current. Caution: Exceeding 2000mA may damage your charging driver.</string>
     <string name="battery_current_limit">Battery Current Limit (BCL)</string>
     <string name="low_battery_value">Low Battery Value</string>
-    <string name="low_battery_value_summary">Set low battery value limit to trigger the BCL driver.</string>
+    <string name="low_battery_value_summary">Set low battery value to fool the BCL driver.</string>
 
     <!-- LED -->
     <string name="fade">Fade</string>
@@ -566,7 +554,6 @@
     <string name="bright_light_environment_summary">Set the relative intensity of the LED when in bright environments.</string>
     <string name="low_light_environment">Low Light Environment</string>
     <string name="low_light_environment_summary">Set the relative intensity of the LED when in low brightness environments.</string>
-    <string name="notification">Notification</string>
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="fade_ramp_control">Fade Ramp Control</string>
@@ -598,11 +585,17 @@
 
     <!-- Kernel Samepage Merging -->
     <string name="full_scans">Full scans</string>
+    <string name="pages_scanned">Pages scanned</string>
     <string name="pages_shared">Pages shared</string>
     <string name="pages_sharing">Pages sharing</string>
     <string name="pages_unshared">Pages unshared</string>
     <string name="pages_volatile">Pages volatile</string>
-    <string name="ksm_summary">Reduces memory usage but has an impact on the CPU usage.</string>
+    <string name="ksm_uksm">Enable KSM/UKSM</string>
+    <string name="ksm_uksm_summary">Reduces memory usage with a little impact on the CPU usage.</string>
+    <string name="ksm_uksm_charging">Run On Charging</string>
+    <string name="ksm_uksm_charging_summary">Run KSM/UKSM only when the phone is charging.</string>
+    <string name="ksm_uksm_governor">CPU Utilisation</string>
+    <string name="ksm_uksm_governor_summary">Set CPU utilisation level for KSM/UKSM</string>
     <string name="pages_to_scan">Pages to scan</string>
     <string name="sleep_milliseconds">Sleep between scans</string>
     <string name="deferred_timer">Deferred timer</string>
@@ -614,6 +607,10 @@
     <string name="foreground_app">Foreground Applications</string>
     <string name="lmk_adaptive">Adaptive Low Memory Killer</string>
     <string name="lmk_adaptive_summary">Make LMK more aggressive dynamically when a thrashing scenario is detected.</string>
+    <string name="lmk_debug">Debugging Options</string>
+    <string name="lmk_debug_summary">Enable or disable LMK Debugging option.</string>
+    <string name="process_reclaim">Process Reclaim</string>
+    <string name="process_reclaim_summary">Enable or disable reclaiming app/process memory.</string>
     <string name="visible_app">Visible Applications</string>
     <string name="secondary_server">Secondary Server</string>
     <string name="hidden_app">Hidden Applications</string>
@@ -623,15 +620,13 @@
     <string name="light">Light</string>
     <string name="medium">Medium</string>
     <string name="very_aggressive">Very Aggressive</string>
-    <string name="kill_lmk">Kill LMK</string>
-    <string name="kill_lmk_summary">Kill LMK when swap is in use.</string>
-    <string name="kill_lmk_threshold">Kill LMK Threshold</string>
-    <string name="kill_lmk_threshold_summary">How full swap needs to be to kill LMK.</string>
 
     <!-- Virtual Memory -->
-    <string name="zram">Z-RAM</string>
-    <string name="disksize">Disksize</string>
+    <string name="zram">ZRAM</string>
+    <string name="disksize">Allocation Size</string>
     <string name="disksize_summary">Attempts to increase performance by avoiding paging on physical storage, instead using a compressed virtual device in RAM. Paging takes place in RAM until it is necessary to use the swap space on physical storage.</string>
+    <string name="comp_algo">Compression Mode</string>
+    <string name="comp_algo_summary">Set default ZRAM Compression algorithmg</string>
     <string name="zswap">ZSWAP</string>
     <string name="zswap_summary">ZSwap is a lightweight compressed cache for swap pages. It takes pages that are in the process of being swapped out and attempts to compress them into a dynamically allocated RAM-based memory pool. Zswap basically trades CPU cycles for potentially reduced swap I/O.</string>
     <string name="memory_pool">Memory pool</string>
@@ -657,6 +652,8 @@
     <string name="gentlefairsleepers_summary">Only give sleepers 50% of their service deficit. Disabling this can save a little battery power.</string>
     <string name="arch_power">Arch Power</string>
     <string name="arch_power_summary">Enable Arch Specific Power Function/Savings.</string>
+    <string name="state_notifier">State Notifier</string>
+    <string name="state_notifier_summary">Enable State Notifier for wakeup/suspend event (required by CPU Governors, I/O Schedulers, etc).</string>
     <string name="power_suspend_mode">Power Suspend Mode</string>
     <string name="power_suspend_mode_summary">Kernel Mode, LCD Hooks and Highest Level Hook are automatically managed by the kernel. To manually enable or disable the Power Suspend State choose User Mode.</string>
     <string name="autosleep">Autosleep</string>
@@ -688,11 +685,6 @@
     <string name="wlan_ctrl_wakelock_divider">wlan_ctrl Wakelock Divider</string>
     <string name="msm_hsic_wakelock_divider">msm_hsic Wakelock Divider</string>
     <string name="bcmdhd_wakelock_divider">BCMDHD Wakelock Divider</string>
-
-    <!-- Data Sharing -->
-    <string name="data_sharing_summary">Share your settings with others! Darkness Control will automatically collect information and compile a score list available to all people.</string>
-    <string name="data_sharing_summary_link">You can access the list on &lt;a href="https://www.grarak.com/kerneladiutor">grarak.com&lt;/a>.</string>
-    <string name="sharing_enable">Sharing enable</string>
 
     <!-- Custom Controls -->
     <string name="welcome">Welcome</string>
@@ -732,34 +724,10 @@
     <string name="import_wrong_version">Version of import file is too old!</string>
 
     <!-- Downloads -->
-    <string name="downloads_error">Couldn\'t find any supported kernels! Please check your internet access.</string>
-    <string name="download_error">Failed to download %s.</string>
-    <string name="downloading_counting">%1$s/%2$s</string>
-    <string name="check_md5">Checking md5</string>
-    <string name="md5_mismatch">The downloaded file has a different MD5. This has following reasons:\n\n\u2022 The downloaded file is corrupted\n\u2022 The developer has declared a wrong MD5\n\nTry to download the file again. If you still get this error, please contact the developer of this kernel.</string>
-    <string name="install">Install</string>
-    <string name="cwm_recovery">CWM Recovery</string>
-    <string name="twrp">TWRP</string>
-    <string name="manual_flashing">I will use my hands</string>
-    <string name="file_location">Downloaded file is in %s</string>
-    <string name="backing_up">Backing up</string>
-    <string name="flashing">Flashing</string>
-    <string name="restoring">Restoring</string>
 
     <!-- Backup -->
-    <string name="boot_partition">Boot partition</string>
-    <string name="recovery_partition">Recovery partition</string>
-    <string name="fota_partition">Fota partition</string>
-    <string name="flash">Flash</string>
 
     <!-- Build prop Editor -->
-    <string name="add">Add</string>
-    <string name="backup_item">%1$s has been backed up to %2$s</string>
-    <string name="item_count">%s item</string>
-    <string name="items_count">%s items</string>
-    <string name="key">Key</string>
-    <string name="value">Value</string>
-    <string name="key_empty">Key can\'t be empty!</string>
 
     <!-- Profile -->
     <string name="apply_on_boot_not_available">In profiles mode your changes won\'t have an impact on apply on boot.</string>
@@ -784,18 +752,6 @@
     <string name="select_all">Select all</string>
     <string name="nothing_selected">Nothing selected</string>
     <string name="profile_empty">Profile is empty!</string>
-
-    <!-- Recovery -->
-    <string name="reboot">Reboot</string>
-    <string name="reboot_soft">Soft Reboot</string>
-    <string name="reboot_recovery">Reboot Recovery</string>
-    <string name="reboot_bootloader">Reboot Bootloader</string>
-    <string name="reboot_download">Reboot Download</string>
-    <string name="wipe_data">Wipe Data</string>
-    <string name="wipe_cache">Wipe Cache</string>
-    <string name="flash_zip">Flash Zip</string>
-    <string name="add_action_first">You have to add actions first!</string>
-    <string name="flash_now_confirm">Do you want to run your actions? Your device will reboot into recovery and the actions will run in the order as you added them.</string>
 
     <!-- Init.d -->
     <string name="emulate_initd">Emulate Init.d</string>
@@ -866,10 +822,6 @@
     <!-- About -->
     <string name="about_me">Hi, I\'m Krzysztof Geralt Szczepański aka MOVZX, a 42 year old boring dad living in Krasnoyarsk. I\'ve been developing on Android since April 2016. Beside Darkness Kernel I\'m also maintaining an Unofficial Resurrection Remix for some devices and also working full time as an Engineering Consultant. I play PC games regularly, both offline and online. I\'m also a proud member of PC Master Race (PCMR).</string>
     <string name="libraries_used">Libraries used</string>
-
-    <!-- Contributors -->
-    <string name="commits">%d commits</string>
-    <string name="no_internet">Please check your internet connection!</string>
 
     <!-- Help -->
     <string name="misspelled">Do you need some helps?</string>

@@ -122,7 +122,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
-            final TextView offset = (TextView) rootView.findViewById(R.id.offset);
+            final TextView offset = rootView.findViewById(R.id.offset);
             offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override

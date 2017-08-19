@@ -56,10 +56,10 @@ public class SeekBarView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(final View view) {
-        mTitle = (AppCompatTextView) view.findViewById(R.id.title);
-        mSummary = (AppCompatTextView) view.findViewById(R.id.summary);
-        mValue = (AppCompatTextView) view.findViewById(R.id.value);
-        mSeekBar = (DiscreteSeekBar) view.findViewById(R.id.seekbar);
+        mTitle = view.findViewById(R.id.title);
+        mSummary = view.findViewById(R.id.summary);
+        mValue = view.findViewById(R.id.value);
+        mSeekBar = view.findViewById(R.id.seekbar);
 
         view.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
             @Override

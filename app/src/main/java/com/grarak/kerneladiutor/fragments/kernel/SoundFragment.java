@@ -54,6 +54,10 @@ public class SoundFragment extends RecyclerViewFragment {
             codecPowerGatingEnableInit(items);
         }
 
+        if (Sound.hasSpeakerGain()) {
+            speakerGainInit(items);
+        }
+
         /* FKSC: Start */
         if (Sound.hasFKSCVolumeGain()) {
             fkscvolumeGainInit(items);
@@ -77,10 +81,6 @@ public class SoundFragment extends RecyclerViewFragment {
             exscmicrophoneGainInit(items);
         }
         /* EXSC: End */
-
-        if (Sound.hasSpeakerGain()) {
-            speakerGainInit(items);
-        }
     }
 
     /* Headset High Performance Mode */

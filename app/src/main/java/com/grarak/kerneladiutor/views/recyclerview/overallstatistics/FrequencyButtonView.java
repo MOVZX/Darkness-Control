@@ -44,9 +44,9 @@ public class FrequencyButtonView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(View view) {
-        AppCompatImageButton refresh = (AppCompatImageButton) view.findViewById(R.id.frequency_refresh);
-        AppCompatImageButton reset = (AppCompatImageButton) view.findViewById(R.id.frequency_reset);
-        AppCompatImageButton restore = (AppCompatImageButton) view.findViewById(R.id.frequency_restore);
+        AppCompatImageButton refresh = view.findViewById(R.id.frequency_refresh);
+        AppCompatImageButton reset = view.findViewById(R.id.frequency_reset);
+        AppCompatImageButton restore = view.findViewById(R.id.frequency_restore);
 
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override

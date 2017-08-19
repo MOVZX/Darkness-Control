@@ -82,10 +82,10 @@ public class BannerResizerActivity extends BaseActivity {
             final int px = Prefs.getInt("banner_size", defaultHeight, getActivity());
             setHeight(banner, px);
 
-            final TextView text = (TextView) rootView.findViewById(R.id.seekbar_text);
+            final TextView text = rootView.findViewById(R.id.seekbar_text);
             text.setText(Utils.strFormat("%d" + getString(R.string.px), px));
 
-            final DiscreteSeekBar seekBar = (DiscreteSeekBar) rootView.findViewById(R.id.seekbar);
+            final DiscreteSeekBar seekBar = rootView.findViewById(R.id.seekbar);
             seekBar.setMax(maxHeight - minHeight);
             seekBar.setProgress(px - minHeight);
             seekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {

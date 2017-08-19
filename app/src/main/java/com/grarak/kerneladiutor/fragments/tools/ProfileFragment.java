@@ -610,7 +610,7 @@ public class ProfileFragment extends RecyclerViewFragment {
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile_details, container, false);
 
-            mCodeText = (TextView) rootView.findViewById(R.id.code_text);
+            mCodeText = rootView.findViewById(R.id.code_text);
 
             return rootView;
         }
@@ -653,7 +653,7 @@ public class ProfileFragment extends RecyclerViewFragment {
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_profile_tile, container, false);
 
-            SwitchCompat switchCompat = (SwitchCompat) rootView.findViewById(R.id.switcher);
+            SwitchCompat switchCompat = rootView.findViewById(R.id.switcher);
             switchCompat.setChecked(Prefs.getBoolean("profiletile", false, getActivity()));
             switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -675,7 +675,7 @@ public class ProfileFragment extends RecyclerViewFragment {
             View rootView = inflater.inflate(R.layout.fragment_apply_on_boot, container, false);
 
             ((TextView) rootView.findViewById(R.id.title)).setText(getString(R.string.profile_tasker_toast));
-            SwitchCompat switchCompat = (SwitchCompat) rootView.findViewById(R.id.switcher);
+            SwitchCompat switchCompat = rootView.findViewById(R.id.switcher);
             switchCompat.setChecked(Prefs.getBoolean("showtaskertoast", true, getActivity()));
             switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

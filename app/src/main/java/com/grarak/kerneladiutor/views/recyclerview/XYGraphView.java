@@ -48,9 +48,9 @@ public class XYGraphView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(View view) {
-        mTitle = (TextView) view.findViewById(R.id.title);
-        mText = (TextView) view.findViewById(R.id.text);
-        mGraph = (XYGraph) view.findViewById(R.id.graph);
+        mTitle = view.findViewById(R.id.title);
+        mText = view.findViewById(R.id.text);
+        mGraph = view.findViewById(R.id.graph);
 
         super.onCreateView(view);
     }

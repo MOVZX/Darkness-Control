@@ -342,7 +342,7 @@ public class InitdFragment extends RecyclerViewFragment {
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_emulate_initd, container, false);
 
-            SwitchCompat switchCompat = (SwitchCompat) rootView.findViewById(R.id.switcher);
+            SwitchCompat switchCompat = rootView.findViewById(R.id.switcher);
             switchCompat.setChecked(Prefs.getBoolean("initd_onboot", false, getActivity()));
             switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

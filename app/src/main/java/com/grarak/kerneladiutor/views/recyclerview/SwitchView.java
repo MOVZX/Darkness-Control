@@ -49,9 +49,9 @@ public class SwitchView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(View view) {
-        mTitle = (AppCompatTextView) view.findViewById(R.id.title);
-        mSummary = (AppCompatTextView) view.findViewById(R.id.summary);
-        mSwitcher = (SwitchCompat) view.findViewById(R.id.switcher);
+        mTitle = view.findViewById(R.id.title);
+        mSummary = view.findViewById(R.id.summary);
+        mSwitcher = view.findViewById(R.id.switcher);
 
         super.onCreateView(view);
 

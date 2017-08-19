@@ -117,8 +117,8 @@ public class ApplyOnBootFragment extends BaseFragment {
         if (getActivity() instanceof ProfileActivity) {
             View rootView = inflater.inflate(R.layout.fragment_description, container, false);
 
-            TextView title = (TextView) rootView.findViewById(R.id.title);
-            TextView summary = (TextView) rootView.findViewById(R.id.summary);
+            TextView title = rootView.findViewById(R.id.title);
+            TextView summary = rootView.findViewById(R.id.summary);
 
             title.setText(getString(R.string.apply_on_boot));
             summary.setText(getString(R.string.apply_on_boot_not_available));
@@ -128,7 +128,7 @@ public class ApplyOnBootFragment extends BaseFragment {
             View rootView = inflater.inflate(R.layout.fragment_apply_on_boot, container, false);
 
             final String category = getArguments().getString("category");
-            SwitchCompat switcher = (SwitchCompat) rootView.findViewById(R.id.switcher);
+            SwitchCompat switcher = rootView.findViewById(R.id.switcher);
             switcher.setChecked(Prefs.getBoolean(category, false, getActivity()));
             switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

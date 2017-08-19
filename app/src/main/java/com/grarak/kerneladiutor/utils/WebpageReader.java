@@ -40,6 +40,7 @@ public class WebpageReader extends ThreadTask<String, String> {
     private HttpURLConnection mConnection;
     private boolean mConnected;
     private boolean mCancelled;
+
     public WebpageReader(Activity activity, WebpageCallback webpageCallback) {
         super(activity);
         this.mWebpageCallback = webpageCallback;
