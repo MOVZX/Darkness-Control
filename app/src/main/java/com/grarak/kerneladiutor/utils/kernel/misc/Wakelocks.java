@@ -42,34 +42,25 @@ public class Wakelocks {
     private static final List<Wakelock> sWakelocks = new ArrayList<>();
 
     static {
-        sWakelocks.add(new Wakelock("/sys/module/smb135x_charger/parameters/use_wlock",
-                R.string.smb135x_wakelock, R.string.smb135x_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_smb135x_wake_ws",
-                R.string.smb135x_wakelock, R.string.smb135x_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_si_ws",
-                R.string.sensor_ind_wakelock, R.string.sensor_ind_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_msm_hsic_ws",
-                R.string.msm_hsic_host_wakelock, R.string.msm_hsic_host_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_rx_wake",
-                R.string.wlan_rx_wakelock, R.string.wlan_rx_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_rx_wake_ws",
-                R.string.wlan_rx_wakelock, R.string.wlan_rx_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_ctrl_wake",
-                R.string.wlan_ctrl_wakelock, R.string.wlan_ctrl_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws",
-                R.string.wlan_ctrl_wakelock, R.string.wlan_ctrl_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_wake",
-                R.string.wlan_wakelock, R.string.wlan_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_wake_ws",
-                R.string.wlan_wakelock, R.string.wlan_wakelock_summary));
-        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_bluesleep_ws",
-                R.string.bluesleep_wakelock, R.string.bluesleep_wakelock_summary));
+        sWakelocks.add(new Wakelock("/sys/module/smb135x_charger/parameters/use_wlock"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_smb135x_wake_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_si_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_msm_hsic_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_rx_wake"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_rx_wake_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_ctrl_wake"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_ctrl_wake_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/wlan_wake"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_wake_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_bluesleep_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_bluedroid_timer_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_ipa_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_netlink_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_qcom_rx_wakelock_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_timerfd_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_extscan_wl_ws"));
         sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_ws"));
+        sWakelocks.add(new Wakelock("/sys/module/wakeup/parameters/enable_wlan_wow_wl_ws"));
     }
 
     public static void setBCMDHDDivider(int value, Context context) {
@@ -164,8 +155,7 @@ public class Wakelocks {
             }
 
             String[] paths = mPath.split("/");
-            return Utils.upperCaseEachWord(paths[paths.length - 1].replace("enable_", "")
-                    .replace("_ws", "").replace("_", " "));
+            return Utils.lowerCaseEachWord(paths[paths.length - 1].replace("enable_", ""));
         }
 
         public void enable(boolean enable, Context context) {

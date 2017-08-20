@@ -27,6 +27,8 @@ import com.grarak.kerneladiutor.utils.root.Control;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by willi on 26.06.16.
@@ -36,22 +38,45 @@ public class Battery {
     private static final String FORCE_FAST_CHARGE = "/sys/kernel/fast_charge/force_fast_charge";
 
     private static final String CHARGE_RATE = "/sys/module/qpnp_smbcharger/parameters/";
-    private static final String CUSTOM_CURRENT = CHARGE_RATE + "/default_fastchg_current_ma";
+    private static final String CUSTOM_CURRENT1 = CHARGE_RATE + "default_dcp_icl_ma";
+    private static final String CUSTOM_CURRENT2 = CHARGE_RATE + "default_hvdcp_icl_ma";
+    private static final String CUSTOM_CURRENT3 = CHARGE_RATE + "default_hvdcp3_icl_ma";
+    private static final String CUSTOM_CURRENT4 = CHARGE_RATE + "default_fastchg_current_ma";
 
     private static final String BATTERY_CURRENT_LIMIT = "/sys/module/battery_current_limit/parameters/low_battery_value";
 
+    private static final List<String> sChargingRate = new ArrayList<>();
     private static Integer sCapacity;
+    private static String CUSTOM_CHARGING_RATE;
 
-    public static void setChargingCurrent(int value, Context context) {
-        run(Control.write(String.valueOf(value), CUSTOM_CURRENT), CUSTOM_CURRENT, context);
-    }
-
-    public static int getChargingCurrent() {
-        return Utils.strToInt(Utils.readFile(CUSTOM_CURRENT));
+    static {
+        sChargingRate.add(CUSTOM_CURRENT1);
+        sChargingRate.add(CUSTOM_CURRENT2);
+        sChargingRate.add(CUSTOM_CURRENT3);
+        sChargingRate.add(CUSTOM_CURRENT4);
     }
 
     public static boolean hasChargingCurrent() {
-        return Utils.existFile(CUSTOM_CURRENT);
+        if (CUSTOM_CHARGING_RATE == null) {
+            for (String file : sChargingRate) {
+                if (Utils.existFile(file)) {
+                    CUSTOM_CHARGING_RATE = file;
+                    return true;
+                }
+            }
+        }
+        return CUSTOM_CHARGING_RATE != null;
+    }
+
+    public static void setChargingCurrent(int value, Context context) {
+        run(Control.write(String.valueOf(value), CUSTOM_CURRENT1), CUSTOM_CURRENT1, context);
+        run(Control.write(String.valueOf(value), CUSTOM_CURRENT2), CUSTOM_CURRENT2, context);
+        run(Control.write(String.valueOf(value), CUSTOM_CURRENT3), CUSTOM_CURRENT3, context);
+        run(Control.write(String.valueOf(value), CUSTOM_CURRENT4), CUSTOM_CURRENT4, context);
+    }
+
+    public static int getChargingCurrent() {
+        return Utils.strToInt(Utils.readFile(CUSTOM_CHARGING_RATE));
     }
 
     public static void enableForceFastCharge(boolean enable, Context context) {

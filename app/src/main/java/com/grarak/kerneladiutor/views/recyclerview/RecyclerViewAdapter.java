@@ -75,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewGroup.removeView(view);
         }
         if (mItems.get(position).cardCompatible()
-                && Prefs.getBoolean("forcecards", false, view.getContext())) {
+                && Prefs.getBoolean("forcecards", true, view.getContext())) {
             CardView cardView = new CardView(view.getContext());
             cardView.setRadius(view.getResources().getDimension(R.dimen.cardview_radius));
             cardView.setCardElevation(view.getResources().getDimension(R.dimen.cardview_elevation));

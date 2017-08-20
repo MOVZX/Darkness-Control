@@ -77,8 +77,12 @@ public class Misc {
 
     public static String getSeLinuxStatus() {
         String result = Utils.readFile(SELINUX);
-        if (result.equals("0")) return "Permissive";
-        else if (result.equals("1")) return "Enforcing";
+        if (result != null) {
+            if (result.equals("0"))
+                return "Permissive";
+            else if (result.equals("1"))
+                return "Enforcing";
+        }
         return "Unknown Status";
     }
 

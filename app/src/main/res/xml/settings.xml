@@ -26,7 +26,7 @@
             android:key="hide_banner"
             android:summary="@string/hide_banner" />
         <SwitchPreferenceCompat
-            android:defaultValue="true"
+            android:defaultValue="1"
             android:key="forcecards"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
@@ -34,7 +34,7 @@
             android:key="accent_color"
             android:summary="@string/accent_color" />
         <SwitchPreferenceCompat
-            android:defaultValue="true"
+            android:defaultValue="1"
             android:key="section_icons"
             android:summary="@string/section_icons_summary"
             android:title="@string/section_icons" />
@@ -53,7 +53,7 @@
             android:summary="@string/apply_on_boot_test_summary"
             android:title="@string/test" />
         <SwitchPreferenceCompat
-            android:defaultValue="true"
+            android:defaultValue="1"
             android:key="applyonboothide"
             android:summary="@string/apply_on_boot_hide_summary"
             android:title="@string/hide" />
@@ -62,7 +62,7 @@
             android:summary="@string/apply_on_boot_confirmation_notification_summary"
             android:title="@string/confirmation_notification" />
         <SwitchPreferenceCompat
-            android:defaultValue="true"
+            android:defaultValue="1"
             android:key="applyonboottoast"
             android:summary="@string/apply_on_boot_toast_summary"
             android:title="@string/toast" />
