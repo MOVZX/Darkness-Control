@@ -24,6 +24,7 @@ import com.grarak.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.grarak.kerneladiutor.fragments.BaseFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.kernel.io.IO;
+import com.grarak.kerneladiutor.views.recyclerview.CardView;
 import com.grarak.kerneladiutor.views.recyclerview.DescriptionView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
@@ -55,10 +56,102 @@ public class IOFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        clkScalingInit(items);
         storageInit(IO.Storage.Internal, items);
         if (IO.hasExternal()) {
             storageInit(IO.Storage.External, items);
         }
+    }
+
+    private void clkScalingInit(List<RecyclerViewItem> items) {
+        CardView clkScalingCard = new CardView(getActivity());
+        clkScalingCard.setTitle(getString(R.string.clk_scaling));
+
+        if (IO.hasScaleDownInLowWrLoad()) {
+            SwitchView scaledowninlowwrload = new SwitchView();
+            scaledowninlowwrload.setTitle(getString(R.string.scale_down_in_low_wr_load));
+            scaledowninlowwrload.setSummary(getString(R.string.scale_down_in_low_wr_load_summary));
+            scaledowninlowwrload.setChecked(IO.isScaleDownInLowWrLoadEnabled());
+            scaledowninlowwrload.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    IO.enableScaleDownInLowWrLoad(isChecked, getActivity());
+                }
+            });
+
+            clkScalingCard.addItem(scaledowninlowwrload);
+        }
+
+        if (IO.hasUpThreshold()) {
+            SeekBarView upthreshold = new SeekBarView();
+            upthreshold.setTitle(getString(R.string.clk_up_threshold));
+            upthreshold.setSummary(getString(R.string.clk_up_threshold_summary));
+            upthreshold.setUnit(getString(R.string.pc));
+            upthreshold.setMax(100);
+            upthreshold.setMin(1);
+            upthreshold.setOffset(1);
+            upthreshold.setProgress(IO.getUpThreshold() / 1 - 1);
+            upthreshold.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    IO.setUpThreshold((position + 1) * 1, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            clkScalingCard.addItem(upthreshold);
+        }
+
+        if (IO.hasDownThreshold()) {
+            SeekBarView downthreshold = new SeekBarView();
+            downthreshold.setTitle(getString(R.string.clk_down_threshold));
+            downthreshold.setSummary(getString(R.string.clk_down_threshold_summary));
+            downthreshold.setUnit(getString(R.string.pc));
+            downthreshold.setMax(100);
+            downthreshold.setMin(1);
+            downthreshold.setOffset(1);
+            downthreshold.setProgress(IO.getDownThreshold() / 1 - 1);
+            downthreshold.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    IO.setDownThreshold((position + 1) * 1, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            clkScalingCard.addItem(downthreshold);
+        }
+
+        if (IO.hasPollingInterval()) {
+            SeekBarView pollinginterval = new SeekBarView();
+            pollinginterval.setTitle(getString(R.string.clk_polling_interval));
+            pollinginterval.setSummary(getString(R.string.clk_polling_interval_summary));
+            pollinginterval.setUnit(getString(R.string.ms));
+            pollinginterval.setMax(1000);
+            pollinginterval.setMin(100);
+            pollinginterval.setOffset(10);
+            pollinginterval.setProgress(IO.getPollingInterval() / 10);
+            pollinginterval.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    IO.setPollingInterval((position + 10) * 10, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            clkScalingCard.addItem(pollinginterval);
+        }
+
+        items.add(clkScalingCard);
     }
 
     private void storageInit(final IO.Storage storage, List<RecyclerViewItem> items) {

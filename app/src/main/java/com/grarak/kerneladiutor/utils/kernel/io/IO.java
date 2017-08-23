@@ -42,6 +42,11 @@ public abstract class IO {
     private static final String IOSTATS = "iostats";
     private static final String ADD_RANDOM = "add_random";
     private static final String RQ_AFFINITY = "rq_affinity";
+    private static final String CLK_SCALING = "/sys/class/mmc_host/mmc0/clk_scaling/";
+    private static final String SCALE_DOWN_IN_LOW_WR_LOAD = CLK_SCALING + "scale_down_in_low_wr_load";
+    private static final String UP_THRESHOLD = CLK_SCALING + "up_threshold";
+    private static final String DOWN_THRESHOLD = CLK_SCALING + "down_threshold";
+    private static final String POLLING_INTERVAL = CLK_SCALING + "polling_interval";
 
     private static final List<String> sInternal = new ArrayList<>();
     private static final List<String> sExternal = new ArrayList<>();
@@ -110,6 +115,56 @@ public abstract class IO {
     public static boolean hasRotational(Storage storage) {
         return Utils.existFile(getPath(storage, ROTATIONAL));
     }
+
+    /* Clock Scaling: Start */
+    public static boolean hasScaleDownInLowWrLoad() {
+        return Utils.existFile(SCALE_DOWN_IN_LOW_WR_LOAD);
+    }
+
+    public static boolean isScaleDownInLowWrLoadEnabled() {
+        return Utils.readFile(SCALE_DOWN_IN_LOW_WR_LOAD).equals("1");
+    }
+
+    public static void enableScaleDownInLowWrLoad(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", SCALE_DOWN_IN_LOW_WR_LOAD), SCALE_DOWN_IN_LOW_WR_LOAD, context);
+    }
+
+    public static boolean hasUpThreshold() {
+        return Utils.existFile(UP_THRESHOLD);
+    }
+
+    public static int getUpThreshold() {
+        return Utils.strToInt(Utils.readFile(UP_THRESHOLD));
+    }
+
+    public static void setUpThreshold(int value, Context context) {
+        run(Control.write(String.valueOf(value), UP_THRESHOLD), UP_THRESHOLD, context);
+    }
+
+    public static boolean hasDownThreshold() {
+        return Utils.existFile(DOWN_THRESHOLD);
+    }
+
+    public static int getDownThreshold() {
+        return Utils.strToInt(Utils.readFile(DOWN_THRESHOLD));
+    }
+
+    public static void setDownThreshold(int value, Context context) {
+        run(Control.write(String.valueOf(value), DOWN_THRESHOLD), DOWN_THRESHOLD, context);
+    }
+
+    public static boolean hasPollingInterval() {
+        return Utils.existFile(POLLING_INTERVAL);
+    }
+
+    public static int getPollingInterval() {
+        return Utils.strToInt(Utils.readFile(POLLING_INTERVAL));
+    }
+
+    public static void setPollingInterval(int value, Context context) {
+        run(Control.write(String.valueOf(value), POLLING_INTERVAL), POLLING_INTERVAL, context);
+    }
+    /* Clock Scaling: End */
 
     public static void setReadahead(Storage storage, int value, Context context) {
         run(Control.write(String.valueOf(value), getPath(storage, READ_AHEAD)),

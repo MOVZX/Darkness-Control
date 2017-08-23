@@ -78,17 +78,17 @@
     <string name="memory">Memory</string>
     <string name="inputs">Inputs</string>
     <string name="cpu">CPU</string>
-    <string name="cpu_voltage">CPU Voltage</string>
-    <string name="gpu_voltage">GPU Voltage</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
-    <string name="thermal">Thermal</string>
+    <string name="cpu_voltage">CPU Voltage</string>
     <string name="gpu">GPU</string>
+    <string name="gpu_voltage">GPU Voltage</string>
+    <string name="thermal">Thermal Settings</string>
     <string name="screen">Screen</string>
-    <string name="wake">Wake</string>
-    <string name="sound">Sound</string>
+    <string name="wake">Wake Gestures</string>
+    <string name="sound">Sound Control</string>
     <string name="battery">Battery</string>
-    <string name="led">LED</string>
-    <string name="io_scheduler">I/O Scheduler</string>
+    <string name="led">LED Settings</string>
+    <string name="storage">Storage Settings</string>
     <string name="ksm">Kernel Samepage Merging</string>
     <string name="lmk">Low Memory Killer</string>
     <string name="virtual_memory">Virtual Memory</string>
@@ -578,6 +578,15 @@
     <string name="rotational_summary">Treat device as rotational storage.</string>
     <string name="iostats">I/O Stats</string>
     <string name="iostats_summary">Maintain I/O statistics for this storage device. Disabling will break I/O monitoring apps.</string>
+    <string name="clk_scaling">Clock Scaling</string>
+    <string name="scale_down_in_low_wr_load">General Performance</string>
+    <string name="scale_down_in_low_wr_load_summary">Avoid scaling down in low write loads.</string>
+    <string name="clk_up_threshold">Up Threshold</string>
+    <string name="clk_up_threshold_summary">Set the threshold value to scale up.</string>
+    <string name="clk_down_threshold">Down Threshold</string>
+    <string name="clk_down_threshold_summary">Set the threshold value to scale down.</string>
+    <string name="clk_polling_interval">Polling Interval</string>
+    <string name="clk_polling_interval_summary">Polling interval for the Clock Scaling driver.</string>
     <string name="add_random">Add Random</string>
     <string name="add_random_summary">Draw entropy from spinning (rotational) storage.</string>
     <string name="rq_affitiny">RQ Affinity</string>
@@ -803,7 +812,7 @@
     <string name="sections">Sections</string>
 
     <!-- About -->
-    <string name="about_me">Hi, I\'m Krzysztof Geralt Szczepański aka MOVZX, a 42 year old boring dad living in Krasnoyarsk. I\'ve been developing on Android since April 2016. Beside Darkness Kernel I\'m also maintaining an Unofficial Resurrection Remix for some devices and also working full time as an Engineering Consultant. I play PC games regularly, both offline and online. I\'m also a proud member of PC Master Race (PCMR).</string>
+    <string name="about_me">Hi, I\'m Krzysztof Geralt Szczepański aka MOVZX. I\'ve been developing on Android since April 2016. Beside Darkness Kernel I\'m also maintaining an Unofficial Resurrection Remix for some devices and also working full time as an Engineering Consultant. I play PC games regularly, both offline and online. I\'m also a proud member of PC Master Race (PCMR).</string>
     <string name="libraries_used">Libraries used</string>
 
     <!-- Help -->

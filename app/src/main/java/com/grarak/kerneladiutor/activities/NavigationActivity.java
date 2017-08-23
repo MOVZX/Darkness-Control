@@ -171,20 +171,20 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.inputs, new InputsFragment(), R.drawable.ic_keyboard));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, new CPUFragment(), R.drawable.ic_cpu));
+        if (Hotplug.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, new CPUHotplugFragment(), R.drawable.ic_switch));
+        }
         if (Voltage.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, new CPUVoltageFragment(), R.drawable.ic_bolt));
+        }
+        if (GPU.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu, new GPUFragment(), R.drawable.ic_gpu));
         }
         if (GPUVoltage.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu_voltage, new GPUVoltageFragment(), R.drawable.ic_bolt));
         }
-        if (Hotplug.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, new CPUHotplugFragment(), R.drawable.ic_switch));
-        }
         if (Thermal.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.thermal, new ThermalFragment(), R.drawable.ic_temperature));
-        }
-        if (GPU.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu, new GPUFragment(), R.drawable.ic_gpu));
         }
         if (Screen.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.screen, new ScreenFragment(), R.drawable.ic_display));
@@ -200,7 +200,7 @@ public class NavigationActivity extends BaseActivity
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.led, new LEDFragment(), R.drawable.ic_led));
         }
         if (IO.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.io_scheduler, new IOFragment(), R.drawable.ic_sdcard));
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.storage, new IOFragment(), R.drawable.ic_sdcard));
         }
         if (KSM.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.ksm, new KSMFragment(), R.drawable.ic_merge));

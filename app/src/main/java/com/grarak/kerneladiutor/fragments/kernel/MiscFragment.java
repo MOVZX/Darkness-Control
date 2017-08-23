@@ -35,9 +35,7 @@ import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.SelectView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
-import com.grarak.kerneladiutor.views.recyclerview.TitleView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -329,7 +327,8 @@ public class MiscFragment extends RecyclerViewFragment {
     }
 
     private void wakelockInit(List<RecyclerViewItem> items) {
-        List<RecyclerViewItem> wakelocks = new ArrayList<>();
+        CardView wakelockCard = new CardView(getActivity());
+        wakelockCard.setTitle(getString(R.string.wakelock));
 
         for (final Wakelocks.Wakelock wakelock : Wakelocks.getWakelocks()) {
             if (!wakelock.exists()) continue;
@@ -351,15 +350,11 @@ public class MiscFragment extends RecyclerViewFragment {
                 }
             });
 
-            wakelocks.add(switchView);
+            wakelockCard.addItem(switchView);
         }
 
-        if (wakelocks.size() > 0) {
-            TitleView wakelockTitle = new TitleView();
-            wakelockTitle.setText(getString(R.string.wakelock));
-
-            items.add(wakelockTitle);
-            items.addAll(wakelocks);
+        if (wakelockCard.size() > 0) {
+            items.add(wakelockCard);
         }
     }
 
