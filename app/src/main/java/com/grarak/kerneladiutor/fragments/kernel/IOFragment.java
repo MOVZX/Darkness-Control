@@ -82,6 +82,21 @@ public class IOFragment extends RecyclerViewFragment {
             clkScalingCard.addItem(scaledowninlowwrload);
         }
 
+        if (IO.hasSCSIMultiQueue()) {
+            SwitchView scsimultiqueue = new SwitchView();
+            scsimultiqueue.setTitle(getString(R.string.scsi_multi_queue));
+            scsimultiqueue.setSummary(getString(R.string.scsi_multi_queue_summary));
+            scsimultiqueue.setChecked(IO.isSCSIMultiQueueEnabled());
+            scsimultiqueue.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    IO.enableSCSIMultiQueue(isChecked, getActivity());
+                }
+            });
+
+            clkScalingCard.addItem(scsimultiqueue);
+        }
+
         if (IO.hasUpThreshold()) {
             SeekBarView upthreshold = new SeekBarView();
             upthreshold.setTitle(getString(R.string.clk_up_threshold));

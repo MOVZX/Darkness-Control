@@ -33,8 +33,10 @@ import java.util.List;
  */
 public class Sound {
 
-    private static final String HIGHPERF_MODE = "/sys/module/snd_soc_msm8x16_wcd/parameters/high_perf_mode";
-    private static final String CODED_POWER_GATING = "/sys/module/snd_soc_msm8x16_wcd/parameters/dig_core_collapse_enable";
+    private static final String HIGHPERF_MODE_KENZO = "/sys/module/snd_soc_msm8x16_wcd/parameters/high_perf_mode";
+    private static final String HIGHPERF_MODE_GEMINI = "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode";
+    private static final String CODEC_POWER_GATING_KENZO = "/sys/module/snd_soc_msm8x16_wcd/parameters/dig_core_collapse_enable";
+    private static final String CODEC_POWER_GATING_GEMINI = "/sys/module/snd_soc_wcd9335/parameters/dig_core_collapse_enable";
 
     /* FKSC: Start */
     private static final String FKSC_HEADPHONE_GAIN = "/sys/devices/virtual/misc/soundcontrol/volume_boost";
@@ -50,11 +52,25 @@ public class Sound {
     private static final String EXSC_MICROPHONE_GAIN = "/sys/kernel/sound_control/mic_gain";
     /* EXSC: End */
 
+    private static final List<String> sHighPerfFiles = new ArrayList<>();
+    private static final List<String> sPowerGating = new ArrayList<>();
     private static final List<String> sSpeakerGainFiles = new ArrayList<>();
     private static final List<String> sFKSCLimits = new ArrayList<>();
     private static final List<String> sEXSC1Limits = new ArrayList<>();
     private static final List<String> sEXSC2Limits = new ArrayList<>();
+    private static String HIGHPERF_MODE;
+    private static String CODEC_POWER_GATING;
     private static String SPEAKER_GAIN_FILE;
+
+    static {
+        sHighPerfFiles.add(HIGHPERF_MODE_KENZO);
+        sHighPerfFiles.add(HIGHPERF_MODE_GEMINI);
+    }
+
+    static {
+        sPowerGating.add(CODEC_POWER_GATING_KENZO);
+        sPowerGating.add(CODEC_POWER_GATING_GEMINI);
+    }
 
     static {
         sSpeakerGainFiles.add(FKSC_SPEAKER_GAIN);
@@ -75,28 +91,68 @@ public class Sound {
 
     /* Headset High Performance Mode */
     public static void enableHighPerfMode(boolean enable, Context context) {
-        run(Control.write(enable ? "1" : "0", HIGHPERF_MODE), HIGHPERF_MODE, context);
+        switch (HIGHPERF_MODE) {
+            case HIGHPERF_MODE_KENZO:
+                run(Control.write(enable ? "1" : "0", HIGHPERF_MODE_KENZO), HIGHPERF_MODE_KENZO, context);
+                break;
+            case HIGHPERF_MODE_GEMINI:
+                run(Control.write(enable ? "1" : "0", HIGHPERF_MODE_GEMINI), HIGHPERF_MODE_GEMINI, context);
+                break;
+        }
     }
 
-    public static boolean isHighPerfModeEnabled() {
-        return Utils.readFile(HIGHPERF_MODE).equals("1");
+    public static boolean isHighPerfMode() {
+        switch (HIGHPERF_MODE) {
+            case HIGHPERF_MODE_KENZO:
+                return Utils.readFile(HIGHPERF_MODE_KENZO).equals("1");
+            case HIGHPERF_MODE_GEMINI:
+                return Utils.readFile(HIGHPERF_MODE_GEMINI).equals("1");
+        }
+        return false;
     }
 
-    public static boolean hasHighPerfModeEnable() {
-        return Utils.existFile(HIGHPERF_MODE);
+    public static boolean hasHighPerfMode() {
+        if (HIGHPERF_MODE == null) {
+            for (String file : sHighPerfFiles)
+                if (Utils.existFile(file)) {
+                    HIGHPERF_MODE = file;
+                    return true;
+                }
+        }
+        return HIGHPERF_MODE != null;
     }
 
     /* Audio Codec Power Gating */
     public static void enableCodecPowerGating(boolean enable, Context context) {
-        run(Control.write(enable ? "1" : "0", CODED_POWER_GATING), CODED_POWER_GATING, context);
+        switch (CODEC_POWER_GATING) {
+            case CODEC_POWER_GATING_KENZO:
+                run(Control.write(enable ? "1" : "0", CODEC_POWER_GATING_KENZO), CODEC_POWER_GATING_KENZO, context);
+                break;
+            case CODEC_POWER_GATING_GEMINI:
+                run(Control.write(enable ? "1" : "0", CODEC_POWER_GATING_GEMINI), CODEC_POWER_GATING_GEMINI, context);
+                break;
+        }
     }
 
-    public static boolean isCodecPowerGatingEnabled() {
-        return Utils.readFile(CODED_POWER_GATING).equals("1");
+    public static boolean isCodecPowerGating() {
+        switch (CODEC_POWER_GATING) {
+            case CODEC_POWER_GATING_KENZO:
+                return Utils.readFile(CODEC_POWER_GATING_KENZO).equals("1");
+            case CODEC_POWER_GATING_GEMINI:
+                return Utils.readFile(CODEC_POWER_GATING_GEMINI).equals("1");
+        }
+        return false;
     }
 
-    public static boolean hasCodecPowerGatingEnable() {
-        return Utils.existFile(CODED_POWER_GATING);
+    public static boolean hasCodecPowerGating() {
+        if (CODEC_POWER_GATING == null) {
+            for (String file : sPowerGating)
+                if (Utils.existFile(file)) {
+                    CODEC_POWER_GATING = file;
+                    return true;
+                }
+        }
+        return CODEC_POWER_GATING != null;
     }
 
     /* FKSC: Start */
@@ -252,8 +308,8 @@ public class Sound {
     }
 
     public static boolean supported() {
-        return hasHighPerfModeEnable() ||
-                hasCodecPowerGatingEnable() ||
+        return hasHighPerfMode() ||
+                hasCodecPowerGating() ||
 
                 /* FKSC: Start */
                 hasFKSCVolumeGain() ||

@@ -578,9 +578,11 @@
     <string name="rotational_summary">Treat device as rotational storage.</string>
     <string name="iostats">I/O Stats</string>
     <string name="iostats_summary">Maintain I/O statistics for this storage device. Disabling will break I/O monitoring apps.</string>
-    <string name="clk_scaling">Clock Scaling</string>
-    <string name="scale_down_in_low_wr_load">General Performance</string>
+    <string name="clk_scaling">I/O Controller Features</string>
+    <string name="scale_down_in_low_wr_load">Clock Scaling</string>
     <string name="scale_down_in_low_wr_load_summary">Avoid scaling down in low write loads.</string>
+    <string name="scsi_multi_queue">Multiqueue I/O Scheduling</string>
+    <string name="scsi_multi_queue_summary">Allow to map I/O requests to multiple queues for better I/O performance.</string>
     <string name="clk_up_threshold">Up Threshold</string>
     <string name="clk_up_threshold_summary">Set the threshold value to scale up.</string>
     <string name="clk_down_threshold">Down Threshold</string>

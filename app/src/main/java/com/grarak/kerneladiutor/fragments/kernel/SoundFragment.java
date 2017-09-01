@@ -45,12 +45,12 @@ public class SoundFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         /* Headset High Performance Mode */
-        if (Sound.hasHighPerfModeEnable()) {
+        if (Sound.hasHighPerfMode()) {
             highPerfModeEnableInit(items);
         }
 
         /* Audio Codec Power Gating */
-        if (Sound.hasCodecPowerGatingEnable()) {
+        if (Sound.hasCodecPowerGating()) {
             codecPowerGatingEnableInit(items);
         }
 
@@ -87,7 +87,7 @@ public class SoundFragment extends RecyclerViewFragment {
     private void highPerfModeEnableInit(List<RecyclerViewItem> items) {
         SwitchView highPerfMode = new SwitchView();
         highPerfMode.setSummary(getString(R.string.headset_highperf_mode));
-        highPerfMode.setChecked(Sound.isHighPerfModeEnabled());
+        highPerfMode.setChecked(Sound.isHighPerfMode());
         highPerfMode.addOnSwitchListener(new SwitchView.OnSwitchListener() {
             @Override
             public void onChanged(SwitchView switchView, boolean isChecked) {
@@ -102,7 +102,7 @@ public class SoundFragment extends RecyclerViewFragment {
     private void codecPowerGatingEnableInit(List<RecyclerViewItem> items) {
         SwitchView codecPowerGating = new SwitchView();
         codecPowerGating.setSummary(getString(R.string.codec_power_gating));
-        codecPowerGating.setChecked(Sound.isCodecPowerGatingEnabled());
+        codecPowerGating.setChecked(Sound.isCodecPowerGating());
         codecPowerGating.addOnSwitchListener(new SwitchView.OnSwitchListener() {
             @Override
             public void onChanged(SwitchView switchView, boolean isChecked) {

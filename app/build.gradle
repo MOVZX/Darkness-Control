@@ -19,7 +19,7 @@ android {
         applicationId "com.grarak.kerneladiutor"
         minSdkVersion 25
         targetSdkVersion 26
-        versionCode 1000
+        versionCode 1001
         versionName "666"
         vectorDrawables.useSupportLibrary = true
     }

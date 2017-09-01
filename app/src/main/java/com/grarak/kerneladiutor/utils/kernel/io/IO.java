@@ -47,6 +47,8 @@ public abstract class IO {
     private static final String UP_THRESHOLD = CLK_SCALING + "up_threshold";
     private static final String DOWN_THRESHOLD = CLK_SCALING + "down_threshold";
     private static final String POLLING_INTERVAL = CLK_SCALING + "polling_interval";
+    private static final String SCSI_MODULE = "/sys/module/scsi_mod/parameters/";
+    private static final String SCSI_MULTI_QUEUE = SCSI_MODULE + "use_blk_mq";
 
     private static final List<String> sInternal = new ArrayList<>();
     private static final List<String> sExternal = new ArrayList<>();
@@ -128,6 +130,20 @@ public abstract class IO {
     public static void enableScaleDownInLowWrLoad(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", SCALE_DOWN_IN_LOW_WR_LOAD), SCALE_DOWN_IN_LOW_WR_LOAD, context);
     }
+
+    /* SCSI */
+    public static boolean hasSCSIMultiQueue() {
+        return Utils.existFile(SCSI_MULTI_QUEUE);
+    }
+
+    public static boolean isSCSIMultiQueueEnabled() {
+        return Utils.readFile(SCSI_MULTI_QUEUE).equals("Y");
+    }
+
+    public static void enableSCSIMultiQueue(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", SCSI_MULTI_QUEUE), SCSI_MULTI_QUEUE, context);
+    }
+    /* SCSI */
 
     public static boolean hasUpThreshold() {
         return Utils.existFile(UP_THRESHOLD);
