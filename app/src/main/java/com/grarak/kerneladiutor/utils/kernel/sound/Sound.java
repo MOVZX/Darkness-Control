@@ -153,7 +153,7 @@ public class Sound {
     public static void setEXSCVolumeGain(String value, Context context) {
         int newGain = Utils.strToInt(value);
         if (newGain >= -84 && newGain <= 20) {
-            run(Control.write(value, EXSC_HEADPHONE_GAIN), EXSC_HEADPHONE_GAIN, context);
+            run(Control.write(value + " " + value, EXSC_HEADPHONE_GAIN), EXSC_HEADPHONE_GAIN, context);
         }
     }
 
