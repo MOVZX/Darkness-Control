@@ -26,7 +26,6 @@ import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.kernel.gpu.AdrenoBoost;
 import com.grarak.kerneladiutor.utils.kernel.gpu.AdrenoIdler;
 import com.grarak.kerneladiutor.utils.kernel.gpu.GPUFreq;
-import com.grarak.kerneladiutor.utils.kernel.gpu.SimpleGPU;
 import com.grarak.kerneladiutor.views.recyclerview.CardView;
 import com.grarak.kerneladiutor.views.recyclerview.DescriptionView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
@@ -65,9 +64,6 @@ public class GPUFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         freqInit(items);
         governorInit(items);
-        if (SimpleGPU.supported()) {
-            simpleGpuInit(items);
-        }
         if (AdrenoBoost.supported()) {
             adrenoBoostInit(items);
         }
@@ -195,72 +191,6 @@ public class GPUFragment extends RecyclerViewFragment {
 
                 items.add(tunables);
             }
-        }
-    }
-
-    private void simpleGpuInit(List<RecyclerViewItem> items) {
-        List<RecyclerViewItem> simpleGpu = new ArrayList<>();
-        TitleView title = new TitleView();
-        title.setText(getString(R.string.simple_gpu_algorithm));
-
-        if (SimpleGPU.hasSimpleGpuEnable()) {
-            SwitchView enable = new SwitchView();
-            enable.setTitle(getString(R.string.simple_gpu_algorithm));
-            enable.setSummary(getString(R.string.simple_gpu_algorithm_summary));
-            enable.setChecked(SimpleGPU.isSimpleGpuEnabled());
-            enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    SimpleGPU.enableSimpleGpu(isChecked, getActivity());
-                }
-            });
-
-            simpleGpu.add(enable);
-        }
-
-        if (SimpleGPU.hasSimpleGpuLaziness()) {
-            SeekBarView laziness = new SeekBarView();
-            laziness.setTitle(getString(R.string.laziness));
-            laziness.setSummary(getString(R.string.laziness_summary));
-            laziness.setMax(10);
-            laziness.setProgress(SimpleGPU.getSimpleGpuLaziness());
-            laziness.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    SimpleGPU.setSimpleGpuLaziness(position, getActivity());
-                }
-            });
-
-            simpleGpu.add(laziness);
-        }
-
-        if (SimpleGPU.hasSimpleGpuRampThreshold()) {
-            SeekBarView rampThreshold = new SeekBarView();
-            rampThreshold.setTitle(getString(R.string.ramp_thresold));
-            rampThreshold.setSummary(getString(R.string.ramp_thresold_summary));
-            rampThreshold.setMax(10);
-            rampThreshold.setProgress(SimpleGPU.getSimpleGpuRampThreshold());
-            rampThreshold.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    SimpleGPU.setSimpleGpuRampThreshold(position, getActivity());
-                }
-            });
-
-            simpleGpu.add(rampThreshold);
-        }
-
-        if (simpleGpu.size() > 0) {
-            items.add(title);
-            items.addAll(simpleGpu);
         }
     }
 
