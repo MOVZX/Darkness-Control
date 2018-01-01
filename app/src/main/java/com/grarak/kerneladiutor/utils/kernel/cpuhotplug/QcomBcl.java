@@ -31,10 +31,9 @@ import com.grarak.kerneladiutor.utils.root.RootUtils;
  */
 public class QcomBcl {
 
-    private static final String PATH = "/sys/devices/soc.0/qcom,bcl.*/";
-    private static String PARENT;
-    private static String DEFAULT_HOTPLUG_MASK;
-    private static String DEFAULT_SOC_HOTPLUG_MASK;
+    private static final String PARENT = "/sys/devices/soc.0/qcom,bcl.*/";
+    private static final String DEFAULT_HOTPLUG_MASK = "hotplug_mask";
+    private static final String DEFAULT_SOC_HOTPLUG_MASK = "hotplug_soc_mask";
 
     public static void online(boolean online, Context context) {
         online(online, ApplyOnBootFragment.CPU_HOTPLUG, context);
@@ -56,19 +55,7 @@ public class QcomBcl {
     }
 
     public static boolean supported() {
-        if (PARENT != null && !PARENT.isEmpty()) return true;
-        if (Utils.existFile(PATH)) {
-            PARENT = RootUtils.runCommand("realpath " + PATH);
-            if (Utils.existFile(PARENT + "/hotplug_mask")) {
-                DEFAULT_HOTPLUG_MASK = Utils.readFile(PARENT + "/hotplug_mask");
-            }
-            if (Utils.existFile(PARENT + "/hotplug_soc_mask")) {
-                DEFAULT_SOC_HOTPLUG_MASK = Utils.readFile(PARENT + "/hotplug_soc_mask");
-            }
-            return true;
-        }
-        PARENT = "";
-        return false;
+        return Utils.existFile(PARENT + DEFAULT_HOTPLUG_MASK);
     }
 
     private static void run(String command, String id, Context context) {

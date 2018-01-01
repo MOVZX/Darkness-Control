@@ -49,11 +49,6 @@ public class SoundFragment extends RecyclerViewFragment {
             highPerfModeEnableInit(items);
         }
 
-        /* Audio Codec Power Gating */
-        if (Sound.hasCodecPowerGating()) {
-            codecPowerGatingEnableInit(items);
-        }
-
         if (Sound.hasSpeakerGain()) {
             speakerGainInit(items);
         }
@@ -96,21 +91,6 @@ public class SoundFragment extends RecyclerViewFragment {
         });
 
         items.add(highPerfMode);
-    }
-
-    /* Audio Codec Power Gating */
-    private void codecPowerGatingEnableInit(List<RecyclerViewItem> items) {
-        SwitchView codecPowerGating = new SwitchView();
-        codecPowerGating.setSummary(getString(R.string.codec_power_gating));
-        codecPowerGating.setChecked(Sound.isCodecPowerGating());
-        codecPowerGating.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-            @Override
-            public void onChanged(SwitchView switchView, boolean isChecked) {
-                Sound.enableCodecPowerGating(isChecked, getActivity());
-            }
-        });
-
-        items.add(codecPowerGating);
     }
 
     /* FKSC: Start */

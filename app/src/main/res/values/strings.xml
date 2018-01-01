@@ -338,6 +338,8 @@
     <string name="thermal_info">Use only one thermal driver from the following options, using more at the same time may cause unexpected behavior.</string>
     <string name="thermald">Thermald</string>
     <string name="thermald_summary">Stock thermal driver that prevents device from overheating. This should be disabled if current kernel has an alternative.</string>
+    <string name="msmthermal">MSM Thermal</string>
+    <string name="msmthermal_summary">Stock thermal driver that prevents device from overheating. This should be disabled if current kernel is already using Qualcomm core_ctl.</string>
     <string name="intellithermal">Intellithermal</string>
     <string name="intellithermal_summary">An in-kernel replacement for Qualcomm\'s Thermald. Developed by faux123.</string>
     <string name="intellithermal_optimized">Intellithermal Optimized</string>
@@ -351,7 +353,7 @@
     <string name="cpu_temp_hysteresis">CPU Temperature Hysteresis</string>
     <string name="freq_step">Frequency Step</string>
     <string name="immediately_limit_stop">Immediately Limit Stop</string>
-    <string name="poll">Poll</string>
+    <string name="poll">Polling Interval</string>
     <string name="temp_hysteresis">Temperature Hysteresis</string>
     <string name="thermal_limit_low">Thermal Limit Low</string>
     <string name="thermal_limit_high">Thermal Limit High</string>

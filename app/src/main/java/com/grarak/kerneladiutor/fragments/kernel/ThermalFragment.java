@@ -77,8 +77,8 @@ public class ThermalFragment extends RecyclerViewFragment {
     private void msmThermalInit(List<RecyclerViewItem> items) {
         if (MSMThermal.hasIntelliThermalEnable()) {
             SwitchView intelliThermal = new SwitchView();
-            intelliThermal.setTitle(getString(R.string.intellithermal));
-            intelliThermal.setSummary(getString(R.string.intellithermal_summary));
+            intelliThermal.setTitle(getString(R.string.msmthermal));
+            intelliThermal.setSummary(getString(R.string.msmthermal_summary));
             intelliThermal.setChecked(MSMThermal.isIntelliThermalEnabled());
             intelliThermal.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override

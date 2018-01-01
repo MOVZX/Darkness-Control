@@ -35,9 +35,6 @@ public class Sound {
 
     private static final String HIGHPERF_MODE_KENZO = "/sys/module/snd_soc_msm8x16_wcd/parameters/high_perf_mode";
     private static final String HIGHPERF_MODE_GEMINI = "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode";
-    private static final String CODEC_POWER_GATING_KENZO = "/sys/module/snd_soc_msm8x16_wcd/parameters/dig_core_collapse_enable";
-    private static final String CODEC_POWER_GATING_GEMINI = "/sys/module/snd_soc_wcd9335/parameters/dig_core_collapse_enable";
-
     /* FKSC: Start */
     private static final String FKSC_HEADPHONE_GAIN = "/sys/devices/virtual/misc/soundcontrol/volume_boost";
     private static final String FKSC_SPEAKER_GAIN = "/sys/devices/virtual/misc/soundcontrol/speaker_boost";
@@ -53,23 +50,16 @@ public class Sound {
     /* EXSC: End */
 
     private static final List<String> sHighPerfFiles = new ArrayList<>();
-    private static final List<String> sPowerGating = new ArrayList<>();
     private static final List<String> sSpeakerGainFiles = new ArrayList<>();
     private static final List<String> sFKSCLimits = new ArrayList<>();
     private static final List<String> sEXSC1Limits = new ArrayList<>();
     private static final List<String> sEXSC2Limits = new ArrayList<>();
     private static String HIGHPERF_MODE;
-    private static String CODEC_POWER_GATING;
     private static String SPEAKER_GAIN_FILE;
 
     static {
         sHighPerfFiles.add(HIGHPERF_MODE_KENZO);
         sHighPerfFiles.add(HIGHPERF_MODE_GEMINI);
-    }
-
-    static {
-        sPowerGating.add(CODEC_POWER_GATING_KENZO);
-        sPowerGating.add(CODEC_POWER_GATING_GEMINI);
     }
 
     static {
@@ -120,39 +110,6 @@ public class Sound {
                 }
         }
         return HIGHPERF_MODE != null;
-    }
-
-    /* Audio Codec Power Gating */
-    public static void enableCodecPowerGating(boolean enable, Context context) {
-        switch (CODEC_POWER_GATING) {
-            case CODEC_POWER_GATING_KENZO:
-                run(Control.write(enable ? "1" : "0", CODEC_POWER_GATING_KENZO), CODEC_POWER_GATING_KENZO, context);
-                break;
-            case CODEC_POWER_GATING_GEMINI:
-                run(Control.write(enable ? "1" : "0", CODEC_POWER_GATING_GEMINI), CODEC_POWER_GATING_GEMINI, context);
-                break;
-        }
-    }
-
-    public static boolean isCodecPowerGating() {
-        switch (CODEC_POWER_GATING) {
-            case CODEC_POWER_GATING_KENZO:
-                return Utils.readFile(CODEC_POWER_GATING_KENZO).equals("1");
-            case CODEC_POWER_GATING_GEMINI:
-                return Utils.readFile(CODEC_POWER_GATING_GEMINI).equals("1");
-        }
-        return false;
-    }
-
-    public static boolean hasCodecPowerGating() {
-        if (CODEC_POWER_GATING == null) {
-            for (String file : sPowerGating)
-                if (Utils.existFile(file)) {
-                    CODEC_POWER_GATING = file;
-                    return true;
-                }
-        }
-        return CODEC_POWER_GATING != null;
     }
 
     /* FKSC: Start */
@@ -309,7 +266,6 @@ public class Sound {
 
     public static boolean supported() {
         return hasHighPerfMode() ||
-                hasCodecPowerGating() ||
 
                 /* FKSC: Start */
                 hasFKSCVolumeGain() ||
