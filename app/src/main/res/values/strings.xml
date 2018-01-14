@@ -8,6 +8,7 @@
     <string name="no_root">We need Root Access</string>
     <string name="no_busybox">We need Busybox</string>
     <string name="open">Open %s</string>
+    <string name="disable">Disable</string>
 
     <!-- Security -->
     <string name="password">Password</string>

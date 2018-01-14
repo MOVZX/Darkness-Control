@@ -125,7 +125,7 @@ public class RootUtils {
         private BufferedWriter mWriter;
         private BufferedReader mReader;
         private boolean closed;
-        private boolean denied;
+        public boolean denied;
         private boolean firstTry;
 
         public SU() {
