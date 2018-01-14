@@ -23,8 +23,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.grarak.kerneladiutor.BuildConfig;
-
 /**
  * Created by willi on 02.08.16.
  */

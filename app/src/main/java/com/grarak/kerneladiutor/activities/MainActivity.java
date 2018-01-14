@@ -143,117 +143,117 @@ public class MainActivity extends BaseActivity {
         finish();
     }
 
-        private class CheckingTask extends AsyncTask<Void, Integer, Void> {
+    private class CheckingTask extends AsyncTask<Void, Integer, Void> {
 
-            private boolean mHasRoot;
-            private boolean mHasBusybox;
+        private boolean mHasRoot;
+        private boolean mHasBusybox;
 
-            @Override
-            protected Void doInBackground(Void... params) {
-                // Check for root access
-                mHasRoot = RootUtils.rootAccess();
-                publishProgress(0);
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Check for root access
+            mHasRoot = RootUtils.rootAccess();
+            publishProgress(0);
 
-                // If root is available continue
-                if (mHasRoot) {
-                    // Check for busybox/toybox
-                    mHasBusybox = RootUtils.busyboxInstalled();
-                    publishProgress(1);
+            // If root is available continue
+            if (mHasRoot) {
+                // Check for busybox/toybox
+                mHasBusybox = RootUtils.busyboxInstalled();
+                publishProgress(1);
 
-                    // If busybox/toybox is available continue
-                    if (mHasBusybox) {
-                        // Collect information for caching
-                        collectData();
-                        publishProgress(2);
-                    }
-                }
-                return null;
-            }
-
-            /**
-             * Determinate what sections are supported
-             */
-            private void collectData() {
-                Battery.supported(MainActivity.this);
-                CPUBoost.supported();
-
-                // Assign core ctl min cpu
-                CPUFreq.sCoreCtlMinCpu = Prefs.getInt("core_ctl_min_cpus_big", 2, MainActivity.this);
-
-                Device.CPUInfo.load();
-                Device.Input.supported();
-                Device.MemInfo.load();
-                Device.ROMInfo.load();
-                Device.TrustZone.supported();
-                GPU.supported();
-                Hotplug.supported();
-                IO.supported();
-                KSM.supported();
-                MSMPerformance.supported();
-                QcomBcl.supported();
-                Screen.supported();
-                Sound.supported();
-                Temperature.supported(MainActivity.this);
-                Thermal.supported();
-                Tile.publishProfileTile(new Profiles(MainActivity.this).getAllProfiles(), MainActivity.this);
-                Vibration.supported();
-                Voltage.supported();
-                GPUVoltage.supported();
-                Wake.supported();
-            }
-
-            /**
-             * Let the user know what we are doing right now
-             *
-             * @param values progress
-             *               0: Checking root
-             *               1: Checking busybox/toybox
-             *               2: Collecting information
-             */
-            @Override
-            protected void onProgressUpdate(Integer... values) {
-                super.onProgressUpdate(values);
-                int red = ContextCompat.getColor(MainActivity.this, R.color.red);
-                int green = ContextCompat.getColor(MainActivity.this, R.color.green);
-                switch (values[0]) {
-                    case 0:
-                        mRootAccess.setTextColor(mHasRoot ? green : red);
-                        break;
-                    case 1:
-                        mBusybox.setTextColor(mHasBusybox ? green : red);
-                        break;
-                    case 2:
-                        mCollectInfo.setTextColor(green);
-                        break;
+                // If busybox/toybox is available continue
+                if (mHasBusybox) {
+                    // Collect information for caching
+                    collectData();
+                    publishProgress(2);
                 }
             }
+            return null;
+        }
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
+        /**
+         * Determinate what sections are supported
+         */
+        private void collectData() {
+            Battery.supported(MainActivity.this);
+            CPUBoost.supported();
+
+            // Assign core ctl min cpu
+            CPUFreq.sCoreCtlMinCpu = Prefs.getInt("core_ctl_min_cpus_big", 2, MainActivity.this);
+
+            Device.CPUInfo.load();
+            Device.Input.supported();
+            Device.MemInfo.load();
+            Device.ROMInfo.load();
+            Device.TrustZone.supported();
+            GPU.supported();
+            Hotplug.supported();
+            IO.supported();
+            KSM.supported();
+            MSMPerformance.supported();
+            QcomBcl.supported();
+            Screen.supported();
+            Sound.supported();
+            Temperature.supported(MainActivity.this);
+            Thermal.supported();
+            Tile.publishProfileTile(new Profiles(MainActivity.this).getAllProfiles(), MainActivity.this);
+            Vibration.supported();
+            Voltage.supported();
+            GPUVoltage.supported();
+            Wake.supported();
+        }
+
+        /**
+         * Let the user know what we are doing right now
+         *
+         * @param values progress
+         *               0: Checking root
+         *               1: Checking busybox/toybox
+         *               2: Collecting information
+         */
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            int red = ContextCompat.getColor(MainActivity.this, R.color.red);
+            int green = ContextCompat.getColor(MainActivity.this, R.color.green);
+            switch (values[0]) {
+                case 0:
+                    mRootAccess.setTextColor(mHasRoot ? green : red);
+                    break;
+                case 1:
+                    mBusybox.setTextColor(mHasBusybox ? green : red);
+                    break;
+                case 2:
+                    mCollectInfo.setTextColor(green);
+                    break;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
 
             /*
              * If root or busybox/toybox are not available,
              * launch text activity which let the user know
              * what the problem is.
              */
-                if (!mHasRoot || !mHasBusybox) {
-                    Intent intent = new Intent(MainActivity.this, TextActivity.class);
-                    intent.putExtra(TextActivity.MESSAGE_INTENT, getString(mHasRoot ?
-                            R.string.no_busybox : R.string.no_root));
-                    intent.putExtra(TextActivity.SUMMARY_INTENT,
-                            mHasRoot ? "https://play.google.com/store/apps/details?id=stericson.busybox" :
-                                    "https://www.google.com/search?site=&source=hp&q=root+"
-                                            + Device.getVendor() + "+" + Device.getModel());
-                    startActivity(intent);
-                    finish();
-                    return;
-                }
-
-                // Launch the app
-                launch(0);
+            if (!mHasRoot || !mHasBusybox) {
+                Intent intent = new Intent(MainActivity.this, TextActivity.class);
+                intent.putExtra(TextActivity.MESSAGE_INTENT, getString(mHasRoot ?
+                        R.string.no_busybox : R.string.no_root));
+                intent.putExtra(TextActivity.SUMMARY_INTENT,
+                        mHasRoot ? "https://play.google.com/store/apps/details?id=stericson.busybox" :
+                                "https://www.google.com/search?site=&source=hp&q=root+"
+                                        + Device.getVendor() + "+" + Device.getModel());
+                startActivity(intent);
+                finish();
+                return;
             }
 
+            // Launch the app
+            launch(0);
         }
 
     }
+
+}
