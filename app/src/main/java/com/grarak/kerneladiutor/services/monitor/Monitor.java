@@ -39,12 +39,10 @@ import com.grarak.kerneladiutor.BuildConfig;
 import com.grarak.kerneladiutor.R;
 import com.grarak.kerneladiutor.activities.MainActivity;
 import com.grarak.kerneladiutor.database.Settings;
-import com.grarak.kerneladiutor.fragments.tools.DataSharingFragment;
 import com.grarak.kerneladiutor.utils.Device;
 import com.grarak.kerneladiutor.utils.NotificationId;
 import com.grarak.kerneladiutor.utils.Prefs;
 import com.grarak.kerneladiutor.utils.Utils;
-import com.grarak.kerneladiutor.utils.server.ServerCreateDevice;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +63,6 @@ public class Monitor extends Service {
     private int mLevel;
     private long mTime;
     private List<Long> mTimes = new ArrayList<>();
-    private ServerCreateDevice mServerCreateDevice = new ServerCreateDevice("https://www.grarak.com");
     private boolean mScreenOn;
     private boolean mCalculating;
 
@@ -117,6 +114,16 @@ public class Monitor extends Service {
             }
         }
     };
+    private IMonitor.Stub mBinder = new IMonitor.Stub() {
+        @Override
+        public void onSettingsChange() throws RemoteException {
+            if (mTimes != null) {
+                mTimes.clear();
+                mLevel = 0;
+                mTime = 0;
+            }
+        }
+    };
 
     private void postCreate(final Long[] times) {
         if (mLevel < 15 || !Prefs.getBoolean("data_sharing", true, this)) return;
@@ -158,24 +165,12 @@ public class Monitor extends Service {
                     } catch (Exception ignored) {
                     }
 
-                    mServerCreateDevice.postDeviceCreate(data);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
     }
-
-    private IMonitor.Stub mBinder = new IMonitor.Stub() {
-        @Override
-        public void onSettingsChange() throws RemoteException {
-            if (mTimes != null) {
-                mTimes.clear();
-                mLevel = 0;
-                mTime = 0;
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -195,29 +190,6 @@ public class Monitor extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID,
-                    getString(R.string.data_sharing), NotificationManager.IMPORTANCE_MIN);
-            notificationManager.createNotificationChannel(notificationChannel);
-
-            PendingIntent disableIntent = PendingIntent.getBroadcast(this, 1,
-                    new Intent(this, DisableReceiver.class),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
-
-            Intent launchIntent = new Intent(this, MainActivity.class);
-            launchIntent.setAction(Intent.ACTION_VIEW);
-            launchIntent.putExtra("section", DataSharingFragment.class.getCanonicalName());
-            launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                    launchIntent, 0);
-
-            Notification.Builder builder =
-                    new Notification.Builder(this, CHANNEL_ID);
-            builder.setContentTitle(getString(R.string.data_sharing))
-                    .setContentText(getString(R.string.data_sharing_summary_notification))
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentIntent(contentIntent)
-                    .addAction(0, getString(R.string.disable), disableIntent);
-            startForeground(NotificationId.MONITOR, builder.build());
         }
 
         registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));

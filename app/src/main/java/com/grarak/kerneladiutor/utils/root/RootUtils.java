@@ -121,11 +121,11 @@ public class RootUtils {
 
         private final boolean mRoot;
         private final String mTag;
+        public boolean denied;
         private Process mProcess;
         private BufferedWriter mWriter;
         private BufferedReader mReader;
         private boolean closed;
-        public boolean denied;
         private boolean firstTry;
 
         public SU() {

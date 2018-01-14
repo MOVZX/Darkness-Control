@@ -61,10 +61,6 @@ public class ApplyOnBoot {
     private static final String TAG = ApplyOnBoot.class.getSimpleName();
     private static boolean sCancel;
 
-    public interface ApplyOnBootListener {
-        void onFinish();
-    }
-
     public static boolean apply(final Context context, final ApplyOnBootListener listener) {
         if (!Prefs.getBoolean(ApplyOnBootFragment.getAssignment(CPUHotplugFragment.class), false, context)) {
             Prefs.remove("core_ctl_min_cpus_big", context);
@@ -347,6 +343,10 @@ public class ApplyOnBoot {
             commands.add(Control.write("1", CPUFreq.CPU_LOCK_FREQ));
         }
         return commands;
+    }
+
+    public interface ApplyOnBootListener {
+        void onFinish();
     }
 
     public static class CancelReceiver extends BroadcastReceiver {
