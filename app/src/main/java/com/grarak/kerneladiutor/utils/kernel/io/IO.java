@@ -49,6 +49,10 @@ public abstract class IO {
     private static final String POLLING_INTERVAL = CLK_SCALING + "polling_interval";
     private static final String SCSI_MODULE = "/sys/module/scsi_mod/parameters/";
     private static final String SCSI_MULTI_QUEUE = SCSI_MODULE + "use_blk_mq";
+    private static final String UFS_PARAMETERS = "/sys/devices/soc/624000.ufshc/";
+    private static final String UFS_CLOCK_SCALING = UFS_PARAMETERS + "clkscale_enable";
+    private static final String UFS_CLOCK_GATING = UFS_PARAMETERS + "clkgate_enable";
+    private static final String UFS_PM_QOS = UFS_PARAMETERS + "624000.ufshc:ufs_variant/pm_qos_enable";
 
     private static final List<String> sInternal = new ArrayList<>();
     private static final List<String> sExternal = new ArrayList<>();
@@ -142,6 +146,42 @@ public abstract class IO {
 
     public static void enableSCSIMultiQueue(boolean enable, Context context) {
         run(Control.write(enable ? "Y" : "N", SCSI_MULTI_QUEUE), SCSI_MULTI_QUEUE, context);
+    }
+
+    public static boolean hasUFSClockScaling() {
+        return Utils.existFile(UFS_CLOCK_SCALING);
+    }
+
+    public static boolean isUFSClockScalingEnabled() {
+        return Utils.readFile(UFS_CLOCK_SCALING).equals("1");
+    }
+
+    public static void enableUFSClockScaling(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", UFS_CLOCK_SCALING), UFS_CLOCK_SCALING, context);
+    }
+
+    public static boolean hasUFSClockGating() {
+        return Utils.existFile(UFS_CLOCK_GATING);
+    }
+
+    public static boolean isUFSClockGatingEnabled() {
+        return Utils.readFile(UFS_CLOCK_GATING).equals("1");
+    }
+
+    public static void enableUFSClockGating(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", UFS_CLOCK_GATING), UFS_CLOCK_GATING, context);
+    }
+
+    public static boolean hasUFSPMQOS() {
+        return Utils.existFile(UFS_PM_QOS);
+    }
+
+    public static boolean isUFSPMQOSEnabled() {
+        return Utils.readFile(UFS_PM_QOS).equals("1");
+    }
+
+    public static void enableUFSPMQOS(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", UFS_PM_QOS), UFS_PM_QOS, context);
     }
     /* SCSI */
 

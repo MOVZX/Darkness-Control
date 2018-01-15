@@ -126,7 +126,7 @@ public class ProfileActivity extends BaseActivity {
         Control.clearProfileCommands();
         Control.setProfileMode(true);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        final ViewPager viewPager = findViewById(R.id.viewpager);
 
         if (savedInstanceState != null) {
             mHideWarningDialog = savedInstanceState.getBoolean("hidewarningdialog");
@@ -148,7 +148,7 @@ public class ProfileActivity extends BaseActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager(), mItems);
         viewPager.setAdapter(pagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

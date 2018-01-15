@@ -41,6 +41,7 @@ public class Misc {
     private static final String ARCH_POWER = "/sys/kernel/sched/arch_power";
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
     private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
+    private static final String FP_BOOST = "/sys/kernel/fp_boost/enabled";
     private static final String HOSTNAME_KEY = "net.hostname";
 
     private static final List<String> sLoggers = new ArrayList<>();
@@ -132,6 +133,18 @@ public class Misc {
 
     public static void enableDynamicFsync(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", DYNAMIC_FSYNC), DYNAMIC_FSYNC, context);
+    }
+
+    public static void enableFPBoost(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", FP_BOOST), FP_BOOST, context);
+    }
+
+    public static boolean isFPBoostEnabled() {
+        return Utils.readFile(FP_BOOST).equals("1");
+    }
+
+    public static boolean hasFPBoost() {
+        return Utils.existFile(FP_BOOST);
     }
 
     public static boolean isDynamicFsyncEnabled() {

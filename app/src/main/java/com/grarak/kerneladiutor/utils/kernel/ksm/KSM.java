@@ -56,8 +56,8 @@ public class KSM {
     private static String PARENT;
 
     static {
-        sParent.add(KSM);
         sParent.add(UKSM);
+        sParent.add(KSM);
 
         sInfos.put(FULL_SCANS, R.string.full_scans);
         sInfos.put(PAGES_SCANNED, R.string.pages_scanned);

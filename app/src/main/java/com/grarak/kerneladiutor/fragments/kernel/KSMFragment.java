@@ -50,22 +50,6 @@ public class KSMFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         infoInit(items);
 
-        if (KSM.hasEnable()) {
-            SwitchView enable = new SwitchView();
-            enable.setTitle(getString(R.string.ksm_uksm));
-            enable.setSummary(getString(R.string.ksm_uksm_summary));
-            enable.setChecked(KSM.isEnabled());
-            enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    KSM.enableKsm(isChecked, getActivity());
-                    KSM.enableCharging(false, getActivity());
-                }
-            });
-
-            items.add(enable);
-        }
-
         if (KSM.hasChargingEnable()) {
             SwitchView charging = new SwitchView();
             charging.setTitle(getString(R.string.ksm_uksm_charging));
@@ -80,6 +64,22 @@ public class KSMFragment extends RecyclerViewFragment {
             });
 
             items.add(charging);
+        }
+
+        if (KSM.hasEnable()) {
+            SwitchView enable = new SwitchView();
+            enable.setTitle(getString(R.string.ksm_uksm));
+            enable.setSummary(getString(R.string.ksm_uksm_summary));
+            enable.setChecked(KSM.isEnabled());
+            enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    KSM.enableKsm(isChecked, getActivity());
+                    KSM.enableCharging(false, getActivity());
+                }
+            });
+
+            items.add(enable);
         }
 
         if (KSM.hasDeferredTimer()) {

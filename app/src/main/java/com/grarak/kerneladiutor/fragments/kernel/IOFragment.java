@@ -57,6 +57,7 @@ public class IOFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         clkScalingInit(items);
+        ufsclkScalingInit(items);
         storageInit(IO.Storage.Internal, items);
         if (IO.hasExternal()) {
             storageInit(IO.Storage.External, items);
@@ -65,7 +66,7 @@ public class IOFragment extends RecyclerViewFragment {
 
     private void clkScalingInit(List<RecyclerViewItem> items) {
         CardView clkScalingCard = new CardView(getActivity());
-        clkScalingCard.setTitle(getString(R.string.clk_scaling));
+        clkScalingCard.setTitle(getString(R.string.io_controller_features));
 
         if (IO.hasScaleDownInLowWrLoad()) {
             SwitchView scaledowninlowwrload = new SwitchView();
@@ -167,6 +168,58 @@ public class IOFragment extends RecyclerViewFragment {
         }
 
         items.add(clkScalingCard);
+    }
+
+    private void ufsclkScalingInit(List<RecyclerViewItem> items) {
+        CardView ufsclkScalingCard = new CardView(getActivity());
+        ufsclkScalingCard.setTitle(getString(R.string.ufs_features));
+
+        if (IO.hasUFSClockScaling()) {
+            SwitchView ufsclockscaling = new SwitchView();
+            ufsclockscaling.setTitle(getString(R.string.ufs_clock_scaling));
+            ufsclockscaling.setSummary(getString(R.string.ufs_clock_scaling_summary));
+            ufsclockscaling.setChecked(IO.isUFSClockScalingEnabled());
+            ufsclockscaling.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    IO.enableUFSClockScaling(isChecked, getActivity());
+                }
+            });
+
+            ufsclkScalingCard.addItem(ufsclockscaling);
+        }
+
+        if (IO.hasUFSClockGating()) {
+            SwitchView ufsclockgating = new SwitchView();
+            ufsclockgating.setTitle(getString(R.string.ufs_clock_gating));
+            ufsclockgating.setSummary(getString(R.string.ufs_clock_gating_summary));
+            ufsclockgating.setChecked(IO.isUFSClockGatingEnabled());
+            ufsclockgating.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    IO.enableUFSClockGating(isChecked, getActivity());
+                }
+            });
+
+            ufsclkScalingCard.addItem(ufsclockgating);
+        }
+
+        if (IO.hasUFSPMQOS()) {
+            SwitchView ufspmqos = new SwitchView();
+            ufspmqos.setTitle(getString(R.string.ufs_pm_qos));
+            ufspmqos.setSummary(getString(R.string.ufs_pm_qos_summary));
+            ufspmqos.setChecked(IO.isUFSPMQOSEnabled());
+            ufspmqos.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    IO.enableUFSPMQOS(isChecked, getActivity());
+                }
+            });
+
+            ufsclkScalingCard.addItem(ufspmqos);
+        }
+
+        items.add(ufsclkScalingCard);
     }
 
     private void storageInit(final IO.Storage storage, List<RecyclerViewItem> items) {

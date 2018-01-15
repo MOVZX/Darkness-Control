@@ -42,6 +42,7 @@ import com.grarak.kerneladiutor.fragments.kernel.KSMFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LEDFragment;
 import com.grarak.kerneladiutor.fragments.kernel.LMKFragment;
 import com.grarak.kerneladiutor.fragments.kernel.MiscFragment;
+import com.grarak.kerneladiutor.fragments.kernel.OPChainFragment;
 import com.grarak.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.grarak.kerneladiutor.fragments.kernel.SoundFragment;
 import com.grarak.kerneladiutor.fragments.kernel.ThermalFragment;
@@ -59,6 +60,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String CPU = "cpu_onboot";
     public static final String CPU_VOLTAGE = "cpuvoltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
+    public static final String OPCHAIN = "opchain_onboot";
     public static final String THERMAL = "thermal_onboot";
     public static final String GPU = "gpu_onboot";
     public static final String GPU_VOLTAGE = "gpuvoltage_onboot";
@@ -80,6 +82,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(CPUFragment.class, CPU);
         sAssignments.put(CPUVoltageFragment.class, CPU_VOLTAGE);
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
+        sAssignments.put(OPChainFragment.class, OPCHAIN);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);
         sAssignments.put(GPUVoltageFragment.class, GPU_VOLTAGE);

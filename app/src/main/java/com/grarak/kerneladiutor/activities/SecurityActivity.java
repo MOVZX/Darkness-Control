@@ -49,7 +49,7 @@ public class SecurityActivity extends BaseActivity {
         setContentView(R.layout.activity_security);
 
         final String password = Utils.decodeString(getIntent().getStringExtra(PASSWORD_INTENT));
-        AppCompatEditText editText = (AppCompatEditText) findViewById(R.id.edittext);
+        AppCompatEditText editText = findViewById(R.id.edittext);
         mPasswordWrong = findViewById(R.id.password_wrong);
         editText.addTextChangedListener(new TextWatcher() {
             @Override

@@ -67,6 +67,18 @@ public class ZRAM {
         return Utils.existFile(ZRAM);
     }
 
+    public static int getMaxCompStreams() {
+        return Utils.strToInt(Utils.readFile(MAX_COMP_STREAMS));
+    }
+
+    public static void setMaxCompStreams(int pages, Context context) {
+        run(Control.write(String.valueOf(pages), MAX_COMP_STREAMS), MAX_COMP_STREAMS, context);
+    }
+
+    public static boolean hasMaxCompStreams() {
+        return Utils.existFile(COMP_ALGO);
+    }
+
     public static void setgetCompAlgo(String value, Context context) {
         run(Control.write(value, COMP_ALGO), COMP_ALGO, context);
     }

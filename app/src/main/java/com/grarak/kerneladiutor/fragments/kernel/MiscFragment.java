@@ -66,6 +66,9 @@ public class MiscFragment extends RecyclerViewFragment {
             crcInit(items);
         }
         fsyncInit(items);
+        if (Misc.hasFPBoost()) {
+            fpboostInit(items);
+        }
         if (Misc.hasGentleFairSleepers()) {
             gentlefairsleepersInit(items);
         }
@@ -189,6 +192,21 @@ public class MiscFragment extends RecyclerViewFragment {
 
             items.add(dynamicFsync);
         }
+    }
+
+    private void fpboostInit(List<RecyclerViewItem> items) {
+        SwitchView fpBoost = new SwitchView();
+        fpBoost.setTitle(getString(R.string.fp_boost));
+        fpBoost.setSummary(getString(R.string.fp_boost_summary));
+        fpBoost.setChecked(Misc.isFPBoostEnabled());
+        fpBoost.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Misc.enableFPBoost(isChecked, getActivity());
+            }
+        });
+
+        items.add(fpBoost);
     }
 
     private void gentlefairsleepersInit(List<RecyclerViewItem> items) {

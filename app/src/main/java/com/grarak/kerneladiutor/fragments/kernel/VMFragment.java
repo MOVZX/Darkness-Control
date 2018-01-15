@@ -105,6 +105,26 @@ public class VMFragment extends RecyclerViewFragment {
             items.add(algo);
         }
 
+        if (ZRAM.hasMaxCompStreams()) {
+            SeekBarView streams = new SeekBarView();
+            streams.setTitle(getString(R.string.max_comp_streams));
+            streams.setSummary(getString(R.string.max_comp_streams_summary));
+            streams.setMax(8);
+            streams.setProgress(ZRAM.getMaxCompStreams());
+            streams.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ZRAM.setMaxCompStreams(position, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            items.add(streams);
+        }
+
         if (ZRAM.supported()) {
             SeekBarView zram = new SeekBarView();
             zram.setTitle(getString(R.string.disksize));

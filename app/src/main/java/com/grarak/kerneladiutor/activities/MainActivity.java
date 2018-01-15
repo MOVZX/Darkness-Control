@@ -47,13 +47,14 @@ import com.grarak.kerneladiutor.utils.kernel.gpuvoltage.GPUVoltage;
 import com.grarak.kerneladiutor.utils.kernel.io.IO;
 import com.grarak.kerneladiutor.utils.kernel.ksm.KSM;
 import com.grarak.kerneladiutor.utils.kernel.misc.Vibration;
+import com.grarak.kerneladiutor.utils.kernel.opchain.OPChain;
 import com.grarak.kerneladiutor.utils.kernel.screen.Screen;
 import com.grarak.kerneladiutor.utils.kernel.sound.Sound;
 import com.grarak.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.grarak.kerneladiutor.utils.kernel.wake.Wake;
 import com.grarak.kerneladiutor.utils.root.RootUtils;
 
-/**
+/*
  * Created by willi on 14.04.16.
  */
 public class MainActivity extends BaseActivity {
@@ -69,9 +70,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         View splashBackground = findViewById(R.id.splash_background);
-        mRootAccess = (TextView) findViewById(R.id.root_access_text);
-        mBusybox = (TextView) findViewById(R.id.busybox_text);
-        mCollectInfo = (TextView) findViewById(R.id.info_collect_text);
+        mRootAccess = findViewById(R.id.root_access_text);
+        mBusybox = findViewById(R.id.busybox_text);
+        mCollectInfo = findViewById(R.id.info_collect_text);
 
         // Hide huge banner in landscape mode
         if (Utils.getOrientation(this) == Configuration.ORIENTATION_LANDSCAPE) {
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity {
         }
 
         if (savedInstanceState == null) {
-            /**
+            /*
              * Launch password activity when one is set,
              * otherwise run {@link CheckingTask}
              */
@@ -187,6 +188,7 @@ public class MainActivity extends BaseActivity {
             Device.TrustZone.supported();
             GPU.supported();
             Hotplug.supported();
+            OPChain.supported();
             IO.supported();
             KSM.supported();
             MSMPerformance.supported();

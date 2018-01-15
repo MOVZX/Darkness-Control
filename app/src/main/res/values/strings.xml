@@ -8,14 +8,12 @@
     <string name="no_root">We need Root Access</string>
     <string name="no_busybox">We need Busybox</string>
     <string name="open">Open %s</string>
-    <string name="disable">Disable</string>
 
     <!-- Security -->
     <string name="password">Password</string>
     <string name="password_wrong">Password is wrong</string>
 
     <string name="select_picture">Select Picture</string>
-    <string name="no_picture">No Picture</string>
     <string name="went_wrong">Something went wrong!</string>
     <string name="press_back_again_exit">Press back again to exit</string>
     <string name="cancel">Cancel</string>
@@ -81,6 +79,7 @@
     <string name="cpu">CPU</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="cpu_voltage">CPU Voltage</string>
+    <string name="opchain">OPChain</string>
     <string name="gpu">GPU</string>
     <string name="gpu_voltage">GPU Voltage</string>
     <string name="thermal">Thermal Settings</string>
@@ -337,14 +336,23 @@
     <string name="max_cpu_online_little">Maximum LITTLE CPUs Online</string>
     <string name="max_cpu_online_little_summary">Maximum number of LITTLE CPUs that will be online.</string>
 
+    <!-- OnePlus OPChain -->
+    <string name="opchain_chain_on">Chain On/Off</string>
+    <string name="opchain_chain_on_summary">Enable or disable OPChain driver.</string>
+    <string name="opchain_boost">Boost On/Off</string>
+    <string name="opchain_boost_parameter">Boost Parameters</string>
+    <string name="opchain_boost_summary">Enable or disable OPChain Boost driver.</string>
+    <string name="opchain_boost_tl">Boost Target Load</string>
+    <string name="opchain_boost_tl_summary">Minimum CPU load to trigger the Boost.</string>
+    <string name="opchain_boost_st">Boost Sample Time</string>
+    <string name="opchain_boost_st_summary">Minimum sample time to boost the OPChain driver.</string>
+
     <!--Thermal-->
     <string name="thermal_info">Use only one thermal driver from the following options, using more at the same time may cause unexpected behavior.</string>
     <string name="thermald">Thermald</string>
     <string name="thermald_summary">Stock thermal driver that prevents device from overheating. This should be disabled if current kernel has an alternative.</string>
     <string name="msmthermal">MSM Thermal</string>
     <string name="msmthermal_summary">Stock thermal driver that prevents device from overheating. This should be disabled if current kernel is already using Qualcomm core_ctl.</string>
-    <string name="intellithermal">Intellithermal</string>
-    <string name="intellithermal_summary">An in-kernel replacement for Qualcomm\'s Thermald. Developed by faux123.</string>
     <string name="intellithermal_optimized">Intellithermal Optimized</string>
     <string name="intellithermal_optimized_summary">An in-kernel replacement for Qualcomm\'s Thermald. Developed by faux123 and alucard_24.</string>
     <string name="thermal_debug_mask_summary">Allows you to activate debug mask for thermal operations.</string>
@@ -395,12 +403,6 @@
     <string name="gpu_governor">GPU Governor</string>
     <string name="gpu_governor_summary">Set the governor of the GPU.</string>
     <string name="gpu_governor_tunables">GPU Governor Tunables</string>
-    <string name="simple_gpu_algorithm">Simple GPU Algorithm</string>
-    <string name="simple_gpu_algorithm_summary">An add-on for MSM Adreno TZ GPU Governor. Developed by faux123.</string>
-    <string name="laziness">Laziness</string>
-    <string name="laziness_summary">This increases the threshold to ramp up or down GPU frequencies. The lower it is, the more performance you get.</string>
-    <string name="ramp_thresold">Ramp Thresold</string>
-    <string name="ramp_thresold_summary">This increases the number of times the GPU governor ramp down requests. The higher it is, the more performance you get.</string>
     <string name="adreno_idler">Adreno Idler</string>
     <string name="adreno_idler_summary">An efficient workaround for msm-adreno-tz\'s overheads. Developed by arter97.</string>
     <string name="down_differential">Down Differential</string>
@@ -533,7 +535,6 @@
 
     <!-- Sound -->
     <string name="headset_highperf_mode">Headset High Performance Mode</string>
-    <string name="codec_power_gating">Audio Codec Power Gating</string>
     <string name="headphone_gain">Headphone Gain</string>
     <string name="speaker_gain">Speaker Gain</string>
     <string name="microphone_gain">Microphone Gain</string>
@@ -589,11 +590,18 @@
     <string name="rotational_summary">Treat device as rotational storage.</string>
     <string name="iostats">I/O Stats</string>
     <string name="iostats_summary">Maintain I/O statistics for this storage device. Disabling will break I/O monitoring apps.</string>
-    <string name="clk_scaling">I/O Controller Features</string>
+    <string name="io_controller_features">I/O Controller Features</string>
     <string name="scale_down_in_low_wr_load">Clock Scaling</string>
     <string name="scale_down_in_low_wr_load_summary">Avoid scaling down in low write loads.</string>
     <string name="scsi_multi_queue">Multiqueue I/O Scheduling</string>
     <string name="scsi_multi_queue_summary">Allow to map I/O requests to multiple queues for better I/O performance.</string>
+    <string name="ufs_features">UFS Power/Performance Features</string>
+    <string name="ufs_clock_scaling">UFS Clock Scaling</string>
+    <string name="ufs_clock_scaling_summary">Enable to save power.</string>
+    <string name="ufs_clock_gating">UFS Clock Gating</string>
+    <string name="ufs_clock_gating_summary">Enabl to reduces the dynamic power.</string>
+    <string name="ufs_pm_qos">UFS PM QoS</string>
+    <string name="ufs_pm_qos_summary">Enable to save power.</string>
     <string name="clk_up_threshold">Up Threshold</string>
     <string name="clk_up_threshold_summary">Set the threshold value to scale up.</string>
     <string name="clk_down_threshold">Down Threshold</string>
@@ -647,6 +655,8 @@
     <string name="zram">ZRAM</string>
     <string name="disksize">Allocation Size</string>
     <string name="disksize_summary">Attempts to increase performance by avoiding paging on physical storage, instead using a compressed virtual device in RAM. Paging takes place in RAM until it is necessary to use the swap space on physical storage.</string>
+    <string name="max_comp_streams">Compression Streams</string>
+    <string name="max_comp_streams_summary">Set default Max Compression streams</string>
     <string name="comp_algo">Compression Mode</string>
     <string name="comp_algo_summary">Set default ZRAM Compression algorithm</string>
     <string name="zswap">ZSWAP</string>
@@ -672,6 +682,8 @@
     <string name="fsync_summary">Disable for better file system performance at the risk of data loss in case of a system crash.</string>
     <string name="dynamic_fsync">Dynamic Fsync</string>
     <string name="dynamic_fsync_summary">When enabled and screen is on, fsync operation is asynchronous. When screen is off, this operation is done synchronously.</string>
+    <string name="fp_boost">Fingerprint Boost</string>
+    <string name="fp_boost_summary">Enable Fingerprint Boost for faster FP operations.</string>
     <string name="gentlefairsleepers">Gentle Fair Sleepers</string>
     <string name="gentlefairsleepers_summary">Only give sleepers 50% of their service deficit. Disabling this can save a little battery power.</string>
     <string name="arch_power">Arch Power</string>
