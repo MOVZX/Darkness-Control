@@ -599,7 +599,7 @@
     <string name="ufs_clock_scaling">UFS Clock Scaling</string>
     <string name="ufs_clock_scaling_summary">Enable to save power.</string>
     <string name="ufs_clock_gating">UFS Clock Gating</string>
-    <string name="ufs_clock_gating_summary">Enabl to reduces the dynamic power.</string>
+    <string name="ufs_clock_gating_summary">Enable to reduces the dynamic power.</string>
     <string name="ufs_pm_qos">UFS PM QoS</string>
     <string name="ufs_pm_qos_summary">Enable to save power.</string>
     <string name="clk_up_threshold">Up Threshold</string>
