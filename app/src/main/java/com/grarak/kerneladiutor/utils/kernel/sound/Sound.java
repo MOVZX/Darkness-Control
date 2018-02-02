@@ -35,6 +35,7 @@ public class Sound {
 
     private static final String HIGHPERF_MODE_KENZO = "/sys/module/snd_soc_msm8x16_wcd/parameters/high_perf_mode";
     private static final String HIGHPERF_MODE_GEMINI = "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode";
+    private static final String IMPEDANCE_DETECTION = "/sys/module/snd_soc_wcd9330/parameters/high_perf_mode";
     /* FKSC: Start */
     private static final String FKSC_HEADPHONE_GAIN = "/sys/devices/virtual/misc/soundcontrol/volume_boost";
     private static final String FKSC_SPEAKER_GAIN = "/sys/devices/virtual/misc/soundcontrol/speaker_boost";
@@ -110,6 +111,18 @@ public class Sound {
                 }
         }
         return HIGHPERF_MODE != null;
+    }
+
+    public static void enableImpedanceDetection(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", IMPEDANCE_DETECTION), IMPEDANCE_DETECTION, context);
+    }
+
+    public static boolean isImpedanceDetectionEnabled() {
+        return Utils.readFile(IMPEDANCE_DETECTION).equals("1");
+    }
+
+    public static boolean hasImpedanceDetection() {
+        return Utils.existFile(IMPEDANCE_DETECTION);
     }
 
     /* FKSC: Start */

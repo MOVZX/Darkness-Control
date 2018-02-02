@@ -37,6 +37,7 @@ public class Misc {
 
     private static final String SELINUX = "/sys/fs/selinux/enforce";
     private static final String DYNAMIC_FSYNC = "/sys/kernel/dyn_fsync/Dyn_fsync_active";
+    private static final String FSYNC_ON_INPUT_BOOST = "/sys/module/sync/parameters/fsync_enabled_on_input_boost";
     private static final String GENTLE_FAIR_SLEEPERS = "/sys/kernel/sched/gentle_fair_sleepers";
     private static final String ARCH_POWER = "/sys/kernel/sched/arch_power";
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
@@ -149,6 +150,18 @@ public class Misc {
 
     public static boolean isDynamicFsyncEnabled() {
         return Utils.readFile(DYNAMIC_FSYNC).equals("1");
+    }
+
+    public static boolean hasFsyncOnInputBoost() {
+        return Utils.existFile(FSYNC_ON_INPUT_BOOST);
+    }
+
+    public static void enableFsyncOnInputBoost(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", FSYNC_ON_INPUT_BOOST), FSYNC_ON_INPUT_BOOST, context);
+    }
+
+    public static boolean isFsyncOnInputBoostEnabled() {
+        return Utils.readFile(FSYNC_ON_INPUT_BOOST).equals("Y");
     }
 
     public static boolean hasStateNotifier() {

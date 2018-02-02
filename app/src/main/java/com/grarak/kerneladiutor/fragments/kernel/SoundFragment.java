@@ -49,6 +49,10 @@ public class SoundFragment extends RecyclerViewFragment {
             highPerfModeEnableInit(items);
         }
 
+        if (Sound.hasImpedanceDetection()) {
+            impedanceDetectionEnableInit(items);
+        }
+
         if (Sound.hasSpeakerGain()) {
             speakerGainInit(items);
         }
@@ -91,6 +95,21 @@ public class SoundFragment extends RecyclerViewFragment {
         });
 
         items.add(highPerfMode);
+    }
+
+    /* Headset Impedance Detection */
+    private void impedanceDetectionEnableInit(List<RecyclerViewItem> items) {
+        SwitchView impedanceDetection = new SwitchView();
+        impedanceDetection.setSummary(getString(R.string.headset_impedance_detection));
+        impedanceDetection.setChecked(Sound.isImpedanceDetectionEnabled());
+        impedanceDetection.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Sound.enableImpedanceDetection(isChecked, getActivity());
+            }
+        });
+
+        items.add(impedanceDetection);
     }
 
     /* FKSC: Start */

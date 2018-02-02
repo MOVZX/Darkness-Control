@@ -192,6 +192,21 @@ public class MiscFragment extends RecyclerViewFragment {
 
             items.add(dynamicFsync);
         }
+
+        if (Misc.hasFsyncOnInputBoost()) {
+            SwitchView fsyncOnInputBoost = new SwitchView();
+            fsyncOnInputBoost.setTitle(getString(R.string.fsync_on_input_boost));
+            fsyncOnInputBoost.setSummary(getString(R.string.fsync_on_input_boost_summary));
+            fsyncOnInputBoost.setChecked(Misc.isFsyncOnInputBoostEnabled());
+            fsyncOnInputBoost.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    Misc.enableFsyncOnInputBoost(isChecked, getActivity());
+                }
+            });
+
+            items.add(fsyncOnInputBoost);
+        }
     }
 
     private void fpboostInit(List<RecyclerViewItem> items) {
