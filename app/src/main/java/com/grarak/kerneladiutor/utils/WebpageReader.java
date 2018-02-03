@@ -36,6 +36,7 @@ public class WebpageReader {
     private Activity mActivity;
     private HttpURLConnection mConnection;
     private WebpageListener mWebpageListener;
+
     public WebpageReader(Activity activity, WebpageListener webpageListener) {
         mActivity = activity;
         mWebpageListener = webpageListener;

@@ -19,28 +19,20 @@
  */
 package com.grarak.kerneladiutor.services.monitor;
 
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.grarak.kerneladiutor.BuildConfig;
-import com.grarak.kerneladiutor.R;
-import com.grarak.kerneladiutor.activities.MainActivity;
 import com.grarak.kerneladiutor.database.Settings;
 import com.grarak.kerneladiutor.utils.Device;
-import com.grarak.kerneladiutor.utils.NotificationId;
 import com.grarak.kerneladiutor.utils.Prefs;
 import com.grarak.kerneladiutor.utils.Utils;
 import com.grarak.kerneladiutor.utils.server.ServerCreateDevice;
