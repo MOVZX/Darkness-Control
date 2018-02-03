@@ -46,7 +46,7 @@ import com.grarak.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.grarak.kerneladiutor.fragments.kernel.SoundFragment;
 import com.grarak.kerneladiutor.fragments.kernel.ThermalFragment;
 import com.grarak.kerneladiutor.fragments.kernel.VMFragment;
-import com.grarak.kerneladiutor.fragments.kernel.WakeFrament;
+import com.grarak.kerneladiutor.fragments.kernel.WakeFragment;
 import com.grarak.kerneladiutor.utils.Prefs;
 
 import java.util.HashMap;
@@ -84,7 +84,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(GPUFragment.class, GPU);
         sAssignments.put(GPUVoltageFragment.class, GPU_VOLTAGE);
         sAssignments.put(ScreenFragment.class, SCREEN);
-        sAssignments.put(WakeFrament.class, WAKE);
+        sAssignments.put(WakeFragment.class, WAKE);
         sAssignments.put(SoundFragment.class, SOUND);
         sAssignments.put(BatteryFragment.class, BATTERY);
         sAssignments.put(LEDFragment.class, LED);

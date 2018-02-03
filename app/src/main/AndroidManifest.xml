@@ -74,6 +74,7 @@
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|navigation" />
         <activity android:name=".activities.BannerResizerActivity" />
         <activity android:name=".activities.tools.profile.ProfileEditActivity" />
+        <activity android:name=".activities.DataSharingSearchActivity" />
 
         <receiver
             android:name=".services.boot.OnBootReceiver"
@@ -135,7 +136,6 @@
         </activity>
 
         <receiver android:name=".services.profile.Tasker">
-
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>

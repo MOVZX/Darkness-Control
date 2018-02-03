@@ -328,6 +328,8 @@
     <string name="busy_up_threshold_summary">Threshold when big CPUs should be turned on.</string>
     <string name="offline_delay">Offline Delay</string>
     <string name="offline_delay_summary">Time before turning off a CPU.</string>
+    <string name="online_delay">Online Delay</string>
+    <string name="online_delay_summary">Time before turning on a CPU.</string>
     <string name="aio_hotplug">AiO Hotplug</string>
     <string name="aio_hotplug_summary">All in One HotPlug for Qualcomm devices. Developed by Shoaib0597.</string>
     <string name="max_cpu_online_big">Maximum big CPUs Online</string>
@@ -515,6 +517,8 @@
     <string name="pocket_mode_summary">Enabling this will turn off wake controls when the device is in a pocket.</string>
     <string name="timeout">Timeout</string>
     <string name="timeout_summary">Set a duration when the wake controls will be disabled after the screen goes off.</string>
+    <string name="charge_timeout">Charge Timeout</string>
+    <string name="charge_timeout_summary">Set a duration when the wake controls will be disabled after the screen goes off while charging.</string>
     <string name="power_key_suspend">Power Key Suspend</string>
     <string name="power_key_suspend_summary">Enabling this will turn off wake controls when the screen is turned off by the power key.</string>
     <string name="area">Area</string>
@@ -522,6 +526,10 @@
     <string name="height">Height</string>
     <string name="vibration">Vibration</string>
     <string name="vibration_strength">Vibration Strength</string>
+    <string name="key_power_mode">Power Key Mode</string>
+    <string name="key_power_mode_summary">Wake controls will only be active when you put your device into sleep with the power key.</string>
+    <string name="charging_mode">Charging Mode</string>
+    <string name="charging_mode_summary">Wake controls will only be active when device is charging.</string>
 
     <!-- Sound -->
     <string name="headset_highperf_mode">Headset High Performance Mode</string>
@@ -683,6 +691,45 @@
     <string name="tcp_summary">The Transmission Control Protocol is one of the core protocols of the Internet protocol suite (IP), and is so common that the entire suite is often called TCP/IP.</string>
     <string name="hostname">Hostname</string>
     <string name="wakelock">Wakelock Blocker</string>
+    <string name="smb135x_wakelock">smb135x Wakelock</string>
+    <string name="smb135x_wakelock_summary">Prevent wakelock when power disconnected.</string>
+    <string name="sensor_ind_wakelock">sensor_ind Wakelock</string>
+    <string name="sensor_ind_wakelock_summary">Prevent wakelock when Ambient Display disabled.</string>
+    <string name="msm_hsic_host_wakelock">msm_hsic_host Wakelock</string>
+    <string name="msm_hsic_host_wakelock_summary">Prevent msm_hsic_host wakelock.</string>
+    <string name="wlan_rx_wakelock">wlan_rx Wakelock</string>
+    <string name="wlan_rx_wakelock_summary">Prevent wlan_rx wakelock.</string>
+    <string name="wlan_ctrl_wakelock">wlan_ctrl Wakelock</string>
+    <string name="wlan_ctrl_wakelock_summary">Prevent wlan_ctrl wakelock.</string>
+    <string name="wlan_wakelock">wlan Wakelock</string>
+    <string name="wlan_wakelock_summary">Prevent wlan wakelock.</string>
+    <string name="bluesleep_wakelock">BlueSleep Wakelock</string>
+    <string name="bluesleep_wakelock_summary">Prevent BlueSleep wakelock.</string>
+    <string name="wlan_rx_wakelock_divider">wlan_rx Wakelock Divider</string>
+    <string name="wlan_ctrl_wakelock_divider">wlan_ctrl Wakelock Divider</string>
+    <string name="msm_hsic_wakelock_divider">msm_hsic Wakelock Divider</string>
+    <string name="bcmdhd_wakelock_divider">BCMDHD Wakelock Divider</string>
+
+    <!-- Data Sharing -->
+    <string name="data_sharing_summary_notification">Data sharing is active! Click to learn more about this feature.</string>
+    <string name="data_sharing_summary">Share your settings with others! Kernel Adiutor will automatically collect information and compile a score list available to all people.</string>
+    <string name="data_sharing_summary_link">You can access the list on &lt;a href="https://www.grarak.com/kerneladiutor">grarak.com&lt;/a>.</string>
+    <string name="sharing_enable">Sharing enable</string>
+    <string name="filter">Filter</string>
+    <string name="board">Board</string>
+    <string name="show_all">Show all</string>
+    <string name="failed_board">Failed to load boards.</string>
+    <string name="failed_devices">Failed to load devices.</string>
+    <string name="previous">Previous</string>
+    <string name="page">Page</string>
+    <string name="next">Next</string>
+    <string name="kernel_version">Kernel Version</string>
+    <string name="potential_sot">Potential SOT</string>
+    <string name="screen_always_on">when screen is always on</string>
+    <string name="lower_better">lower is better</string>
+    <string name="cpu_score">CPU Score</string>
+    <string name="cpu_information">CPU Information</string>
+    <string name="default_settings">Default (no modifications made)</string>
 
     <!-- Custom Controls -->
     <string name="welcome">Welcome</string>

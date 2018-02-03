@@ -12,5 +12,12 @@
     "gpu": "/sys/class/thermal/thermal_zone16/temp",
     "cpu-offset": 10,
     "gpu-offset": 10
+  },
+  {
+    "board": "msm8998",
+    "cpu": "/sys/class/thermal/thermal_zone11/temp",
+    "gpu": "/sys/class/thermal/thermal_zone21/temp",
+    "cpu-offset": 10,
+    "gpu-offset": 10
   }
 ]

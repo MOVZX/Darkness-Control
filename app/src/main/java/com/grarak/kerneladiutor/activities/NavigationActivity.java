@@ -62,7 +62,7 @@ import com.grarak.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.grarak.kerneladiutor.fragments.kernel.SoundFragment;
 import com.grarak.kerneladiutor.fragments.kernel.ThermalFragment;
 import com.grarak.kerneladiutor.fragments.kernel.VMFragment;
-import com.grarak.kerneladiutor.fragments.kernel.WakeFrament;
+import com.grarak.kerneladiutor.fragments.kernel.WakeFragment;
 import com.grarak.kerneladiutor.fragments.other.AboutFragment;
 import com.grarak.kerneladiutor.fragments.other.HelpFragment;
 import com.grarak.kerneladiutor.fragments.other.SettingsFragment;
@@ -190,7 +190,7 @@ public class NavigationActivity extends BaseActivity
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.screen, new ScreenFragment(), R.drawable.ic_display));
         }
         if (Wake.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.wake, new WakeFrament(), R.drawable.ic_unlock));
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.wake, new WakeFragment(), R.drawable.ic_unlock));
         }
         if (Sound.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.sound, new SoundFragment(), R.drawable.ic_music));

@@ -123,5 +123,4 @@ public class Tile extends BroadcastReceiver {
             }
         }
     }
-
 }

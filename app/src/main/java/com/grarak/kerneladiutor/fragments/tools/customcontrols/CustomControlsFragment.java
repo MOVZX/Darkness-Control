@@ -523,4 +523,5 @@ public class CustomControlsFragment extends RecyclerViewFragment {
         }
         mLoaded = false;
     }
+
 }
