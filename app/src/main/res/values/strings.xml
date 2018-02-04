@@ -544,8 +544,8 @@
     <string name="exsc_title">ElementalX Sound Control</string>
 
     <!-- Battery -->
-    <string name="charge_full_design">Full Charge Battery Capacity (Original)</string>
-    <string name="charge_full">Full Charge Battery Capacity (Current)</string>
+    <string name="charge_full_design">Max Full Charge Battery Capacity (Original)</string>
+    <string name="charge_full">Max Full Charge Battery Capacity (Current)</string>
     <string name="temperature">Temperature</string>
     <string name="level">Level</string>
     <string name="voltage">Voltage</string>

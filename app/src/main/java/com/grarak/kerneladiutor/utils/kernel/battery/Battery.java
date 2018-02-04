@@ -42,10 +42,10 @@ public class Battery {
     private static final String CHARGING_SWITCH_KENZO1 = "/sys/devices/soc.0/qpnp-smbcharger-16/power_supply/battery/charging_enabled";
     private static final String CHARGING_SWITCH_KENZO2 = "/sys/devices/soc.0/qpnp-smbcharger-16/power_supply/battery/battery_charging_enabled";
 
-    private static final String CHARGE_FULL_DESIGN_GEMINI = "/sys/devices/soc/qpnp-smbcharger-21/power_supply/battery/charge_full_design";
     private static final String CHARGE_FULL_GEMINI = "/sys/devices/soc/qpnp-smbcharger-21/power_supply/battery/charge_full";
-    private static final String CHARGE_FULL_DESIGN_KENZO = "/sys/devices/soc.0/qpnp-smbcharger-16/power_supply/battery/charge_full_design";
+    private static final String CHARGE_FULL_DESIGN_GEMINI = "/sys/devices/soc/qpnp-smbcharger-21/power_supply/battery/charge_full_design";
     private static final String CHARGE_FULL_KENZO = "/sys/devices/soc.0/qpnp-smbcharger-16/power_supply/battery/charge_full";
+    private static final String CHARGE_FULL_DESIGN_KENZO = "/sys/devices/soc.0/qpnp-smbcharger-16/power_supply/battery/charge_full_design";
 
     private static final String FORCE_FAST_CHARGE = "/sys/kernel/fast_charge/force_fast_charge";
 
@@ -65,10 +65,10 @@ public class Battery {
     private static String CUSTOM_CHARGING_RATE;
 
     static {
-        sInfos.put(CHARGE_FULL_DESIGN_GEMINI, R.string.charge_full_design);
         sInfos.put(CHARGE_FULL_GEMINI, R.string.charge_full);
-        sInfos.put(CHARGE_FULL_DESIGN_KENZO, R.string.charge_full_design);
+        sInfos.put(CHARGE_FULL_DESIGN_GEMINI, R.string.charge_full_design);
         sInfos.put(CHARGE_FULL_KENZO, R.string.charge_full);
+        sInfos.put(CHARGE_FULL_DESIGN_KENZO, R.string.charge_full_design);
 
         sChargingSwitch.add(CHARGING_SWITCH_GEMINI1);
         sChargingSwitch.add(CHARGING_SWITCH_GEMINI2);
