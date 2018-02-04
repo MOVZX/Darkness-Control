@@ -544,9 +544,14 @@
     <string name="exsc_title">ElementalX Sound Control</string>
 
     <!-- Battery -->
+    <string name="charge_full_design">Full Charge Battery Capacity (Original)</string>
+    <string name="charge_full">Full Charge Battery Capacity (Current)</string>
+    <string name="temperature">Temperature</string>
     <string name="level">Level</string>
     <string name="voltage">Voltage</string>
     <string name="capacity">Capacity</string>
+    <string name="charging_switch">Charging Switch</string>
+    <string name="charging_switch_summary">Enable/disable charging when phone is connected to the charger.</string>
     <string name="usb_fast_charge">USB Fast Charge</string>
     <string name="usb_fast_charge_summary">Device will charge faster when connected to USB 3.0. Replug your charger when changing this option.</string>
     <string name="charge_rate">Charge Rate</string>

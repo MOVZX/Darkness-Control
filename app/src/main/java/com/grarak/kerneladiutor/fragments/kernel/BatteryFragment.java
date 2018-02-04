@@ -31,11 +31,13 @@ import com.grarak.kerneladiutor.fragments.DescriptionFragment;
 import com.grarak.kerneladiutor.fragments.RecyclerViewFragment;
 import com.grarak.kerneladiutor.utils.kernel.battery.Battery;
 import com.grarak.kerneladiutor.views.recyclerview.CardView;
+import com.grarak.kerneladiutor.views.recyclerview.DescriptionView;
 import com.grarak.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.grarak.kerneladiutor.views.recyclerview.SeekBarView;
 import com.grarak.kerneladiutor.views.recyclerview.StatsView;
 import com.grarak.kerneladiutor.views.recyclerview.SwitchView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,13 +45,17 @@ import java.util.List;
  */
 public class BatteryFragment extends RecyclerViewFragment {
 
+    private static double sBatteryTemperature;
     private static int sBatteryLevel;
     private static int sBatteryVoltage;
+    private List<DescriptionView> mInfos = new ArrayList<>();
+    private StatsView mTemperature;
     private StatsView mLevel;
     private StatsView mVoltage;
     private BroadcastReceiver mBatteryReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            sBatteryTemperature = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10D;
             sBatteryLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
             sBatteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
         }
@@ -57,8 +63,13 @@ public class BatteryFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        temperatureInit(items);
         levelInit(items);
         voltageInit(items);
+        infoInit(items);
+        if (Battery.hasChargingSwitch()) {
+            chargingSwitchInit(items);
+        }
         if (Battery.hasForceFastCharge()) {
             forceFastChargeInit(items);
         }
@@ -79,6 +90,13 @@ public class BatteryFragment extends RecyclerViewFragment {
         }
     }
 
+    private void temperatureInit(List<RecyclerViewItem> items) {
+        mTemperature = new StatsView();
+        mTemperature.setTitle(getString(R.string.temperature));
+
+        items.add(mTemperature);
+    }
+
     private void levelInit(List<RecyclerViewItem> items) {
         mLevel = new StatsView();
         mLevel.setTitle(getString(R.string.level));
@@ -91,6 +109,21 @@ public class BatteryFragment extends RecyclerViewFragment {
         mVoltage.setTitle(getString(R.string.voltage));
 
         items.add(mVoltage);
+    }
+
+    private void chargingSwitchInit(List<RecyclerViewItem> items) {
+        SwitchView chargingSwitch = new SwitchView();
+        chargingSwitch.setTitle(getString(R.string.charging_switch));
+        chargingSwitch.setSummary(getString(R.string.charging_switch_summary));
+        chargingSwitch.setChecked(Battery.isChargingSwitch());
+        chargingSwitch.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Battery.enableChargingSwitch(isChecked, getActivity());
+            }
+        });
+
+        items.add(chargingSwitch);
     }
 
     private void forceFastChargeInit(List<RecyclerViewItem> items) {
@@ -175,11 +208,19 @@ public class BatteryFragment extends RecyclerViewFragment {
     @Override
     protected void refresh() {
         super.refresh();
+        if (mTemperature != null) {
+            mTemperature.setStat(sBatteryTemperature + getString(R.string.celsius));
+        }
         if (mLevel != null) {
-            mLevel.setStat(sBatteryLevel + "%");
+            mLevel.setStat(sBatteryLevel + getString(R.string.pc));
         }
         if (mVoltage != null) {
             mVoltage.setStat(sBatteryVoltage + getString(R.string.mv));
+        }
+        if (mInfos.size() > 0) {
+            for (int i = 0; i < mInfos.size(); i++) {
+                mInfos.get(i).setSummary(Battery.getInfo(i));
+            }
         }
     }
 
@@ -198,4 +239,16 @@ public class BatteryFragment extends RecyclerViewFragment {
         }
     }
 
+    private void infoInit(List<RecyclerViewItem> items) {
+        mInfos.clear();
+        for (int i = 0; i < Battery.getInfosSize(); i++) {
+            if (Battery.hasInfo(i)) {
+                DescriptionView info = new DescriptionView();
+                info.setTitle(Battery.getInfoText(i, getActivity()));
+
+                items.add(info);
+                mInfos.add(info);
+            }
+        }
+    }
 }
